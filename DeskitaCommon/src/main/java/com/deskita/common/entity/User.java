@@ -36,6 +36,11 @@ public class User {
 	@Column(length=500)
 	private String photos;
 	
+	private boolean enabled;
+	
+	@Column(name = "reset_password_token", length = 30)
+	private String resetPasswordToken;
+	
 	@ManyToMany
 	@JoinTable(
 			name="users_roles",
@@ -108,6 +113,22 @@ public class User {
 		return roles;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
@@ -115,4 +136,13 @@ public class User {
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", enabled=" + enabled + ", roles=" + roles + "]";
+	}
+	
+	
+	
 }
