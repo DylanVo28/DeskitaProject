@@ -32,6 +32,7 @@ public class RoleRepositoryTests {
 		Role savedRole=roleRepository.save(roleAdmin);
 		assertThat(savedRole.getId()).isGreaterThan(0);
 	}
+	//Test nhanh cua Long
 	
 	@Test
 	public void testCreateRestRole() {
