@@ -23,6 +23,8 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	
+	
 	@GetMapping("/users")
 	public String listAll(Model model) {
 		List<User> listUsers=service.listAll();
@@ -33,7 +35,6 @@ public class UserController {
 	@GetMapping("/users/new")
 	public String createUser(Model model) {
 		User user=new User();
-		user.setEnabled(true);
 		List<Role> listRoles= service.listRoles();
 		model.addAttribute("user",user);
 		model.addAttribute("listRoles",listRoles);
@@ -41,9 +42,18 @@ public class UserController {
 	}
 	
 	@PostMapping("/users/save")
-	public String saveUser(User user) {
-		service.saveUser(user);
+	public String saveUser(User user,Model model) {
 		
+		if(!service.isEmailUnique(user.getEmail())) {
+			List<Role> listRoles= service.listRoles();
+			String error="Duplicate Email";
+			model.addAttribute("error",error);
+			model.addAttribute("user",user);
+			model.addAttribute("listRoles",listRoles);
+			return "user/user_form";
+		}
+		user.setEnabled(true);
+		service.saveUser(user);
 		return "redirect:/users";
 	}
 }
