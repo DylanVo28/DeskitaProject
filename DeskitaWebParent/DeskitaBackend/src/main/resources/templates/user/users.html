@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minium-scale=1.0">
 
 <title>Deskita Admin Control Panel</title>
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}">
 <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
@@ -58,7 +59,7 @@
 				<th>
 					Enabled
 				</th>
-				<th></th>
+				<th>Action</th>
 				
 			</tr>
 		</thead>
@@ -69,8 +70,11 @@
 				<th >[[${user.firstName}]]</th>
 				<th >[[${user.lastName}]]</th>
 				<th >[[${user.roles}]]</th>
-				<th >[[${user.enabled}]]</th>
-				<th></th>
+				<th > <a th:if="${user.enabled==true}" class="fas fa-check"	href="#"></a></th>
+				<th>					
+					<a class="fas fa-edit" href="#"></a>
+					<a class="far fa-trash-alt" href="#"></a>
+				</th>
 			</tr>
 		</tbody>
 	</table>

@@ -52,7 +52,7 @@ public class UserController {
 			model.addAttribute("listRoles",listRoles);
 			return "user/user_form";
 		}
-		user.setEnabled(true);
+		
 		service.saveUser(user);
 		return "redirect:/users";
 	}
