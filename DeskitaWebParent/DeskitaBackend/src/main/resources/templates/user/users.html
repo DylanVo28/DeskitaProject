@@ -73,11 +73,16 @@
 				<th > <a th:if="${user.enabled==true}" class="fas fa-check"	href="#"></a></th>
 				<th>					
 					<a class="fas fa-edit" th:href="@{'/users/edit/'+${user.id}}"></a>
-					<a class="far fa-trash-alt" href="#"></a>
+					<a class="far fa-trash-alt" th:href="@{'/user/'+${user.id}}"></a>
 				</th>
 			</tr>
 		</tbody>
 	</table>
+	<nav aria-label="Page navigation example">
+  <ul class="pagination">
+     <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/users/page/'+${i}}" >[[${i}]]</a></li>
+  </ul>
+</nav>
 </div>
 </div>
 	

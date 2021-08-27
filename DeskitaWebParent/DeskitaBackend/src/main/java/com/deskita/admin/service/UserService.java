@@ -3,6 +3,9 @@ package com.deskita.admin.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,8 @@ import com.deskita.common.entity.User;
 @Service
 public class UserService {
 
+	public static int PAGE_SIZE=10;
+	
 	@Autowired
 	private UserRepository repo;
 	
@@ -53,5 +58,17 @@ public class UserService {
 	
 	public User getUserById(int id) {
 		return repo.findById(id).get();
+	}
+	
+	public void deleteUser(int id) {
+		repo.deleteById(id);
+	}
+	
+	public List<User> pagingUser(int currentPage){
+		
+		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
+		Page<User> page=repo.findAll(pageable);
+		List<User> listUsers=page.getContent();
+		return listUsers;
 	}
 }

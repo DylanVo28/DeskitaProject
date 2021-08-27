@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +30,23 @@ public class UserController {
 	
 	@GetMapping("/users")
 	public String listAll(Model model) {
-		List<User> listUsers=service.listAll();
+		return "redirect:/users/page/1";
+//		List<User> listUsers=service.listAll();
+//		int totalPage=listUsers.size()/10+1;
+//		model.addAttribute("listUsers",listUsers);
+//		model.addAttribute("totalPage",totalPage);
+//		
+//		return "user/users";
+	}
+	
+	@GetMapping("/users/page/{currentPage}")
+	public String pagingUser(@PathVariable(name="currentPage") int currentPage,Model model) {
+		List<User> allUsers=service.listAll();
+		int totalPage=allUsers.size()/10+1;
+		List<User> listUsers=service.pagingUser(currentPage);
+		model.addAttribute("totalPage",totalPage);
 		model.addAttribute("listUsers",listUsers);
+		
 		return "user/users";
 	}
 	
@@ -91,5 +107,11 @@ public class UserController {
 		
 		model.addAttribute("actionSave","/DeskitaAdmin/users/save/"+user.getId());
 		return "user/user_form";
+	}
+	
+	@GetMapping("/user/{id}")
+	public String deleteUser(@PathVariable(name="id") Integer id) {
+		service.deleteUser(id);
+		return "redirect:/users";
 	}
 }
