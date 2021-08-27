@@ -36,9 +36,10 @@
 </nav>
 <h1>Users</h1>
 <div>
-	<form th:action="@{/users/save}" method="post" th:object="${user}">
+	<form th:action="${actionSave}" th:method="POST" th:object="${user}">
   <div class="form-group">
   <p th:text="${error}"></p>
+  
     <label>Email address</label>
 
     <input type="email" th:name="email" th:value="${user.email}"  th:field="*{email}"  required minlength="8" maxlength="128" class="form-control"  placeholder="Enter email"/>

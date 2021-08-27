@@ -42,4 +42,16 @@ public class UserService {
 		
 		return user==null;
 	}
+	
+	public boolean isEmailUniqueAndId(String email,int id) {
+		User user=repo.getUserByEmail(email);
+		if(user.getId()==id) {
+			return true;
+		}
+		return false;
+	}
+	
+	public User getUserById(int id) {
+		return repo.findById(id).get();
+	}
 }

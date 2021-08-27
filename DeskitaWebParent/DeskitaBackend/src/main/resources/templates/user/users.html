@@ -72,7 +72,7 @@
 				<th >[[${user.roles}]]</th>
 				<th > <a th:if="${user.enabled==true}" class="fas fa-check"	href="#"></a></th>
 				<th>					
-					<a class="fas fa-edit" href="#"></a>
+					<a class="fas fa-edit" th:href="@{'/users/edit/'+${user.id}}"></a>
 					<a class="far fa-trash-alt" href="#"></a>
 				</th>
 			</tr>

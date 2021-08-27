@@ -10,7 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.deskita.admin.service.UserService;
@@ -38,22 +40,56 @@ public class UserController {
 		List<Role> listRoles= service.listRoles();
 		model.addAttribute("user",user);
 		model.addAttribute("listRoles",listRoles);
+		model.addAttribute("actionSave","/DeskitaAdmin/users/save");
+		
 		return "user/user_form";
 	}
 	
 	@PostMapping("/users/save")
 	public String saveUser(User user,Model model) {
-		
 		if(!service.isEmailUnique(user.getEmail())) {
 			List<Role> listRoles= service.listRoles();
 			String error="Duplicate Email";
 			model.addAttribute("error",error);
 			model.addAttribute("user",user);
 			model.addAttribute("listRoles",listRoles);
+			model.addAttribute("actionSave","/DeskitaAdmin/users/save");
+			
 			return "user/user_form";
 		}
 		
 		service.saveUser(user);
 		return "redirect:/users";
+	}
+	
+	@PostMapping("/users/save/{id}")
+	public String saveUserById(@PathVariable(name="id") Integer id,User user,Model model) {
+		if(!service.isEmailUniqueAndId(user.getEmail(),id)) {
+			List<Role> listRoles= service.listRoles();
+			String error="Duplicate Email";
+			model.addAttribute("error",error);
+			model.addAttribute("user",user);
+			model.addAttribute("listRoles",listRoles);
+			model.addAttribute("actionSave","/DeskitaAdmin/users/save/"+user.getId());
+			return "user/user_form";
+		}
+		
+		service.saveUser(user);
+		return "redirect:/users";
+	}
+	
+	@GetMapping("/users/edit/{id}")
+	public String editUser(@PathVariable(name="id") Integer id,Model model) {
+		System.out.println(id);
+		User user=service.getUserById(id);
+		System.out.println(user.toString());
+		List<Role> listRoles= service.listRoles();
+		String error="";
+		model.addAttribute("error",error);
+		model.addAttribute("user",user);
+		model.addAttribute("listRoles",listRoles);
+		
+		model.addAttribute("actionSave","/DeskitaAdmin/users/save/"+user.getId());
+		return "user/user_form";
 	}
 }
