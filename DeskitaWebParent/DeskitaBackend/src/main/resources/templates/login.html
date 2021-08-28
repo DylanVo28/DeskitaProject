@@ -26,6 +26,10 @@
     <form th:action="@{/login}" method="post" >
       <input type="email" name="email" id="login" class="fadeIn second" placeholder="login" required>
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" required>
+      <div>
+      <input type="checkbox" name="remember-me"/>Remember me
+      </div>
+      
       <input type="submit" class="fadeIn fourth" value="Login">
     </form>
 
