@@ -51,7 +51,7 @@
         <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="fas fa-user fa-2x"></span>
-    <a class="nav-link"  sec:authentication="principal.fullname"></a>
+    <a class="nav-link"  sec:authentication="principal.fullname" th:href="@{/account}"></a>
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>

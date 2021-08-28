@@ -36,6 +36,10 @@ public class UserService {
 		return (List<Role>) roleRepository.findAll();
 	}
 	
+	public User getUserByEmail(String email) {
+		return repo.getUserByEmail(email);
+	}
+	
 	public void saveUser(User user) {
 		String encodedPassword=passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
@@ -70,5 +74,14 @@ public class UserService {
 		Page<User> page=repo.findAll(pageable);
 		List<User> listUsers=page.getContent();
 		return listUsers;
+	}
+	
+	public void updateAccount(User userInForm) {
+		User userInDB=repo.findById(userInForm.getId()).get();
+		userInDB.setFirstName(userInForm.getFirstName());
+		userInDB.setLastName(userInForm.getLastName());
+		userInDB.setEnabled(userInForm.isEnabled());
+		userInDB.setRoles(userInForm.getRoles());
+		repo.save(userInDB);
 	}
 }
