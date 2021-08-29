@@ -109,7 +109,7 @@ public class UserController {
 		return "user/user_form";
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("users/delete/{id}")
 	public String deleteUser(@PathVariable(name="id") Integer id) {
 		service.deleteUser(id);
 		return "redirect:/users";
