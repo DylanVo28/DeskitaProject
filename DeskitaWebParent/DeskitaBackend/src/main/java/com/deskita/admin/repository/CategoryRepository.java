@@ -9,3 +9,4 @@ import com.deskita.common.entity.Category;
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
 
 }
+//test git
