@@ -1,4 +1,4 @@
-package com.deskita.admin.security;
+package com.deskita.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,42 +13,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.deskita.admin.service.DeskitaUserDetailsService;
+
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public UserDetailsService userDetailsService() {
-		return new DeskitaUserDetailsService();
-	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider=new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder());
-		return authProvider;
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth)throws Exception{
-		auth.authenticationProvider(authenticationProvider());
-	}
+
+
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.authorizeRequests()
-		.antMatchers("/users/**").hasAuthority("Admin")
-		.anyRequest().authenticated().and().formLogin().loginPage("/login").usernameParameter("email")
-		.permitAll().and().logout().permitAll().and().rememberMe().key("AbcDefgHijKlmnOpqrs_1234567890").tokenValiditySeconds(7*24*60*60);
+		http.authorizeRequests().anyRequest().permitAll();
 		
-//		http.authorizeRequests().anyRequest().permitAll();
 	}
 	
 	@Override

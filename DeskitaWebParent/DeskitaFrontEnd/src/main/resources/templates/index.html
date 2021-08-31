@@ -1,10 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
 <head>
 <meta charset="UTF-8">
-<title>Welcome to Deskita</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minium-scale=1.0">
+
+<title>Deskita</title>
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}">
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/popper.js/2.9.3/cjs/popper.js}"></script>
 </head>
+<style>
+		.index .dropdown-menu{
+		display:block
+		}
+</style>
 <body>
-	<h1>Wel come to deskita</h1>
+
+<div class="container index">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" th:href="@{/}">Logo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+	<input type="submit"/>
+</form>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link" th:href="@{/}">Home(current)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/users}">Users</a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/categories}">Categories</a>
+      </li>
+     
+     
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/brands}">Brands</a>
+      </li>
+     
+       
+       <li class="nav-item">
+        <a class="nav-link " th:href="@{/products}">Products</a>
+      </li>
+      
+      
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/customers}">Customers</a>
+      </li>
+    
+     
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/shipping}">Shipping</a>
+      </li>
+     
+     
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/orders}">Orders</a>
+      </li>
+     
+     
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/report}">Sales Report</a>
+      </li>
+  
+       <li class="nav-item">
+        <span class="fas fa-user fa-2x"></span>
+      </li>
+     
+    </ul>
+    
+  </div>
+</nav>
+<h1>Welcome Deskita</h1>
+
+</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#logoutLink").on("click",function(e){
+				e.preventDefault();
+				document.logoutForm.submit();
+			});
+		});
+	</script>
 </body>
 </html>

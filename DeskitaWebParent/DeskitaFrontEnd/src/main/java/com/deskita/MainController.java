@@ -1,4 +1,4 @@
-package com.deskita.site;
+package com.deskita;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 @Controller
