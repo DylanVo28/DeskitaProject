@@ -2,6 +2,7 @@ package com.deskita.admin.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,10 @@ public class RoleRepositoryTests {
 		Role roleEditor=new Role("Editor"," manage categories, brands, products, articles and menus");
 		Role roleShipper=new Role("Shipper","view products, view orders, and update order status");
 		Role roleAssistant=new Role("Assistant","manage questions and reviews");
-		roleRepository.saveAll(List.of(roleSalesperson,roleEditor,roleShipper,roleAssistant));
+		
+		roleRepository.save(roleSalesperson);
+		roleRepository.save(roleEditor);
+		roleRepository.save(roleShipper);
+		roleRepository.save(roleAssistant);
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import com.deskita.admin.repository.UserRepository;
@@ -29,6 +30,9 @@ public class UserRepositoryTests {
 	@Autowired
 	private TestEntityManager entityManager;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 //	@Test
 //	public void testCreateUser() {
 //		Role roleAdmin = entityManager.find(Role.class, 1);
@@ -38,16 +42,17 @@ public class UserRepositoryTests {
 //		assertThat(savedUser.getId()).isGreaterThan(0);
 //	}
 //	
-	@Test
-	public void testCreateNewUserTwoRoles() {
-		User userLong=new User("long@yopmail.com","longvo","Long","Vo");
-		Role roleEditor=new Role(3);
-		Role roleAssistant=new Role(5);
-		userLong.addRole(roleEditor);
-		userLong.addRole(roleAssistant);
-		User savedUser=userRepository.save(userLong);
-		assertThat(savedUser.getId()).isGreaterThan(0);
-	}
+//	@Test
+//	public void testCreateNewUserTwoRoles() {
+//		
+//		Role admin=new Role(1);
+//		String encodedPassword=passwordEncoder.encode("admindeskita");
+//		User user=new User("admindeskita@yopmail.com",encodedPassword,"Admin","Deskita");
+//		user.addRole(admin);
+//		
+//		User savedUser=userRepository.save(user);
+//		assertThat(savedUser.getId()).isGreaterThan(0);
+//	}
 	
 //	@Test
 //	public void testListAllUsers() {
