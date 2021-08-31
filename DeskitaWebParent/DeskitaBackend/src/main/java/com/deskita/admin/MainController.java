@@ -9,6 +9,11 @@ public class MainController {
 	
 	@GetMapping("/login")
 	public String login() {
-		return "login";
+		return "authen/login";
+	}
+	
+	@GetMapping("/")
+	public String homePage() {
+		return "index";
 	}
 }
