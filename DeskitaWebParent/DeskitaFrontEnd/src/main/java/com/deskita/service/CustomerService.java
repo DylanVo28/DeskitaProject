@@ -20,6 +20,7 @@ public class CustomerService {
 	
 	public void saveCustomer(Customer customer) {
 		String passwordEncodered=passwordEncoder.encode(customer.getPassword());
+		customer.setEnabled(true);
 		customer.setCreatedTime(new Date());
 		customer.setPassword(passwordEncodered);
 		customerRepository.save(customer);

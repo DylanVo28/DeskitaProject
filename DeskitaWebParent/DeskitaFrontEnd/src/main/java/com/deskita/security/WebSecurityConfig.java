@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.deskita.service.CustomerUserDetailsService;
+
 
 
 @Configuration
@@ -35,7 +37,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.authorizeRequests().anyRequest().permitAll();
+		http.authorizeRequests().antMatchers("/customer").authenticated()
+			.anyRequest().permitAll().and().formLogin().loginPage("/login")
+			.usernameParameter("email").permitAll().and().logout().permitAll().and().rememberMe()
+			.key("1234567890_aBcDeFgHiJkLmNoPqRsTuVwXyZ")
+			.tokenValiditySeconds(14*24*60*60);
 		
 	}
 	
@@ -44,4 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/css/**","/webjars/**","/js/**");
 	}
 	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new CustomerUserDetailsService();
+	}
 }

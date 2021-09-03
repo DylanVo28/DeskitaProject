@@ -68,20 +68,36 @@
       <li class="nav-item">
         <a class="nav-link " th:href="@{/orders}">Orders</a>
       </li>
-     
+      
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/login}">Login</a>
+      </li>
      
       <li class="nav-item">
         <a class="nav-link " th:href="@{/register}">Register</a>
       </li>
   
-       <li class="nav-item">
-        <span class="fas fa-user fa-2x"></span>
+       
+      <th:block sec:authorize="isAuthenticated()">
+      <li class="nav-item">
+        
+        <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="fas fa-user fa-2x"></span>
+    <a class="nav-link"   th:href="@{/account}" sec:authentication="principal.fullName"></a>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
+   
+  </div>
+</div>
       </li>
-     
+      </th:block>
     </ul>
     
   </div>
 </nav>
+
 <h1>Welcome Deskita</h1>
 
 </div>
