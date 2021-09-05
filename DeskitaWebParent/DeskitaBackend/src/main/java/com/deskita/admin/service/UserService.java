@@ -32,19 +32,7 @@ public class UserService {
 	
 	@Autowired 
 	private RoleRepository roleRepository;
-	
-	@Autowired
-	private ProductRepository productRepository;
-	
-	@Autowired
-	private ProductDetailRepository productDetailRepository;
-	
-	@Autowired
-	private BrandsRepository brandsRepository;
-	
-	@Autowired
-	private ProductImageRepository productImageRepository;
-	
+		
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -54,18 +42,6 @@ public class UserService {
 	
 	public List<Role> listRoles(){
 		return (List<Role>) roleRepository.findAll();
-	}
-	
-	public List<Product> listProducts(){
-		return (List<Product>) productRepository.findAll();
-	}
-		
-	public List<ProductImage> listProductImages(){
-		return (List<ProductImage>) productImageRepository.findAll();
-	}
-	
-	public List<ProductDetail> listProductDetails(){
-		return (List<ProductDetail>) productDetailRepository.findAll();
 	}
 	
 	
