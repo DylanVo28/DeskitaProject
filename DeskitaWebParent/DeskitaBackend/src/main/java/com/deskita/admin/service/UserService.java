@@ -9,8 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.deskita.admin.repository.BrandsRepository;
+import com.deskita.admin.repository.ProductDetailRepository;
+import com.deskita.admin.repository.ProductImageRepository;
+import com.deskita.admin.repository.ProductRepository;
 import com.deskita.admin.repository.RoleRepository;
 import com.deskita.admin.repository.UserRepository;
+import com.deskita.common.entity.Brands;
+import com.deskita.common.entity.Product;
+import com.deskita.common.entity.ProductDetail;
+import com.deskita.common.entity.ProductImage;
 import com.deskita.common.entity.Role;
 import com.deskita.common.entity.User;
 
@@ -24,7 +32,7 @@ public class UserService {
 	
 	@Autowired 
 	private RoleRepository roleRepository;
-	
+		
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -35,6 +43,7 @@ public class UserService {
 	public List<Role> listRoles(){
 		return (List<Role>) roleRepository.findAll();
 	}
+	
 	
 	public User getUserByEmail(String email) {
 		return repo.getUserByEmail(email);
