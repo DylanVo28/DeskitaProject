@@ -79,7 +79,7 @@ public class UserService {
 	
 	public List<User> pagingUser(int currentPage){
 		
-		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
+		Pageable pageable=PageRequest.of(currentPage, PAGE_SIZE);
 		Page<User> page=repo.findAll(pageable);
 		List<User> listUsers=page.getContent();
 		return listUsers;
