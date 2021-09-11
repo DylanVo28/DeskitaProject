@@ -30,6 +30,7 @@ public class ProductController {
 	@GetMapping("/products/page/{currentPage}")
 	public String pagingProduct(@PathVariable(name="currentPage") int currentPage,Model model) {
 		List<Product> allProducts=service.listAll();
+		System.out.println(allProducts);
 		int totalPage=allProducts.size()/10+1;
 		List<Product> listProducts=service.pagingProduct(currentPage);
 		model.addAttribute("listProducts",listProducts);

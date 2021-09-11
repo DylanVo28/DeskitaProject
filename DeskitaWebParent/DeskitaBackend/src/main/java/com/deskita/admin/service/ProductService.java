@@ -7,9 +7,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 import com.deskita.admin.repository.ProductDetailRepository;
 import com.deskita.admin.repository.ProductImageRepository;
 import com.deskita.admin.repository.ProductRepository;
+=======
+
+import com.deskita.admin.repository.BrandRepository;
+
+import com.deskita.admin.repository.ProductDetailRepository;
+import com.deskita.admin.repository.ProductImageRepository;
+import com.deskita.admin.repository.ProductRepository;
+import com.deskita.common.entity.Brand;
+>>>>>>> 122cdcaf1bb437564a394eb20f1fdc0b881fd1f0
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
 import com.deskita.common.entity.ProductImage;
@@ -25,6 +35,12 @@ public class ProductService {
 	private ProductDetailRepository productDetailRepository;
 	
 	@Autowired
+<<<<<<< HEAD
+=======
+	private BrandRepository brandsRepository;
+	
+	@Autowired
+>>>>>>> 122cdcaf1bb437564a394eb20f1fdc0b881fd1f0
 	private ProductImageRepository productImageRepository;
 	
 	public List<Product> listAll(){
@@ -39,6 +55,12 @@ public class ProductService {
 		return (List<ProductDetail>) productDetailRepository.findAll();
 	}
 	
+<<<<<<< HEAD
+=======
+	public List<Brand> listBrands(){
+		return (List<Brand>) brandsRepository.findAll();
+	}
+>>>>>>> 122cdcaf1bb437564a394eb20f1fdc0b881fd1f0
 		
 	public List<Product> pagingProduct(int currentPage){
 		
