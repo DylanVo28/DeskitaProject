@@ -3,9 +3,9 @@ package com.deskita.admin.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.deskita.common.entity.Brands;
+import com.deskita.common.entity.Brand;
 
 @Repository
-public interface BrandsRepository extends CrudRepository<Brands,Integer>{
+public interface BrandRepository extends CrudRepository<Brand,Integer>{
 	
 }

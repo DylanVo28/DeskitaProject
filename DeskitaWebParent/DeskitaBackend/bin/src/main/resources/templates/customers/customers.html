@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/head_title :: page_head('Users - Deskita Admin')">
+<style>
+
+</style>
+<body>
+<div class="container">
+<nav th:replace="components/Navigation :: navigation"></nav>
+<h1>Users</h1>
+<a th:href="@{/customer/new}">Create new customer</a>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>
+					Customer Id
+				</th>
+				<th>
+					First Name
+				</th>
+				<th>
+					Last Name
+				</th>
+				<th>
+					Phone Number
+				</th>
+				<th>
+					Enabled
+				</th>
+				<th>
+					Created Time
+				</th>
+				<th>Action</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="customer:${customers}">
+				<th >[[${customer.id}]]</th>
+				
+				<th >[[${customer.firstName}]]</th>
+				<th >[[${customer.lastName}]]</th>
+				<th >[[${customer.phoneNumber}]]</th>
+				<th > <a th:if="${customer.enabled==true}" class="fas fa-check"	href="#"></a></th>
+				<th>[[${customer.createdTime}]]</th>
+				<th>					
+					<a class="fas fa-edit" th:href="@{'/customer/detail/'+${customer.id}}"></a>
+					<a class="far fa-trash-alt" th:href="@{'/customer/delete/'+${customer.id}}"></a>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+	<nav aria-label="Page navigation example">
+  <ul class="pagination">
+     <li class="page-item" th:each="i:${#numbers.sequence(1,total)}"><a class="page-link" th:href="@{'/customer/page/'+${i}}" >[[${i}]]</a></li>
+  </ul>
+</nav>
+</div>
+</div>
+	
+</body>
+</html>
