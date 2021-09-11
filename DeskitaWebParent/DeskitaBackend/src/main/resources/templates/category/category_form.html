@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/head_title :: page_head('New Category - Deskita Admin')">
+<style>
+
+</style>
+<body>
+<div class="container">
+<nav th:replace="components/Navigation :: navigation"></nav>
+<h1>Categories</h1>
+<div>
+	<form th:action="${actionSave}" th:method="POST" th:object="${category}">
+  <div class="form-group">
+  
+    <label>Category name</label>
+
+    <input type="text" th:name="name" th:value="${category.name}"  th:field="*{name}"  required minlength="5" maxlength="128" class="form-control"  placeholder="Enter category name:"/>
+  </div>
+  <div class="form-group">
+<input class="form-check-input" type="checkbox" th:field="*{enabled}"  th:value="${category.enabled}">
+<label class="form-check-label" for="flexCheckDefault">
+	   Enabled
+	  </label>
+</div>
+  <button type="submit" value="Save" class="btn btn-primary">Submit</button>
+  <button type="button" class="btn btn-secondary" ><a th:href="@{/categories}">Cancel</a></button>
+</form>
+</div>
+</div>
+</body>
+</html>

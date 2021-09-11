@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ProductDetail")
+@Table(name="ProductDetails")
 public class ProductDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +23,8 @@ public class ProductDetail {
 	@Column(name="stock",length=50)
 	private Integer stock;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	@Column(name="product_id",length = 150)
+	private Integer productId;
 
 	public String getValue() {
 		return value;
@@ -55,21 +50,36 @@ public class ProductDetail {
 		this.stock = stock;
 	}
 
-	public ProductDetail(Integer id, String value, String name, Integer stock) {
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public ProductDetail(Integer id, String value, String name, Integer stock, Integer productId) {
 		super();
 		this.id = id;
 		this.value = value;
 		this.name = name;
 		this.stock = stock;
+		this.productId = productId;
 	}
 
 	public ProductDetail() {
+		super();
 	}
-
-	@Override
-	public String toString() {
-		return "ProductDetail [id=" + id + ", value=" + value + ", name=" + name + ", stock=" + stock + "]";
-	}
+	
+	
 	
 	
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/head_title :: page_head('New Brand - Deskita Admin')">
+<style>
+
+</style>
+<body>
+<div class="container">
+<nav th:replace="components/Navigation :: navigation"></nav>
+<h1>Brands</h1>
+<div>
+	<form th:action="${actionSave}" th:method="POST" th:object="${brand}">
+  <div class="form-group">
+  
+    <label>Brand name</label>
+
+    <input type="text" th:name="name" th:value="${brand.name}"  th:field="*{name}"  required minlength="5" maxlength="128" class="form-control"  placeholder="Enter brand name:"/>
+   
+  </div>
+  <div class="form-group">
+    <label>Logo</label>
+    <input type="text" th:name="logo" th:value="${brand.logo}"  th:field="*{logo}"  required minlength="8" class="form-control"  placeholder="Enter logo:"/>
+  </div> 
+  <button type="submit" value="Save" class="btn btn-primary">Submit</button>
+  <button type="button" class="btn btn-secondary" ><a th:href="@{/brands}">Cancel</a></button>
+</form>
+</div>
+</div>
+</body>
+</html>

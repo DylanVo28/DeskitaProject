@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/head_title :: page_head('Categories - Deskita Admin')">
+<style>
+
+</style>
+<body>
+<div class="container">
+<nav th:replace="components/Navigation :: navigation"></nav>
+<h1>Categories</h1>
+<a th:href="@{/categories/new}">Create new category</a>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>
+					Category Id
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Enabled
+				</th>
+				<th>Action</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="category:${listCategories}">
+				<th >[[${category.id}]]</th>
+				<th ></th>
+				<th >[[${category.name}]]</th>
+				<th > <a th:if="${category.enabled==true}" class="fas fa-check"	href="#"></a></th>
+				<th>					
+					<a class="fas fa-edit" th:href="@{'/categories/edit/'+${category.id}}"></a>
+					<a class="far fa-trash-alt" th:href="@{'/categories/delete/'+${category.id}}"></a>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+	<nav aria-label="Page navigation example">
+  <ul class="pagination">
+     <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/categories/page/'+${i}}" >[[${i}]]</a></li>
+  </ul>
+</nav>
+</div>
+</div>
+	
+</body>
+</html>

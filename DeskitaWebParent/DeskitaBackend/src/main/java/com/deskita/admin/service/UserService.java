@@ -9,13 +9,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.deskita.admin.repository.BrandsRepository;
+
+import com.deskita.admin.repository.BrandRepository;
+
+
+
 import com.deskita.admin.repository.ProductDetailRepository;
 import com.deskita.admin.repository.ProductImageRepository;
 import com.deskita.admin.repository.ProductRepository;
 import com.deskita.admin.repository.RoleRepository;
 import com.deskita.admin.repository.UserRepository;
-import com.deskita.common.entity.Brands;
+
+import com.deskita.common.entity.Brand;
+
+
+
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
 import com.deskita.common.entity.ProductImage;
@@ -79,7 +87,7 @@ public class UserService {
 	
 	public List<User> pagingUser(int currentPage){
 		
-		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
+		Pageable pageable=PageRequest.of(currentPage, PAGE_SIZE);
 		Page<User> page=repo.findAll(pageable);
 		List<User> listUsers=page.getContent();
 		return listUsers;

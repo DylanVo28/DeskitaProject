@@ -25,9 +25,9 @@ public class ProductRepositoryTest {
 	 
 	 @Test
 		public void testCreateRestProduct() {
-			Product productPC=new Product(1,"may-tinh-ban", "may-tinh-ban", "ok", "ngon");
-			Product productLaptop=new Product(2,"may-tinh-xach-tay", "may-tinh-xach-tay", "okok", "ngon-lanh");
-			Product productAccessory=new Product(3,"linh-kien-dien-tu", "linh-kien-dien-tu", "okokok", "ngon-lanh-qua");
+			Product productPC=new Product(1,"may-tinh-ban", "may-tinh-ban", "ngon");
+			Product productLaptop=new Product(2,"may-tinh-xach-tay", "may-tinh-xach-tay", "ngon-lanh");
+			Product productAccessory=new Product(3,"linh-kien-dien-tu", "linh-kien-dien-tu", "ngon-lanh-qua");
 			
 			productRepository.save(productPC);
 			productRepository.save(productLaptop);

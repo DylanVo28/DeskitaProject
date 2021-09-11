@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/head_title :: page_head('New Product - Deskita Admin')">
+<style>
+
+</style>
+<body>
+<div class="container">
+<nav th:replace="components/Navigation :: navigation"></nav>
+<h1>Products</h1>
+<div>
+	<form th:action="${actionSave}" th:method="POST" th:object="${product}">
+  <div class="form-group">
+  
+    <label>Product name</label>
+
+    <input type="text" th:name="name" th:value="${product.name}"  th:field="*{name}"  required minlength="5" maxlength="50" class="form-control"  placeholder="Enter product name:"/>
+   
+  </div>
+  <div class="form-group">
+    <label>Short description</label>
+    <input type="text" th:name="shortDescription" th:value="${product.shortDescription}"  th:field="*{shortDescription}"  required minlength="2" maxlength="150" class="form-control"  placeholder="Enter short description:"/>
+  </div>
+  <div class="form-group">
+    <label>Full description</label>
+    <input type="text" th:name="fullDescription" th:value="${product.fullDescription}"  th:field="*{fullDescription}"  required minlength="2" maxlength="300" class="form-control"  placeholder="Enter full description:"/>
+  </div>
+  
+  <button type="submit" value="Save" class="btn btn-primary">Submit</button>
+  <button type="button" class="btn btn-secondary" ><a th:href="@{/products}">Cancel</a></button>
+</form>
+</div>
+</div>
+</body>
+</html>

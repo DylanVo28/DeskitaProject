@@ -49,6 +49,24 @@ public class Category {
 		super();
 		this.name = name;
 	}
+
+	public Category(Integer id, boolean enabled, String name) {
+		super();
+		this.id = id;
+		this.enabled = enabled;
+		this.name = name;
+	}
+
+	public Category() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", enabled=" + enabled + ", name=" + name + "]";
+	}
+
+	
 	
 	
 	
