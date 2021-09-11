@@ -7,12 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import com.deskita.admin.repository.BrandsRepository;
 import com.deskita.admin.repository.ProductDetailRepository;
 import com.deskita.admin.repository.ProductImageRepository;
 import com.deskita.admin.repository.ProductRepository;
-import com.deskita.common.entity.Brands;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
 import com.deskita.common.entity.ProductImage;
@@ -26,9 +23,6 @@ public class ProductService {
 	
 	@Autowired
 	private ProductDetailRepository productDetailRepository;
-	
-	@Autowired
-	private BrandsRepository brandsRepository;
 	
 	@Autowired
 	private ProductImageRepository productImageRepository;
@@ -45,9 +39,6 @@ public class ProductService {
 		return (List<ProductDetail>) productDetailRepository.findAll();
 	}
 	
-	public List<Brands> listBrands(){
-		return (List<Brands>) brandsRepository.findAll();
-	}
 		
 	public List<Product> pagingProduct(int currentPage){
 		
@@ -55,9 +46,8 @@ public class ProductService {
 		Page<Product> page=productRepository.findAll(pageable);
 		List<Product> listProducts=page.getContent();
 		return listProducts;
-	}
-	
-	
+	}	
+
 	public Product getProductById(int id) {
 		return productRepository.findById(id).get();
 	}

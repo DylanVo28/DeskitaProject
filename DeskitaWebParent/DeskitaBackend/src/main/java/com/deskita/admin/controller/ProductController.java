@@ -10,16 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.deskita.admin.service.ProductService;
-import com.deskita.common.entity.Customer;
+import com.deskita.common.entity.Brand;
+import com.deskita.common.entity.Category;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
-import com.deskita.common.entity.Role;
-import com.deskita.common.entity.User;
-import com.deskita.common.exception.CustomerNotFoundException;
 
 @Controller
 public class ProductController {
-	public static final long PAGE_SIZE=10;
 	
 	@Autowired
 	private ProductService service;
@@ -45,19 +42,38 @@ public class ProductController {
 	public String createProduct(Model model) {
 		Product product=new Product();
 		List<ProductDetail> listProductDetails= service.listProductDetails();
+		
 		model.addAttribute("product",product);
 		model.addAttribute("listProductDetails",listProductDetails);
 		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		
 		return "product/product_form";
 	}
+	
+	@PostMapping("/products/save")
+	public String saveProduct(Product product,Model model) {
+			List<ProductDetail> listProductDetails= service.listProductDetails();
+			Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
+			product.setBrand(brand);
+			Category category = new Category(1, true, "dien thoai");
+			product.setCategory(category);
+			model.addAttribute("product",product);
+			model.addAttribute("listProductDetails",listProductDetails);
+			model.addAttribute("actionSave","/DeskitaAdmin/products/save");
+			service.saveProduct(product);
+			return "redirect:/products";
+		
+	}
 		
 	@PostMapping("/products/save/{id}")
 	public String saveProductById(Product product,Model model) {
 			List<ProductDetail> listProductDetails= service.listProductDetails();
+	//		Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
+			
+	//		product.setBrand(brand);
 			model.addAttribute("product",product);
 			model.addAttribute("listProductDetails",listProductDetails);
-			model.addAttribute("actionSave","/DeskitaAdmin/products/save/"+product.getId() == null);		
+			model.addAttribute("actionSave","/DeskitaAdmin/products/save/"+product.getId());		
 			service.saveProduct(product);
 		return "redirect:/products";
 	}

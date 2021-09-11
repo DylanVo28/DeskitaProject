@@ -8,39 +8,42 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Product")
+@Table(name="ProductImages")
 public class ProductImage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="name",length = 150)
-	private String name;
+	@Column(name="url")
+	private String url;
 
-	public Integer getId() {
-		return id;
+	@Column(name="product_id",length = 150)
+	private Integer productId;
+
+	public String getUrl() {
+		return url;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public String getName() {
-		return name;
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
-	public ProductImage(Integer id, String name) {
+	public ProductImage(String url, Integer productId) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.url = url;
+		this.productId = productId;
 	}
 
-	public ProductImage() {
-	}
+	
+	
 	
 	
 }

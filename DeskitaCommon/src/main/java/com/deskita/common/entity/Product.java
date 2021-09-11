@@ -2,13 +2,17 @@ package com.deskita.common.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="product")
+@Table(name="products")
 public class Product {
 
 	@Id
@@ -23,6 +27,22 @@ public class Product {
 	
 	@Column(name="fulldescription",length=300)
 	private String fullDescription;
+	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="products_brands",
+			joinColumns = @JoinColumn(name="product_id"),
+			inverseJoinColumns = @JoinColumn(name="brand_id")
+			)
+	private Brand brand=new Brand();
+	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="products_categories",
+			joinColumns = @JoinColumn(name="product_id"),
+			inverseJoinColumns = @JoinColumn(name="category_id")
+			)
+	private Category category =new Category();	
 	
 	public Integer getId() {
 		return id;
@@ -57,6 +77,22 @@ public class Product {
 	}
 
 	
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public Product(Integer id, String name, String shortDescription, String fullDescription) {
 		this.id = id;

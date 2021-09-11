@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="brand")
-public class Brands {
+@Table(name="brands")
+public class Brand {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -44,14 +44,14 @@ public class Brands {
 		this.name = name;
 	}
 
-	public Brands(Integer id, String logo, String name) {
+	public Brand(Integer id, String logo, String name) {
 		super();
 		this.id = id;
 		this.logo = logo;
 		this.name = name;
 	}
 
-	public Brands() {
+	public Brand() {
 		super();
 	}
 
