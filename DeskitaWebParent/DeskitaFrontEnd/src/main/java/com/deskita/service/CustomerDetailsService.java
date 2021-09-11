@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.deskita.common.entity.Customer;
 import com.deskita.repository.CustomerRepository;
-import com.deskita.security.CustomerUserDetails;
+import com.deskita.security.DeskitaCustomerDetails;
 
 
-public class CustomerUserDetailsService implements UserDetailsService{
+public class CustomerDetailsService implements UserDetailsService{
 
 	@Autowired
 	private CustomerRepository repo;
@@ -23,7 +23,7 @@ public class CustomerUserDetailsService implements UserDetailsService{
 		if(customer ==null) {
 			throw new UsernameNotFoundException("No customer found with the email "+email);
 		}
-		return new CustomerUserDetails(customer);
+		return new DeskitaCustomerDetails(customer);
 	}
 
 	

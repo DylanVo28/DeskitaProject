@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.deskita.admin.service.UserService;
+import com.deskita.common.entity.Customer;
 import com.deskita.common.entity.Role;
 import com.deskita.common.entity.User;
 
@@ -26,27 +27,21 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-	
+	public static final int USER_PER_PAGE=10;
 	
 	@GetMapping("/users")
 	public String listAll(Model model) {
 		return "redirect:/users/page/1";
-//		List<User> listUsers=service.listAll();
-//		int totalPage=listUsers.size()/10+1;
-//		model.addAttribute("listUsers",listUsers);
-//		model.addAttribute("totalPage",totalPage);
-//		
-//		return "user/users";
 	}
 	
 	@GetMapping("/users/page/{currentPage}")
 	public String pagingUser(@PathVariable(name="currentPage") int currentPage,Model model) {
-		List<User> allUsers=service.listAll();
-		int totalPage=allUsers.size()/10+1;
-		List<User> listUsers=service.pagingUser(currentPage);
+		System.out.println(currentPage);
+		List<User> listUsers=service.pagingUser(currentPage).getContent();
+		System.out.println(listUsers);
+		Long totalPage=(service.pagingUser(currentPage).getTotalElements()/USER_PER_PAGE) +1;
 		model.addAttribute("totalPage",totalPage);
 		model.addAttribute("listUsers",listUsers);
-		
 		return "user/users";
 	}
 	

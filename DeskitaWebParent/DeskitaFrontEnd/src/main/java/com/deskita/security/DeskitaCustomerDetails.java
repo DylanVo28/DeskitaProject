@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.deskita.common.entity.Customer;
 
-public class CustomerUserDetails implements UserDetails{
+public class DeskitaCustomerDetails implements UserDetails{
 	
 	private Customer customer;
 
-	public CustomerUserDetails(Customer customer) {
+	public DeskitaCustomerDetails(Customer customer) {
 		// TODO Auto-generated constructor stub
 		this.customer=customer;
 	}

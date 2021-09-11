@@ -2,7 +2,6 @@ package com.deskita.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.deskita.service.CustomerUserDetailsService;
+
+import com.deskita.service.CustomerDetailsService;
+
 
 
 
@@ -21,7 +22,11 @@ import com.deskita.service.CustomerUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new CustomerDetailsService();
+	}
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -34,6 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return authProvider;
 	}
 
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth)throws Exception{
+		auth.authenticationProvider(authenticationProvider());
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
@@ -43,23 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.usernameParameter("email").permitAll().and().logout().permitAll().and().rememberMe()
 			.key("1234567890_aBcDeFgHiJkLmNoPqRsTuVwXyZ")
 			.tokenValiditySeconds(14*24*60*60);
-//		 http.authorizeRequests().anyRequest().permitAll();
-		
-		//		http.authorizeRequests()
-//        .anyRequest()
-//        .authenticated()
-//        .and()
-//        .formLogin()
-//        .loginPage("/login")
-//        .permitAll()
-//        .and()
-//        .logout()
-//        .permitAll();
-
-			
-			
-		
-	}
+}
 	
 	@Override
 	public void configure(WebSecurity web)throws Exception{
@@ -67,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public UserDetailsService userDetailsService() {
-		return new CustomerUserDetailsService();
+	public CustomerDetailsService customerDetailsService() {
+		return new CustomerDetailsService();
 	}
 }

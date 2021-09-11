@@ -21,9 +21,7 @@ import com.deskita.admin.repository.RoleRepository;
 import com.deskita.admin.repository.UserRepository;
 
 import com.deskita.common.entity.Brand;
-
-
-
+import com.deskita.common.entity.Customer;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
 import com.deskita.common.entity.ProductImage;
@@ -85,12 +83,12 @@ public class UserService {
 		repo.deleteById(id);
 	}
 	
-	public List<User> pagingUser(int currentPage){
+	public Page<User> pagingUser(int currentPage){
+		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
 		
-		Pageable pageable=PageRequest.of(currentPage, PAGE_SIZE);
 		Page<User> page=repo.findAll(pageable);
-		List<User> listUsers=page.getContent();
-		return listUsers;
+		
+		return page;
 	}
 	
 	public void updateAccount(User userInForm) {

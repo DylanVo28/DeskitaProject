@@ -20,7 +20,7 @@ public class MainController {
 			return "authen/login";
 		}
 		
-		return "authen/login";
+		return "redirect:/";
 	}
 	
 }

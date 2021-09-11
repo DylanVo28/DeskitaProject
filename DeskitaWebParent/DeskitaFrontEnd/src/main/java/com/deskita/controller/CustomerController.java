@@ -26,7 +26,6 @@ public class CustomerController {
 	
 	@PostMapping("/customer/save")
 	public String saveCustomer(Customer customer) {
-		System.out.println(customer.toString());
 		
 		service.saveCustomer(customer);
 		return "redirect:/register";
