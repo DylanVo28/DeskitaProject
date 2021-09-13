@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
+<head th:replace="components/head_title :: page_head('Deskita')">
+<style>
+	
+</style>
+<body>
+	<div th:replace="components/navigation :: navigation"></div>
+	<h1 th:text="${message}"></h1>
+</body>
+</html>
