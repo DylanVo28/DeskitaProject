@@ -69,9 +69,6 @@ public class ProductController {
 	@PostMapping("/products/save/{id}")
 	public String saveProductById(Product product,Model model) {
 			List<ProductDetail> listProductDetails= service.listProductDetails();
-	//		Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
-			
-	//		product.setBrand(brand);
 			model.addAttribute("product",product);
 			model.addAttribute("listProductDetails",listProductDetails);
 			model.addAttribute("actionSave","/DeskitaAdmin/products/save/"+product.getId());		
