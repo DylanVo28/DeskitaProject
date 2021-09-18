@@ -9,12 +9,13 @@
 		<nav th:replace="components/Navigation :: navigation"></nav>
 		<h1>Products</h1>
 		<div>
-			<form th:action="${actionSave}" th:method="POST"
+			<form th:action="${actionSave}" th:method="POST" 
+				enctype="multipart/form-data"
 				th:object="${product}">
 				<div class="form-group">
 
 					<label>Product name</label> <input type="text" th:name="name"
-						th:value="${product.name}" th:field="*{name}" required
+						th:value="${product.name}" th:field="*{name}" 
 						minlength="5" maxlength="50" class="form-control"
 						placeholder="Enter product name:" />
 
@@ -22,43 +23,29 @@
 				<div class="form-group">
 					<label>Short description</label> <input type="text"
 						th:name="shortDescription" th:value="${product.shortDescription}"
-						th:field="*{shortDescription}" required minlength="2"
+						th:field="*{shortDescription}"  minlength="2"
 						maxlength="150" class="form-control"
 						placeholder="Enter short description:" />
 				</div>
 				<div class="form-group">
 					<label>Full description</label> <input type="text"
 						th:name="fullDescription" th:value="${product.fullDescription}"
-						th:field="*{fullDescription}" required minlength="2"
+						th:field="*{fullDescription}" minlength="2"
 						maxlength="300" class="form-control"
 						placeholder="Enter full description:" />
 				</div>
-				<div style="margin-top: 25px;">
-					<div class="flex _3AHLrn _2XdAdB _1C5-TB">
-						<div class="flex flex-column">
-							<div class="flex items-center"
-								style="margin-bottom: 8px; align-items: baseline;">
-								<label class="_2IW_UG">Variation</label>
-								<div class="flex items-center _2oeDUI">
-									<button class="product-variation product-variation--disabled">item-1</button>
-									<button class="product-variation">item-2</button>
-									<button class="product-variation product-variation--disabled">item-3</button>
-									<button class="product-variation">item-4</button>
-								</div>
-							</div>
-							<div class="flex items-center _90fTvx">
-								<div class="_2IW_UG">Số sản phẩm có sẵn</div>
-								<div class="flex items-center">
-									<div style="margin-right: 15px;">
-										<div class="_16mL_A shopee-input-quantity">
-											<input class="_2KdYzP iRO3yj" type="text" value="1">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<input type="button" id="add-image">Add image</input>
+				<ul id="list-images">
+					
+				</ul>
+				
+				<h3>variation</h3>
+				<input type="button" id="add-variation">+</input>
+				
+				<ul id="list-variation" th:each="productDetail :${listProductDetails}">
+					
+				</ul>
+				
 				<button type="submit" value="Save" class="btn btn-primary">Submit</button>
 				<button type="button" class="btn btn-secondary">
 					<a th:href="@{/products}">Cancel</a>
@@ -66,5 +53,57 @@
 			</form>
 		</div>
 	</div>
+	<script type="text/javascript">
+		let i=0;
+		$("#add-image").on("click",function(event){
+			i++;
+			
+			$("#list-images").append('<li id="product_image_'+i+'">'+
+					'<img id="thumbnail_'+i+'" src="" alt="Chua co anh" style="width: 200px"/>'+
+				'<input type="file" id="fileImage_'+i+'" onClick="inputImage('+i+')" name="fileImage" accept="image/png, image/jpeg, image/jpg" required/>'+
+					'<input type="button" onClick="removeImage('+i+')">X</input>'+
+					'</li>')
+		})
+		$("#add-variation").on("click",function(event){
+			i++;
+			$("#list-variation").append('<li style="display: flex;margin-bottom: 10px;" id="product_detail_'+i+'" >'+
+					'<div>'+
+					'<label>Variation name</label>'+
+					'<input name="nameDetail"/>'+
+				'</div>'+
+				'<div>'+
+					'<label>Giá</label>'+
+					'<input name="valueDetail"/>'+
+					'</div>'+
+				'<div>'+
+					'<label>Số lượng</label>'+
+					'<input name="stockDetail"/>'+
+				'</div>'+
+				'<div><input type="button" onClick="removeDetail('+i+')">X</input></div>'+
+			'</li>')
+		})
+		function removeDetail(i){
+			$('#product_detail_'+i).remove();
+		}
+		
+		function inputImage(index){
+			$("#fileImage_"+index).change(function(){
+				fileSize=this.files[0].size;
+				showImage(this,index);
+			})
+		}
+		function showImage(fileInput,index){
+			var file =fileInput.files[0];
+			var reader= new FileReader();
+			reader.onload=function(e){
+				$("#thumbnail_"+index).attr("src",e.target.result);
+			}
+			reader.readAsDataURL(file);
+		}
+		function removeImage(i){
+			$('#product_image_'+i).remove();
+		}
+		
+	</script>
 </body>
 </html>

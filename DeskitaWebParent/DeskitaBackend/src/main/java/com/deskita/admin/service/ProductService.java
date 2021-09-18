@@ -1,5 +1,7 @@
 package com.deskita.admin.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ import com.deskita.admin.repository.ProductDetailRepository;
 import com.deskita.admin.repository.ProductImageRepository;
 import com.deskita.admin.repository.ProductRepository;
 import com.deskita.common.entity.Brand;
-
+import com.deskita.common.entity.Category;
+import com.deskita.common.entity.Customer;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
 import com.deskita.common.entity.ProductImage;
@@ -48,8 +51,8 @@ public class ProductService {
 		return (List<ProductImage>) productImageRepository.findAll();
 	}
 	
-	public List<ProductDetail> listProductDetails(){
-		return (List<ProductDetail>) productDetailRepository.findAll();
+	public List<ProductDetail> listProductDetails(int productId){
+		return (List<ProductDetail>) productDetailRepository.getProductDetailsByProductId(productId);
 	}
 	
 
@@ -59,12 +62,10 @@ public class ProductService {
 	}
 
 		
-	public List<Product> pagingProduct(int currentPage){
-		
-		Pageable pageable=PageRequest.of(currentPage, PAGE_SIZE);
+	public Page<Product> pagingProduct(int currentPage){
+		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
 		Page<Product> page=productRepository.findAll(pageable);
-		List<Product> listProducts=page.getContent();
-		return listProducts;
+		return page;
 	}	
 
 	public Product getProductById(int id) {
@@ -73,10 +74,36 @@ public class ProductService {
 	
 	public void deleteProduct(int id) {
 		productRepository.deleteById(id);
+		productImageRepository.deleteImageProductByProductId(id);
+		productDetailRepository.deleteProductDetailByProductId(id);
 	}
 	
-	public void saveProduct(Product product) {
-		productRepository.save(product);
+	public void saveProduct(Product product,String[] detailName,String[] detailValue,
+			String[] detailStock,List<String> fileNameImage) {
+		Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
+		product.setBrand(brand);
+		Category category = new Category(1, true, "dien thoai");
+		product.setCategory(category);
+		product.setImage(fileNameImage.get(0));
+		Product savedProduct=productRepository.save(product);
+		List<ProductImage> listImage=new ArrayList<ProductImage>();
+		List<ProductDetail> list=new ArrayList<ProductDetail>();
+		for(int i=0;i<detailName.length;i++) {
+			ProductDetail productDetail=new ProductDetail(
+					new BigDecimal(detailValue[i]),
+					detailName[i],
+					Integer.parseInt(detailStock[i]),
+					savedProduct.getId());
+			list.add(productDetail);
+		}
+		for(String image:fileNameImage) {
+			ProductImage productImage=new ProductImage(image, savedProduct.getId());
+			listImage.add(productImage);
+		}
+		
+		productImageRepository.saveAll(listImage);
+		
+		productDetailRepository.saveAll(list);
 	}
 	
 }

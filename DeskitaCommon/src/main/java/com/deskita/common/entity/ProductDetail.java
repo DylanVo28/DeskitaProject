@@ -1,5 +1,7 @@
 package com.deskita.common.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +17,7 @@ public class ProductDetail {
 	private Integer id;
 	
 	@Column(name="value",length = 150)
-	private String value;
+	private BigDecimal value;
 	
 	@Column(name="name",length = 50)
 	private String name;
@@ -26,11 +28,11 @@ public class ProductDetail {
 	@Column(name="product_id",length = 150)
 	private Integer productId;
 
-	public String getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(BigDecimal value) {
 		this.value = value;
 	}
 
@@ -66,9 +68,9 @@ public class ProductDetail {
 		this.id = id;
 	}
 
-	public ProductDetail(Integer id, String value, String name, Integer stock, Integer productId) {
+	public ProductDetail(BigDecimal value, String name, Integer stock, Integer productId) {
 		super();
-		this.id = id;
+		
 		this.value = value;
 		this.name = name;
 		this.stock = stock;
