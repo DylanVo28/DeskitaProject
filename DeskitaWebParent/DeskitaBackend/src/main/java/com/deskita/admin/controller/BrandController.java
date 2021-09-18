@@ -49,6 +49,7 @@ public class BrandController {
 	public String saveBrand(Brand brand,Model model) {
 			model.addAttribute("brand",brand);
 			model.addAttribute("actionSave","/DeskitaAdmin/brands/save");
+			System.out.println(brand);
 			service.saveBrand(brand);
 			return "redirect:/brands";
 		

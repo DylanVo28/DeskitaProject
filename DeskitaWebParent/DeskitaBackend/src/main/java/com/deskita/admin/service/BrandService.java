@@ -24,7 +24,7 @@ public class BrandService {
 	
 	public List<Brand> pagingBrand(int currentPage){
 		
-		Pageable pageable=PageRequest.of(currentPage, PAGE_SIZE);
+		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
 		Page<Brand> page=brandRepository.findAll(pageable);
 		List<Brand> listBrands=page.getContent();
 		return listBrands;	

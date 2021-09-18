@@ -1,55 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/head_title :: page_head('Products - Deskita Admin')">
+<head
+	th:replace="components/head_title :: page_head('Products - Deskita Admin')">
 <style>
-
 </style>
 <body>
-<div class="container">
-<nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Products</h1>
-<a th:href="@{/products/new}">Create new product</a>
-<div>
-	<table>
-		<thead>
-			<tr>
-				<th>
-					Product Id
-				</th>
-				<th>
-					Name
-				</th>
-				<th>
-					Short description
-				</th>
-				<th>
-					Full description
-				</th>
-				<th>Action</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="product:${listProducts}">
-				<th >[[${product.id}]]</th>
-				<th ></th>
-				<th >[[${product.name}]]</th>
-				<th >[[${product.shortDescription}]]</th>
-				<th >[[${product.fullDescription}]]</th>
-				<th>					
-					<a class="fas fa-edit" th:href="@{'/products/edit/'+${product.id}}"></a>
-					<a class="far fa-trash-alt" th:href="@{'/products/delete/'+${product.id}}"></a>
-				</th>
-			</tr>
-		</tbody>
-	</table>
-	<nav aria-label="Page navigation example">
-  <ul class="pagination">
-     <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/products/page/'+${i}}" >[[${i}]]</a></li>
-  </ul>
-</nav>
-</div>
-</div>
-	
+	<div class="container">
+		<nav th:replace="components/Navigation :: navigation"></nav>
+		<h1>Products</h1>
+		<a th:href="@{/products/new}">Create new product</a>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>Product Id</th>
+						<th>Image</th>
+						<th>Name</th>
+						<th>Short description</th>
+						<th>Full description</th>
+						<th>Brand</th>
+						<th>Category</th>
+						<th>Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product:${listProducts}">
+						<th>[[${product.id}]]</th>
+						<th><img style="width: 50px" th:src="'/DeskitaAdmin/images/'+${product.image}"/></th>
+						<th>[[${product.name}]]</th>
+						<th>[[${product.shortDescription}]]</th>
+						<th>[[${product.fullDescription}]]</th>
+						<th>[[${product.brand.name}]]</th>
+						<th>[[${product.category.name}]]</th>
+						<th><a class="fas fa-edit"
+							th:href="@{'/products/edit/'+${product.id}}"></a> <a
+							class="far fa-trash-alt"
+							th:href="@{'/products/delete/'+${product.id}}"></a></th>
+					</tr>
+				</tbody>
+			</table>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li class="page-item"
+							th:each="i:${#numbers.sequence(1,totalPage)}"><a
+							class="page-link" th:href="@{'/products/page/'+${i}}">[[${i}]]</a></li>
+					</ul>
+				</nav>
+		</div>
+	</div>
 </body>
 </html>
