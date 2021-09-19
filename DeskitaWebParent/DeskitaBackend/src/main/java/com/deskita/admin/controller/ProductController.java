@@ -15,11 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
+=======
+import com.deskita.admin.dto.ProductDetailsDTO;
+import com.deskita.admin.service.BrandService;
+import com.deskita.admin.service.CategoryService;
+import com.deskita.admin.service.ProductDetailService;
+import com.deskita.admin.service.ProductImageService;
+>>>>>>> 806736dcb21d83f4adf57da5e142b529fff07b49
 import com.deskita.admin.service.ProductService;
 import com.deskita.common.entity.Brand;
 import com.deskita.common.entity.Category;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
+import com.deskita.common.entity.ProductImage;
 
 @Controller
 public class ProductController {
@@ -28,6 +37,18 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService service;
+	
+	@Autowired
+	private BrandService brandService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private ProductDetailService productDetailService;
+	
+	@Autowired
+	private ProductImageService productImageService;
 	
 	@GetMapping("/products")
 	public String listAll(Model model) {
@@ -50,11 +71,18 @@ public class ProductController {
 	@GetMapping("/products/new")
 	public String createProduct(Model model) {
 		Product product=new Product();
+<<<<<<< HEAD
 		ProductDetail productDetails=new ProductDetail();
+=======
+		ProductDetailsDTO productDetails=new ProductDetailsDTO();
+		List<Brand> listBrand=brandService.listAll();
+		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+>>>>>>> 806736dcb21d83f4adf57da5e142b529fff07b49
 		
+		model.addAttribute("listCategories",listCategories);
 		model.addAttribute("product",product);
-		
-		model.addAttribute("listProductDetails",productDetails);
+		model.addAttribute("listBrand",listBrand);
+		model.addAttribute("listProductDetails",productDetails.productDetails);
 		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		
 		return "product/product_form";
@@ -67,15 +95,16 @@ public class ProductController {
 			@RequestParam(name="stockDetail",required=false) String[] stockDetail,
 			@RequestParam(name="fileImage",required=false) List<MultipartFile> images
 			) {
-		
+	
 		List<String> listImage=new ArrayList<>();
 		for(MultipartFile image:images) {
+			
 			listImage.add(StringUtils.cleanPath(image.getOriginalFilename()));
 		}
-				
+//				
 			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage);
 			return "redirect:/products";
-		
+//		
 	}
 		
 	@PostMapping("/products/save/{id}")
@@ -92,12 +121,16 @@ public class ProductController {
 	public String editProduct(@PathVariable(name="id") Integer id,Model model) {
 		
 		Product product=service.getProductById(id);
-		
-		List<ProductDetail> listProductDetails= service.listProductDetails();
+		List<ProductDetail> listProductDetails=productDetailService.findAll(id);
+		List<ProductImage> listProductImages=productImageService.findImageByProductId(id);
+		List<Brand> listBrand=brandService.listAll();
+		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+		model.addAttribute("listCategories",listCategories);
+		model.addAttribute("listBrand",listBrand);
 		model.addAttribute("product",product);
 		model.addAttribute("listProductDetails",listProductDetails);
-		
-		model.addAttribute("actionSave","/DeskitaAdmin/users/save/"+product.getId());
+		model.addAttribute("listProductImages",listProductImages);
+		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		return "product/product_form";
 	}
 	
