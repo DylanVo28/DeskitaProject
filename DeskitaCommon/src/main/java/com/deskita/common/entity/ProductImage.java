@@ -42,6 +42,11 @@ public class ProductImage {
 		this.productId = productId;
 	}
 
+	public ProductImage() {
+		super();
+	}
+
+		
 	
 	
 	

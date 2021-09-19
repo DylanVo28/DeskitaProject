@@ -80,10 +80,7 @@ public class ProductService {
 	
 	public void saveProduct(Product product,String[] detailName,String[] detailValue,
 			String[] detailStock,List<String> fileNameImage) {
-		Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
-		product.setBrand(brand);
-		Category category = new Category(1, true, "dien thoai");
-		product.setCategory(category);
+		
 		product.setImage(fileNameImage.get(0));
 		Product savedProduct=productRepository.save(product);
 		List<ProductImage> listImage=new ArrayList<ProductImage>();
