@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.deskita.admin.dto.ProductDetailsDTO;
 import com.deskita.admin.service.ProductService;
 import com.deskita.common.entity.Brand;
 import com.deskita.common.entity.Category;
@@ -51,7 +50,7 @@ public class ProductController {
 	@GetMapping("/products/new")
 	public String createProduct(Model model) {
 		Product product=new Product();
-		ProductDetailsDTO productDetails=new ProductDetailsDTO();
+		ProductDetail productDetails=new ProductDetail();
 		
 		model.addAttribute("product",product);
 		
