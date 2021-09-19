@@ -1,5 +1,7 @@
 package com.deskita.admin.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +20,7 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Inte
 	@Query("DELETE FROM ProductImage pi "
 			+ " WHERE pi.productId=:#{#id}")
 	public void deleteImageProductByProductId(int id);
+	
+	@Query("select pi from ProductImage pi where pi.productId=:#{#id}")
+	public List<ProductImage> findImageByProductId(int id);
 }
