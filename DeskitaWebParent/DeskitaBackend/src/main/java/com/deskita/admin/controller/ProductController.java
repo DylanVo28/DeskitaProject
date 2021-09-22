@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.deskita.admin.dto.ProductDetailsDTO;
 import com.deskita.admin.service.BrandService;
 import com.deskita.admin.service.CategoryService;
@@ -68,14 +69,15 @@ public class ProductController {
 	@GetMapping("/products/new")
 	public String createProduct(Model model) {
 		Product product=new Product();
-		ProductDetailsDTO productDetails=new ProductDetailsDTO();
+		ProductDetailsDTO productDetails1=new ProductDetailsDTO();
 		List<Brand> listBrand=brandService.listAll();
 		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+
 		
 		model.addAttribute("listCategories",listCategories);
 		model.addAttribute("product",product);
 		model.addAttribute("listBrand",listBrand);
-		model.addAttribute("listProductDetails",productDetails.productDetails);
+		model.addAttribute("listProductDetails",productDetails1.productDetails);
 		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		
 		return "product/product_form";
@@ -86,16 +88,31 @@ public class ProductController {
 			@RequestParam(name="nameDetail",required=false) String[] nameDetail,
 			@RequestParam(name="valueDetail",required=false) String[] valueDetail,
 			@RequestParam(name="stockDetail",required=false) String[] stockDetail,
-			@RequestParam(name="fileImage",required=false) List<MultipartFile> images
-			) {
-	
-		List<String> listImage=new ArrayList<>();
-		for(MultipartFile image:images) {
+			@RequestParam(name="fileImage",required=false) List<MultipartFile> images,
+			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
+			@RequestParam(name = "imageNames", required = false) String[] imageNames,
 			
-			listImage.add(StringUtils.cleanPath(image.getOriginalFilename()));
-		}
-//				
-			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage);
+			@RequestParam(name = "detailIds", required = false) String[] detailIds
+			) {
+			
+			List<String> listImage=new ArrayList<>();
+			int idx=0;
+			for(MultipartFile image:images) {
+				if((!image.isEmpty() && imageIDs==null)||
+						(!image.isEmpty() && idx<imageIDs.length && imageIDs[idx]!=null)||
+						(!image.isEmpty() && idx>=imageIDs.length)
+						) {
+				listImage.add(StringUtils.cleanPath(image.getOriginalFilename()));
+				}
+				
+				if(image.isEmpty() && imageIDs[idx]!=null) {
+					listImage.add(imageNames[idx]);
+				}
+			
+				idx++;
+			}
+			
+			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage,imageIDs,detailIds);
 			return "redirect:/products";
 //		
 	}
