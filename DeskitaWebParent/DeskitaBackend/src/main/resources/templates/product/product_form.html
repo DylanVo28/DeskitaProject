@@ -155,7 +155,12 @@
 		function removeImage(i){
 			$('#product_image_'+i).remove();
 		}
-		
+		 $('.form-check-input').change(function(){
+			 if(this.checked){
+				 $('.form-check-input').prop('checked',false);
+				 $(this).prop('checked',true);
+			 }
+		 })
 	</script>
 </body>
 </html>
