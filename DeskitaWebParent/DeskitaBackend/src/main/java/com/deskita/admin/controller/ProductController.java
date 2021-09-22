@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< HEAD
-=======
+
 import com.deskita.admin.dto.ProductDetailsDTO;
 import com.deskita.admin.service.BrandService;
 import com.deskita.admin.service.CategoryService;
 import com.deskita.admin.service.ProductDetailService;
 import com.deskita.admin.service.ProductImageService;
->>>>>>> 806736dcb21d83f4adf57da5e142b529fff07b49
 import com.deskita.admin.service.ProductService;
 import com.deskita.common.entity.Brand;
 import com.deskita.common.entity.Category;
@@ -71,18 +69,15 @@ public class ProductController {
 	@GetMapping("/products/new")
 	public String createProduct(Model model) {
 		Product product=new Product();
-<<<<<<< HEAD
-		ProductDetail productDetails=new ProductDetail();
-=======
-		ProductDetailsDTO productDetails=new ProductDetailsDTO();
+		ProductDetailsDTO productDetails1=new ProductDetailsDTO();
 		List<Brand> listBrand=brandService.listAll();
 		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
->>>>>>> 806736dcb21d83f4adf57da5e142b529fff07b49
+
 		
 		model.addAttribute("listCategories",listCategories);
 		model.addAttribute("product",product);
 		model.addAttribute("listBrand",listBrand);
-		model.addAttribute("listProductDetails",productDetails.productDetails);
+		model.addAttribute("listProductDetails",productDetails1.productDetails);
 		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		
 		return "product/product_form";
