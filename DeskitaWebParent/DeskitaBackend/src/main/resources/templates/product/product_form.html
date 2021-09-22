@@ -39,13 +39,17 @@
 				<input type="button" id="add-image">Add image</input>
 				<ul id="list-images">
 					<li th:id="'product_image_'+${iter.index}" th:each="productImage,iter :${listProductImages}" >
+					<input type="hidden" name="imageIDs" th:id="'imageId' + ${iter.index}"
+				th:value="${productImage.id}" />
+			<input type="hidden" name="imageNames" th:id="'imageName' + ${iter.index}"
+				th:value="${productImage.url}" />
+			
 					<img th:id="'thumbnail_'+${iter.index}" th:src="@{/images/}+${productImage.url}" alt="Chua co anh" style="width: 200px"/>
 				<input type="file" th:id="'fileImage_'+${iter.index}" 
 				th:value="${productImage.url}"
 				th:attr="onclick=|inputImage(${iter.index})|" 
 				name="fileImage" accept="image/png, image/jpeg, image/jpg"/>
 					<input type="button" 
-					
 						th:attr="onclick=|removeImage(${iter.index})|" 
 					>X</input>
 					</li>
@@ -56,6 +60,8 @@
 				
 				<ul id="list-variation"> 
 					<li style="display: flex;margin-bottom: 10px;"  th:each="productDetail,iter :${listProductDetails}"  th:id="'product_detail_'+${iter.index}"  >
+					<input type="hidden" name="detailIds" th:id="'detailId' + ${iter.index}"
+				th:value="${productDetail.id}" />
 					<div>
 					<label>Variation name</label>
 					<input name="nameDetail" th:value="${productDetail.name}" />

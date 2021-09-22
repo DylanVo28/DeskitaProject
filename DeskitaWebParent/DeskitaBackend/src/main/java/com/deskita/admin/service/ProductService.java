@@ -78,25 +78,110 @@ public class ProductService {
 		productDetailRepository.deleteProductDetailByProductId(id);
 	}
 	
+	public boolean findImage(int id,String[] imageIds) {
+		for(String idImage:imageIds) {
+			if(id==Integer.parseInt(idImage) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
 	public void saveProduct(Product product,String[] detailName,String[] detailValue,
-			String[] detailStock,List<String> fileNameImage) {
+			String[] detailStock,List<String> fileNameImage,String[] imageIDs,String[] detailIds) {
 		
 		product.setImage(fileNameImage.get(0));
 		Product savedProduct=productRepository.save(product);
 		List<ProductImage> listImage=new ArrayList<ProductImage>();
 		List<ProductDetail> list=new ArrayList<ProductDetail>();
-		for(int i=0;i<detailName.length;i++) {
-			ProductDetail productDetail=new ProductDetail(
-					new BigDecimal(detailValue[i]),
-					detailName[i],
-					Integer.parseInt(detailStock[i]),
-					savedProduct.getId());
-			list.add(productDetail);
+		
+		//update product detail
+		if(detailIds==null && product.getId()!=null ) {
+			productDetailRepository.deleteProductDetailByProductId(product.getId());
+		}
+		if((detailIds!=null && product.getId()!=null)|| (detailIds==null && product.getId()!=null && detailName!=null)) {
+			List<ProductDetail> listPDExisted= productDetailRepository.getProductDetailsByProductId(product.getId());
+			int idxPD=0;
+			for(ProductDetail pd:listPDExisted) {
+				if(!findImage(pd.getId(),detailIds)) {
+					productDetailRepository.deleteById(pd.getId());
+				}
+				
+			}
+			for(String name:detailName) {
+				if(detailIds!=null && idxPD<detailIds.length) {
+					ProductDetail productDetail=new ProductDetail(Integer.parseInt(detailIds[idxPD]) ,
+							new BigDecimal(detailValue[idxPD]),
+							detailName[idxPD],
+							Integer.parseInt(detailStock[idxPD]),
+							savedProduct.getId());
+					list.add(productDetail);
+				}
+				else {
+					ProductDetail productDetail=new ProductDetail(
+							new BigDecimal(detailValue[idxPD]),
+							detailName[idxPD],
+							Integer.parseInt(detailStock[idxPD]),
+							savedProduct.getId());
+					list.add(productDetail);
+				}
+					
+				idxPD++;
+			}
+		}
+		if(product.getId()==null) {
+			int i=0;
+			for(String name:detailName) {
+				ProductDetail productDetail=new ProductDetail(
+						new BigDecimal(detailValue[i]),
+						detailName[i],
+						Integer.parseInt(detailStock[i]),
+						savedProduct.getId());
+				list.add(productDetail);
+				i++;
+			}
+		}
+		//end update product detail
+		
+		//update image
+		int idxImage=0;
+		if(product.getId()!=null) {
+			
+			if(imageIDs==null) {
+				productImageRepository.deleteImageProductByProductId(product.getId());
+			}
+			else {
+				List<ProductImage> listImageExisted=productImageRepository.findImageByProductId(savedProduct.getId());
+				for(ProductImage pi: listImageExisted) {
+					if(!findImage(pi.getId(),imageIDs)) {
+						productImageRepository.deleteById(pi.getId());
+					}
+				}
+			}
+			
 		}
 		for(String image:fileNameImage) {
-			ProductImage productImage=new ProductImage(image, savedProduct.getId());
-			listImage.add(productImage);
+			if(imageIDs==null) {
+				ProductImage productImage=new ProductImage(image, savedProduct.getId());
+				listImage.add(productImage);
+			}
+			else {
+				if(imageIDs!=null && idxImage<imageIDs.length) {
+					ProductImage productImage=new ProductImage(Integer.parseInt(imageIDs[idxImage]),image,savedProduct.getId());
+					listImage.add(productImage);
+				}
+				if(idxImage>=imageIDs.length) {
+					ProductImage productImage=new ProductImage(image, savedProduct.getId());
+					listImage.add(productImage);
+				}
+			}
+			
+			
+			idxImage++;
 		}
+		//end update image
 		
 		productImageRepository.saveAll(listImage);
 		

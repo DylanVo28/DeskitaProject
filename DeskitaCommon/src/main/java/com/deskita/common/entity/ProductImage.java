@@ -20,6 +20,16 @@ public class ProductImage {
 	@Column(name="product_id",length = 150)
 	private Integer productId;
 
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getUrl() {
 		return url;
 	}
@@ -38,6 +48,13 @@ public class ProductImage {
 
 	public ProductImage(String url, Integer productId) {
 		super();
+		this.url = url;
+		this.productId = productId;
+	}
+	
+	public ProductImage(Integer id, String url, Integer productId) {
+		super();
+		this.id = id;
 		this.url = url;
 		this.productId = productId;
 	}

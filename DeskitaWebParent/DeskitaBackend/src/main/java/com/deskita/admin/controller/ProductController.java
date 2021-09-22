@@ -88,16 +88,31 @@ public class ProductController {
 			@RequestParam(name="nameDetail",required=false) String[] nameDetail,
 			@RequestParam(name="valueDetail",required=false) String[] valueDetail,
 			@RequestParam(name="stockDetail",required=false) String[] stockDetail,
-			@RequestParam(name="fileImage",required=false) List<MultipartFile> images
-			) {
-	
-		List<String> listImage=new ArrayList<>();
-		for(MultipartFile image:images) {
+			@RequestParam(name="fileImage",required=false) List<MultipartFile> images,
+			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
+			@RequestParam(name = "imageNames", required = false) String[] imageNames,
 			
-			listImage.add(StringUtils.cleanPath(image.getOriginalFilename()));
-		}
-//				
-			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage);
+			@RequestParam(name = "detailIds", required = false) String[] detailIds
+			) {
+			
+			List<String> listImage=new ArrayList<>();
+			int idx=0;
+			for(MultipartFile image:images) {
+				if((!image.isEmpty() && imageIDs==null)||
+						(!image.isEmpty() && idx<imageIDs.length && imageIDs[idx]!=null)||
+						(!image.isEmpty() && idx>=imageIDs.length)
+						) {
+				listImage.add(StringUtils.cleanPath(image.getOriginalFilename()));
+				}
+				
+				if(image.isEmpty() && imageIDs[idx]!=null) {
+					listImage.add(imageNames[idx]);
+				}
+			
+				idx++;
+			}
+			
+			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage,imageIDs,detailIds);
 			return "redirect:/products";
 //		
 	}
