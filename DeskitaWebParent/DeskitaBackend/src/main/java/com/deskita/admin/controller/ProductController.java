@@ -114,18 +114,10 @@ public class ProductController {
 			
 			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage,imageIDs,detailIds);
 			return "redirect:/products";
-//		
+	
 	}
 		
-	@PostMapping("/products/save/{id}")
-	public String saveProductById(Product product,Model model) {
-			List<ProductDetail> listProductDetails= service.listProductDetails();
-			model.addAttribute("product",product);
-			model.addAttribute("listProductDetails",listProductDetails);
-			model.addAttribute("actionSave","/DeskitaAdmin/products/save/"+product.getId());		
-			service.saveProduct(product);
-		return "redirect:/products";
-	}
+	
 	
 	@GetMapping("/products/edit/{id}")
 	public String editProduct(@PathVariable(name="id") Integer id,Model model) {
