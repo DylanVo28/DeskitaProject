@@ -106,5 +106,13 @@
 		</form>
 	</div>
 	</div>
+	<script type="text/javascript">
+		$('.form-check-input').change(function() {
+			if (this.checked) {
+				$('.form-check-input').prop('checked', false);
+				$(this).prop('checked', true);
+			}
+		})
+	</script>
 </body>
 </html>

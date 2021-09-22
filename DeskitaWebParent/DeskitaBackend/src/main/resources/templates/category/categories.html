@@ -19,9 +19,6 @@
 				<th>
 					Name
 				</th>
-				<th>
-					Enabled
-				</th>
 				<th>Action</th>
 				
 			</tr>
@@ -29,12 +26,9 @@
 		<tbody>
 			<tr th:each="category:${listCategories}">
 				<th >[[${category.id}]]</th>
-				<th ></th>
 				<th >[[${category.name}]]</th>
-				<th > <a th:if="${category.enabled==true}" class="fas fa-check"	href="#"></a></th>
 				<th>					
 					<a class="fas fa-edit" th:href="@{'/categories/edit/'+${category.id}}"></a>
-					<a class="far fa-trash-alt" th:href="@{'/categories/delete/'+${category.id}}"></a>
 				</th>
 			</tr>
 		</tbody>

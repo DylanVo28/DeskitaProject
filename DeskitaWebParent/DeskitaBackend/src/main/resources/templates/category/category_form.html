@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/head_title :: page_head('New Category - Deskita Admin')">
+<head
+	th:replace="components/head_title :: page_head('New Category - Deskita Admin')">
 <style>
-
 </style>
 <body>
-<div class="container">
-<nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Categories</h1>
-<div>
-	<form th:action="${actionSave}" th:method="POST" th:object="${category}">
-  <div class="form-group">
-  
-    <label>Category name</label>
+	<div class="container">
+		<nav th:replace="components/Navigation :: navigation"></nav>
+		<h1>Categories</h1>
+		<div>
+			<form th:action="${actionSave}" th:method="POST"
+				th:object="${category}">
+		<div class="form-group">
+			<label>CATEGORY</label>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="on" th:value="${category.id}">
+				<label class="form-check-label" for="flexCheckDefault">May anh</label>
+			</div>
 
-    <input type="text" th:name="name" th:value="${category.name}"  th:field="*{name}"  required minlength="5" maxlength="128" class="form-control"  placeholder="Enter category name:"/>
-  </div>
-  <div class="form-group">
-<input class="form-check-input" type="checkbox" th:field="*{enabled}"  th:value="${category.enabled}">
-<label class="form-check-label" for="flexCheckDefault">
-	   Enabled
-	  </label>
-</div>
-  <button type="submit" value="Save" class="btn btn-primary">Submit</button>
-  <button type="button" class="btn btn-secondary" ><a th:href="@{/categories}">Cancel</a></button>
-</form>
-</div>
-</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="on" th:value="${category.id}">
+				<label class="form-check-label" for="flexCheckDefault"
+					>Dien thoai</label>
+			</div>
+
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="on" th:value="${category.id}">
+				<label class="form-check-label" for="flexCheckDefault">Chuot may tinh</label>
+			</div>
+		</div>
+	</div>
+	<button type="submit" value="Save" class="btn btn-primary">Submit</button>
+	<button type="button" class="btn btn-secondary">
+		<a th:href="@{/categories}">Cancel</a>
+	</button>
+	</form>
+	</div>
+
+	</div>
+	<script type="text/javascript">
+		$('.form-check-input').change(function() {
+
+			if (this.checked) {
+				$('.form-check-input').prop('checked', false);
+				$(this).prop('checked', true);
+			}
+		})
+	</script>
 </body>
 </html>
