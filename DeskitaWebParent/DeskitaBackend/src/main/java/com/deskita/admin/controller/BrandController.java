@@ -73,9 +73,4 @@ public class BrandController {
 		return "brand/brand_form";
 	}
 	
-	@GetMapping("brands/delete/{id}")
-	public String deleteBrand(@PathVariable(name="id") Integer id) {
-		service.deleteBrand(id);
-		return "redirect:/brands";
-	}
 }
