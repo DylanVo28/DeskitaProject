@@ -161,6 +161,14 @@
 				 $(this).prop('checked',true);
 			 }
 		 })
+		$('.form-check-input').change(function() {
+
+			if (this.checked) {
+				$('.form-check-input').prop('checked', false);
+				$(this).prop('checked', true);
+			}
+		})
+	</script>
 	</script>
 </body>
 </html>
