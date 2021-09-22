@@ -77,6 +77,17 @@ public class ProductDetail {
 		this.productId = productId;
 	}
 
+	
+	
+	public ProductDetail(Integer id, BigDecimal value, String name, Integer stock, Integer productId) {
+		super();
+		this.id = id;
+		this.value = value;
+		this.name = name;
+		this.stock = stock;
+		this.productId = productId;
+	}
+
 	public ProductDetail() {
 		super();
 	}
