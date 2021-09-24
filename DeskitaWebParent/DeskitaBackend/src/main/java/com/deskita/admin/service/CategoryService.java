@@ -42,7 +42,5 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 	
-	public List<Category> getListCategoryIsEnabled(){
-		return categoryRepository.getListCategoryIsEnabled();
-	};
+	
 }

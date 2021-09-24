@@ -71,7 +71,7 @@ public class ProductController {
 		Product product=new Product();
 		ProductDetailsDTO productDetails1=new ProductDetailsDTO();
 		List<Brand> listBrand=brandService.listAll();
-		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+		List<Category> listCategories=categoryService.listAll();
 
 		
 		model.addAttribute("listCategories",listCategories);
@@ -126,7 +126,7 @@ public class ProductController {
 		List<ProductDetail> listProductDetails=productDetailService.findAll(id);
 		List<ProductImage> listProductImages=productImageService.findImageByProductId(id);
 		List<Brand> listBrand=brandService.listAll();
-		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+		List<Category> listCategories=categoryService.listAll();
 		model.addAttribute("listCategories",listCategories);
 		model.addAttribute("listBrand",listBrand);
 		model.addAttribute("product",product);
