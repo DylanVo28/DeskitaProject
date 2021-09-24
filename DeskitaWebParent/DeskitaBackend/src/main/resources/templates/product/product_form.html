@@ -1,18 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head
-	th:replace="components/head_title :: page_head('New Product - Deskita Admin')">
+	th:replace="components/head_title :: page_head('New Product - Deskita Admin')"/>
 <style>
+.product .product-info{
+	background: white;
+    padding: 20px;
+}
+.product .product-info .form-control{
+	border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.product-category{
+	background: white;
+	padding: 20px;
+}
+
+.product .product_image{
+	background:white;
+	padding:20px;
+}
+.product #list-images{
+	list-style: none;
+	margin-top: 15px;
+}
+.product_variation{
+	background: white;
+}
+.variation_detail{
+	margin-right:30px;
+}
+#list-variation{
+	margin-top:20px;
+}
+.product_brand{
+	background: white;
+}
+.product .btn_cancel a{
+	color:white!important;
+}
+.product .input_variation{
+	    border: none;
+    border-bottom: 1px solid black;
+}
 </style>
-<body>
-	<div class="container">
-		<nav th:replace="components/Navigation :: navigation"></nav>
+<body style="background: #dff9fb">
+<nav th:replace="components/Navigation :: navigation"></nav>
+	<div class="container product">
+		
 		<h1>Products</h1>
 		<div>
 			<form th:action="${actionSave}" th:method="POST" 
 				enctype="multipart/form-data"
 				th:object="${product}">
 				<input type="hidden" th:field="*{id}" />
+				<div class="row">
+				<div class="product-info col-md-7">
+				<h3>Product info</h3>
 				<div class="form-group">
 
 					<label>Product name</label> <input type="text" th:name="name"
@@ -35,71 +81,97 @@
 						maxlength="300" class="form-control"
 						placeholder="Enter full description:" />
 				</div>
-				<h3>Images</h3>
-				<input type="button" id="add-image">Add image</input>
-				<ul id="list-images">
-					<li th:id="'product_image_'+${iter.index}" th:each="productImage,iter :${listProductImages}" >
-					<input type="hidden" name="imageIDs" th:id="'imageId' + ${iter.index}"
-				th:value="${productImage.id}" />
-			<input type="hidden" name="imageNames" th:id="'imageName' + ${iter.index}"
-				th:value="${productImage.url}" />
-			
-					<img th:id="'thumbnail_'+${iter.index}" th:src="@{/images/}+${productImage.url}" alt="Chua co anh" style="width: 200px"/>
-				<input type="file" th:id="'fileImage_'+${iter.index}" 
-				th:value="${productImage.url}"
-				th:attr="onclick=|inputImage(${iter.index})|" 
-				name="fileImage" accept="image/png, image/jpeg, image/jpg"/>
-					<input type="button" 
-						th:attr="onclick=|removeImage(${iter.index})|" 
-					>X</input>
-					</li>
-				</ul>
-				
-				<h3>Variations</h3>
-				<input type="button" id="add-variation">+</input>
-				
-				<ul id="list-variation"> 
-					<li style="display: flex;margin-bottom: 10px;"  th:each="productDetail,iter :${listProductDetails}"  th:id="'product_detail_'+${iter.index}"  >
-					<input type="hidden" name="detailIds" th:id="'detailId' + ${iter.index}"
-				th:value="${productDetail.id}" />
-					<div>
-					<label>Variation name</label>
-					<input name="nameDetail" th:value="${productDetail.name}" />
 				</div>
-				<div>
-					<label>Giá</label>
-					<input name="valueDetail" th:value="${productDetail.value}" />
-					</div>
-				<div>
-					<label>Số lượng</label>
-					<input name="stockDetail" th:value="${productDetail.stock}"/>
-				</div>
-				<div><input type="button"  th:attr="onclick=|removeDetail(${iter.index})|" >X</input></div>
-			</li>
-				</ul> 
-				<h3>Brand</h3>
-				<div class="form-group">
-  	<div class="form-check" th:each="brand:${listBrand}">
-	  <input class="form-check-input" type="checkbox" th:field="*{brand}" value="" th:value="${brand.id}" >
-	  <img th:src="'/DeskitaAdmin/images/brands/'+${brand.logo}" style="width: 70px"/>
-	  <label class="form-check-label" for="flexCheckDefault" th:text="${brand.name}">
-	    Default checkbox
-	  </label>
-	 
-</div>
-</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4 product-category">
 				<h3>Category</h3>
 				<div class="form-group">
 					<div class="form-check" th:each="category: ${listCategories}">
-					 <input class="form-check-input" type="checkbox" th:field="*{category}" value="" th:value="${category.id}" >
+					 <input class="form-check-input-category" type="checkbox" th:field="*{category}" value="" th:value="${category.id}" >
 	  
 	  <label class="form-check-label" for="flexCheckDefault" th:text="${category.name}">
 	    Default checkbox
 	  </label>
 					</div>
 				</div>
+				</div>
+				</div>
+				<br>
+				<br>
+				<div class="row">
+				<div class="col-md-12 product_image">
+				<h3>Images</h3>
+				<input type="button" id="add-image" value="Add image" class="btn_add_image btn btn-dark">
+				<ul id="list-images" class="row">
+					<li th:id="'product_image_'+${iter.index}" th:each="productImage,iter :${listProductImages}" class="col-md-4">
+					<input type="hidden" name="imageIDs" th:id="'imageId' + ${iter.index}"
+				th:value="${productImage.id}" />
+			<input type="hidden" name="imageNames" th:id="'imageName' + ${iter.index}"
+				th:value="${productImage.url}" />
+			
+					<img th:id="'thumbnail_'+${iter.index}" th:src="@{/images/}+${productImage.url}" alt="Chua co anh" style="width: 100%"/>
+				<input type="file" th:id="'fileImage_'+${iter.index}" 
+				th:value="${productImage.url}"
+				th:attr="onclick=|inputImage(${iter.index})|" 
+				name="fileImage" accept="image/png, image/jpeg, image/jpg"
+				
+				/>
+					<input type="button" 
+						th:attr="onclick=|removeImage(${iter.index})|" 
+						class="btn btn-primary" value="Remove"
+					>
+					</li>
+				</ul>
+				</div>
+				</div>
+				<br>
+				<br>
+				<div class="row">
+					<div class="col-md-12 product_variation">
+					<h3>Variations</h3>
+				<input type="button" id="add-variation" value="Add variation" class="btn btn-dark">
+				
+				<ul id="list-variation"> 
+					<li style="display: flex;margin-bottom: 10px;"  th:each="productDetail,iter :${listProductDetails}"  th:id="'product_detail_'+${iter.index}"  >
+					<input type="hidden" name="detailIds" th:id="'detailId' + ${iter.index}"
+				th:value="${productDetail.id}" />
+					<div class="variation_detail">
+					<label>Variation name</label>
+					<input name="nameDetail" th:value="${productDetail.name}" class="input_variation"/>
+				</div>
+				<div class="variation_detail">
+					<label >Giá</label>
+					<input name="valueDetail" th:value="${productDetail.value}" class="input_variation" />
+					</div>
+				<div class="variation_detail">
+					<label>Số lượng</label>
+					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation"/>
+				</div>
+				<div class="variation_detail"><input type="button"  th:attr="onclick=|removeDetail(${iter.index})|" value="Remove"></div>
+			</li>
+				</ul> 
+					</div>
+				</div>
+			<br>
+			<br>
+			
+				<div class="product_brand" >
+					<h3>Brand</h3>
+				<div class="form-group row">
+  	<div class="form-check col-md-3" th:each="brand:${listBrand}">
+	  <input class="form-check-input-brand" type="checkbox" th:field="*{brand}" value="" th:value="${brand.id}" >
+	  <img th:src="'/DeskitaAdmin/images/brands/'+${brand.name} +.png" style="width: 70px"/>
+	  <label class="form-check-label" for="flexCheckDefault" th:text="${brand.name}">
+	    Default checkbox
+	  </label>
+	 
+</div>
+</div>
+				</div>
+				
+				
 				<button type="submit" value="Save" class="btn btn-primary">Submit</button>
-				<button type="button" class="btn btn-secondary">
+				<button type="button" class="btn btn-secondary btn_cancel">
 					<a th:href="@{/products}">Cancel</a>
 				</button>
 			</form>
@@ -110,28 +182,28 @@
 		$("#add-image").on("click",function(event){
 			i++;
 			
-			$("#list-images").append('<li id="product_image_'+i+'">'+
-					'<img id="thumbnail_'+i+'" src="" alt="Chua co anh" style="width: 200px"/>'+
-				'<input type="file" id="fileImage_'+i+'" onClick="inputImage('+i+')" name="fileImage" accept="image/png, image/jpeg, image/jpg" required/>'+
-					'<input type="button" onClick="removeImage('+i+')">X</input>'+
+			$("#list-images").append('<li id="product_image_'+i+'" class="col-md-4">'+
+					'<img id="thumbnail_'+i+'" src="/DeskitaAdmin/images/default.png" alt="Chua co anh" style="width: 100%" />'+
+				'<input type="file" id="fileImage_'+i+'" onClick="inputImage('+i+')" name="fileImage" accept="image/png, image/jpeg, image/jpg" required />'+
+					'<input type="button" onClick="removeImage('+i+')" class="btn btn-primary" value="Remove">'+
 					'</li>')
 		})
 		$("#add-variation").on("click",function(event){
 			i++;
 			$("#list-variation").append('<li style="display: flex;margin-bottom: 10px;" id="product_detail_'+i+'" >'+
-					'<div>'+
+					'<div class="variation_detail">'+
 					'<label>Variation name</label>'+
-					'<input name="nameDetail"/>'+
+					'<input name="nameDetail"  class="input_variation"/>'+
 				'</div>'+
-				'<div>'+
+				'<div class="variation_detail">'+
 					'<label>Giá</label>'+
-					'<input name="valueDetail"/>'+
+					'<input name="valueDetail"  class="input_variation"/>'+
 					'</div>'+
-				'<div>'+
+				'<div class="variation_detail">'+
 					'<label>Số lượng</label>'+
-					'<input name="stockDetail"/>'+
+					'<input name="stockDetail"  class="input_variation"/>'+
 				'</div>'+
-				'<div><input type="button" onClick="removeDetail('+i+')">X</input></div>'+
+				'<div class="variation_detail"><input type="button" onClick="removeDetail('+i+')" value="Remove"></div>'+
 			'</li>')
 		})
 		function removeDetail(i){
@@ -155,7 +227,20 @@
 		function removeImage(i){
 			$('#product_image_'+i).remove();
 		}
-		
+		 $('.form-check-input-brand').change(function(){
+			 if(this.checked){
+				 $('.form-check-input-brand').prop('checked',false);
+				 $(this).prop('checked',true);
+			 }
+		 })
+		$('.form-check-input-category').change(function() {
+
+			if (this.checked) {
+				$('.form-check-input-category').prop('checked', false);
+				$(this).prop('checked', true);
+			}
+		})
+	</script>
 	</script>
 </body>
 </html>

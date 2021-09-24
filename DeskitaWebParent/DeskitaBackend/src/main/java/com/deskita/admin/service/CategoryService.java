@@ -24,7 +24,7 @@ public class CategoryService {
 	
 	public List<Category> pagingCategory(int currentPage){
 		
-		Pageable pageable=PageRequest.of(currentPage, PAGE_SIZE);
+		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
 		Page<Category> page=categoryRepository.findAll(pageable);
 		List<Category> listCategories=page.getContent();
 		return listCategories;	
@@ -42,7 +42,5 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 	
-	public List<Category> getListCategoryIsEnabled(){
-		return categoryRepository.getListCategoryIsEnabled();
-	};
+	
 }

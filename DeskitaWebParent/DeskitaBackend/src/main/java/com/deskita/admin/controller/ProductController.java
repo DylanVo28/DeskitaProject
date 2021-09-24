@@ -71,7 +71,7 @@ public class ProductController {
 		Product product=new Product();
 		ProductDetailsDTO productDetails1=new ProductDetailsDTO();
 		List<Brand> listBrand=brandService.listAll();
-		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+		List<Category> listCategories=categoryService.listAll();
 
 		
 		model.addAttribute("listCategories",listCategories);
@@ -114,18 +114,10 @@ public class ProductController {
 			
 			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage,imageIDs,detailIds);
 			return "redirect:/products";
-//		
+	
 	}
 		
-	@PostMapping("/products/save/{id}")
-	public String saveProductById(Product product,Model model) {
-			List<ProductDetail> listProductDetails= service.listProductDetails();
-			model.addAttribute("product",product);
-			model.addAttribute("listProductDetails",listProductDetails);
-			model.addAttribute("actionSave","/DeskitaAdmin/products/save/"+product.getId());		
-			service.saveProduct(product);
-		return "redirect:/products";
-	}
+	
 	
 	@GetMapping("/products/edit/{id}")
 	public String editProduct(@PathVariable(name="id") Integer id,Model model) {
@@ -134,7 +126,7 @@ public class ProductController {
 		List<ProductDetail> listProductDetails=productDetailService.findAll(id);
 		List<ProductImage> listProductImages=productImageService.findImageByProductId(id);
 		List<Brand> listBrand=brandService.listAll();
-		List<Category> listCategories=categoryService.getListCategoryIsEnabled();
+		List<Category> listCategories=categoryService.listAll();
 		model.addAttribute("listCategories",listCategories);
 		model.addAttribute("listBrand",listBrand);
 		model.addAttribute("product",product);

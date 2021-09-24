@@ -12,6 +12,4 @@ import com.deskita.common.entity.Category;
 @Repository
 public interface CategoryRepository extends  PagingAndSortingRepository<Category, Integer> {
 
-	@Query("Select c from Category c where c.enabled=true")
-	public List<Category> getListCategoryIsEnabled();
 }

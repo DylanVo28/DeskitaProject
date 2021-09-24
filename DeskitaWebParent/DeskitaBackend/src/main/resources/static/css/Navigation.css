@@ -1,0 +1,22 @@
+.navigation .dropdown-toggle{
+	display: inline-flex;
+	background: none;
+	border: none;
+}
+.navigation .navbar-nav{
+	margin: auto;
+} 
+.navigation .fa-user{
+	color: black;
+}
+.navigation .dropdown .nav-link{
+	color: black;
+}
+.navigation .dropdown-toggle::after{
+	color:black;
+	margin: auto;
+}
+.navigation .btn-secondary:hover,.navigation .btn-secondary.focus,.navigation .btn-secondary:focus{
+	background:none;
+	border:none;
+}

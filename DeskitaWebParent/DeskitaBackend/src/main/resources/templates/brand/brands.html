@@ -29,12 +29,10 @@
 		<tbody>
 			<tr th:each="brand:${listBrands}">
 				<th >[[${brand.id}]]</th>
-				
-				<th ><img th:src="'/DeskitaAdmin/images/brands/'+${brand.logo}" style="width: 90px"/> </th>
+				<th ><img th:src="'/DeskitaAdmin/images/brands/'+${brand.name} +.png" style="width: 80px"/> </th>
 				<th >[[${brand.name}]]</th>
 				<th>					
 					<a class="fas fa-edit" th:href="@{'/brands/edit/'+${brand.id}}"></a>
-					<a class="far fa-trash-alt" th:href="@{'/brands/delete/'+${brand.id}}"></a>
 				</th>
 			</tr>
 		</tbody>
