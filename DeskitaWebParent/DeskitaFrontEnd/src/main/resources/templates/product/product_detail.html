@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
+<head th:replace="components/head_title :: page_head('Deskita')">
+
+<body>
+	<style>
+		.list_image{
+		    display: flex;
+   
+    list-style: none;}
+    .image_item{
+    	width: 100%;
+    }
+    .main-image img{
+    	max-width: 100%;
+    }
+    .main-image{
+   	background: white;
+    border-radius: 30px;
+    box-shadow: 1px 1px 9pc #0000000d;
+    padding: 20px;
+    }
+    .image{
+    	background: white;
+    	border-radius: 30px;
+    	box-shadow: 1px 1px 9pc #0000000d;
+    	padding: 10px;
+    }
+    .list_product_details{
+    	display:flex;
+    }
+   	.btn_product_detail {
+    margin-right: 15px;
+    background: white;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-weight: bold;
+    box-shadow: 1px 1px 9pc #0000000d;
+}
+button.btn_order_now{
+
+    background: #a29bfe;
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    border-radius: 15px;
+    font-weight: bold;
+    box-shadow: 1px 1px 9pc #0000000d;
+}
+	</style>
+	<div th:replace="components/navigation :: navigation"></div>
+	<br>
+	<br>
+	<!-- product detail -->
+	<div class=" container-fluid product_detail">
+	<form th:action="@{/order-now}" method="post">
+		<div class="row">
+			<div class="col-md-6 images" >
+			<div class="main-image text-center">
+				<img th:src="@{'/images/'+${product.image}}">
+			</div>
+			<br>
+			<ul class="list_image row">
+				<li th:each="productImage: ${productImages}" class="col-md-4">
+					<div class="image">
+					<img th:src="@{'/images/'+${productImage.url}}" class="image_item" >
+					</div>
+					
+				</li>
+			</ul>
+				
+			</div>
+			<div class="col-md-6">
+				<h3 th:text="${product.name}"> </h3>
+				<p th:text=${product.shortDescription}></p>	
+				<br>
+				<p th:text=${product.fullDescription}></p>
+				<br>
+				<div>
+					<span>Thể loại: </span>
+					<span th:text="${product.category.getName()}"></span>
+				</div>
+				<br>
+				<span>Thương hiệu</span>
+				<img th:src="@{'/images/brands/'+${product.getBrand().getLogo()}}">
+				<br>
+				<br>
+				<div class="list_product_details">
+				<div th:each="productDetail: ${productDetails}">
+					<input type="button" class="btn_product_detail" th:value="${productDetail.name}">
+						
+						<input type="hidden" th:value="${productDetail.value}">
+						<input th:value="${productDetail.stock}" type="hidden">
+					</input>
+			
+				</div>
+				
+				
+				</div>
+				<br>
+				<br>	
+				<button class="btn_order_now"> Mua ngay</button>
+			</div>
+		</div>
+		</form>
+	</div>
+</body>
+</html>
