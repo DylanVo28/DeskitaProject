@@ -25,7 +25,6 @@ public class BrandController {
 
 	@Autowired
 	private BrandService service;
-	
 
 	@GetMapping("/brands")
 	public String listAll(Model model) {
@@ -53,20 +52,25 @@ public class BrandController {
 
 	@PostMapping("/brands/save")
 	public String saveBrand(Brand brand, Model model, HttpServletRequest request,
-			@RequestParam(name="fileImage",required=false) MultipartFile image) {
-		System.out.println(image.getOriginalFilename());
-		
-//		model.addAttribute("brand", brand);
-//		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save");
-//		service.saveBrand(brand);
+			@RequestParam(name = "fileImage", required = false) MultipartFile image) {
+		String uploadfile = StringUtils.cleanPath(image.getOriginalFilename());
+
+		brand.setLogo(uploadfile);
+		model.addAttribute("brand", brand);
+		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save");
+		service.saveBrand(brand);
 		return "redirect:/brands";
 
 	}
+
 	@PostMapping("/brands/save/{id}")
-	public String saveBrandById(Brand brand,Model model) {
-			model.addAttribute("brand",brand);
-			model.addAttribute("actionSave","/DeskitaAdmin/brands/save/"+brand.getId());		
-			service.saveBrand(brand);
+	public String saveBrandById(Brand brand, Model model, HttpServletRequest request,
+			@RequestParam(name = "fileImage", required = false) MultipartFile image) {
+		String uploadfile = StringUtils.cleanPath(image.getOriginalFilename());
+		brand.setLogo(uploadfile);
+		model.addAttribute("brand", brand);
+		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save/" + brand.getId());
+		service.saveBrand(brand);
 		return "redirect:/brands";
 	}
 

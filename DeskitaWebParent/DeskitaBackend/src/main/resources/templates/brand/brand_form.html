@@ -9,7 +9,7 @@
 		<nav th:replace="components/Navigation :: navigation"></nav>
 		<h1>Brands</h1>
 		<div>
-			<form th:action="${actionSave}" th:method="POST" th:object="${brand}">
+			<form th:action="${actionSave}" th:method="POST" th:object="${brand}" enctype="multipart/form-data">
 			<input type="hidden" th:field="*{id}" />
 				<div class="form-group">
 
