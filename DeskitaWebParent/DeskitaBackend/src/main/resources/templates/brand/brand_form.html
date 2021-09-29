@@ -9,7 +9,7 @@
 		<nav th:replace="components/Navigation :: navigation"></nav>
 		<h1>Brands</h1>
 		<div>
-			<form th:action="${actionSave}" th:method="POST" th:object="${brand}">
+			<form th:action="${actionSave}" th:method="POST" th:object="${brand}" enctype="multipart/form-data">
 			<input type="hidden" th:field="*{id}" />
 				<div class="form-group">
 
@@ -19,7 +19,8 @@
 						placeholder="Enter brand name:" />
 
 				</div>
-				<input type="file" id="files" name="fileImage" accept="image/png, image/jpeg, image/jpg"/> <img id="image" width="300"
+				<input type="file" id="files" name="fileImage" accept="image/png, image/jpeg, image/jpg"/>
+				 <img id="image" width="300"
 					height="250" />
 					<button type="submit" value="Save" class="btn btn-primary">Submit</button>
 		<button type="button" class="btn btn-secondary">

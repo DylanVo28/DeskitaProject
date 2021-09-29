@@ -3,28 +3,12 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0, minium-scale=1.0">
+<head th:replace="components/head_title :: page_head('Deskita')">
 
-<title>Deskita</title>
-<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}">
-<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/popper.js/2.9.3/cjs/popper.js}"></script>
-</head>
+<body>
 <style>
 		.index .dropdown-menu{
 		display:block
-		}
-		body,
-		html {
-			margin: 0;
-			padding: 0;
-			height: 100%;
-			background: #60a3bc !important;
 		}
 		
 		.login{
@@ -36,17 +20,16 @@
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #f39c12;
+			background: #ffffff;
 			position: relative;
 			display: flex;
 			justify-content: center;
 			flex-direction: column;
 			padding: 10px;
-			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			box-shadow: 1px 1px 20px #a29bfe4d;
+			/* -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 			border-radius: 5px;
-
 		}
 		.login .brand_logo_container {
 			position: absolute;
@@ -54,9 +37,9 @@
 			width: 170px;
 			top: -75px;
 			border-radius: 50%;
-			background: #60a3bc;
 			padding: 10px;
 			text-align: center;
+			background: #a29bfe;
 		}
 		.login .brand_logo {
 			height: 150px;
@@ -69,8 +52,9 @@
 		}
 		.login .login_btn {
 			width: 100%;
-			background: #c0392b !important;
+			background: #a29bfe;
 			color: white !important;
+			font-weight: bold;
 		}
 		.login .login_btn:focus {
 			box-shadow: none !important;
@@ -80,7 +64,7 @@
 			padding: 0 2rem;
 		}
 		.login .input-group-text {
-			background: #c0392b !important;
+			background: #a29bfe !important;
 			color: white !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
@@ -94,85 +78,8 @@
 			background-color: #c0392b !important;
 		}
 </style>
-<body>
-
 <div class="container index">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" th:href="@{/}">Logo</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
-	<input type="submit"/>
-</form>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item ">
-        <a class="nav-link" th:href="@{/}">Home(current)</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/users}">Users</a>
-      </li>
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/categories}">Categories</a>
-      </li>
-     
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/brands}">Brands</a>
-      </li>
-     
-       
-       <li class="nav-item">
-        <a class="nav-link " th:href="@{/products}">Products</a>
-      </li>
-      
-      
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/customers}">Customers</a>
-      </li>
-    
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/shipping}">Shipping</a>
-      </li>
-     
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/orders}">Orders</a>
-      </li>
-     
-     <li class="nav-item">
-        <a class="nav-link " th:href="@{/login}">Login</a>
-      </li>
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/register}">Register</a>
-      </li>
-  
-       
-     <th:block sec:authorize="isAuthenticated()">
-      <li class="nav-item">
-        
-        <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="fas fa-user fa-2x"></span>
-    <a class="nav-link"   th:href="@{/account}" sec:authentication="principal.fullName"></a>
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
-   
-  </div>
-</div>
-      </li>
-      </th:block>
-    </ul>
-    
-  </div>
-</nav>
-
-<h1>Welcome Deskita</h1>
+<div th:replace="components/navigation :: navigation"></div>
 <div class="container h-100 login">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -202,7 +109,7 @@
 							</div>
 						</div>
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 	<input type="submit" name="button" class="btn login_btn" value="Login">Login</input>
+				 	<input type="submit" name="button" class="btn login_btn" value="Login"></input>
 				   </div>
 					</form>
 				</div>

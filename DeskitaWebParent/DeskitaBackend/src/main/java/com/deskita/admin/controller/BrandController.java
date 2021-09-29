@@ -54,8 +54,13 @@ public class BrandController {
 	@PostMapping("/brands/save")
 	public String saveBrand(Brand brand, Model model, HttpServletRequest request,
 			@RequestParam(name="fileImage",required=false) MultipartFile image) {
-		System.out.println(image.getOriginalFilename());
 		
+		try {
+			System.out.println(image.getOriginalFilename());
+		}
+		catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
 //		model.addAttribute("brand", brand);
 //		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save");
 //		service.saveBrand(brand);

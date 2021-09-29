@@ -133,6 +133,7 @@ public class ProductController {
 		model.addAttribute("listProductDetails",listProductDetails);
 		model.addAttribute("listProductImages",listProductImages);
 		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
+		
 		return "product/product_form";
 	}
 	
