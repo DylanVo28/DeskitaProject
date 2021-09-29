@@ -7,9 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.deskita.admin.repository.BrandRepository;
 import com.deskita.common.entity.Brand;
+import com.deskita.common.entity.ProductImage;
 
 @Service
 public class BrandService {
