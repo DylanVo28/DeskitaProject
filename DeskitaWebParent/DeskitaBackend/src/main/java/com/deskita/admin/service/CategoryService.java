@@ -34,10 +34,6 @@ public class CategoryService {
 		return categoryRepository.findById(id).get();
 	}
 	
-	public void deleteCategory(int id) {
-		categoryRepository.deleteById(id);
-	}
-	
 	public void saveCategory(Category category) {
 		categoryRepository.save(category);
 	}
