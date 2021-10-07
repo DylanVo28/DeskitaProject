@@ -28,6 +28,7 @@
     	border-radius: 30px;
     	box-shadow: 1px 1px 9pc #0000000d;
     	padding: 10px;
+    	cursor: pointer;
     }
     .list_product_details{
     	display:flex;
@@ -52,6 +53,10 @@ button.btn_order_now{
     font-weight: bold;
     box-shadow: 1px 1px 9pc #0000000d;
 }
+.btn_product_detail.active_product_detail{
+	background: #74b9ff;
+    color: white;
+}
 	</style>
 	<div th:replace="components/navigation :: navigation"></div>
 	<br>
@@ -62,11 +67,11 @@ button.btn_order_now{
 		<div class="row">
 			<div class="col-md-6 images" >
 			<div class="main-image text-center">
-				<img th:src="@{'/images/'+${product.image}}">
+				<img th:src="@{'/images/'+${product.image}}" class="image_main">
 			</div>
 			<br>
 			<ul class="list_image row">
-				<li th:each="productImage: ${productImages}" class="col-md-4">
+				<li th:each="productImage: ${productImages}" class="col-md-4" >
 					<div class="image">
 					<img th:src="@{'/images/'+${productImage.url}}" class="image_item" >
 					</div>
@@ -109,5 +114,18 @@ button.btn_order_now{
 		</div>
 		</form>
 	</div>
+	<script>
+		$(".image_item").click(function(){
+			$(".image_main").attr("src",$(this).attr('src'));
+		})
+		$(".btn_product_detail").click(function(){
+			if($(this).hasClass("active_product_detail")){
+				$(".btn_product_detail").removeClass("active_product_detail");
+				return;
+			}
+			$(".btn_product_detail").removeClass("active_product_detail");
+			$(this).addClass("active_product_detail");
+		})
+	</script>
 </body>
 </html>

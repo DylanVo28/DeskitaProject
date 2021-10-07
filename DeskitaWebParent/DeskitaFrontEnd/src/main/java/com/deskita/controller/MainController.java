@@ -18,7 +18,7 @@ public class MainController {
 	@Autowired
 	ProductService ps;
 	
-	private int SIZE_PRODUCT_PAGE=6;
+	private int SIZE_PRODUCT_PAGE=8;
 	
 	@GetMapping("")
 	public String viewHomePage(Model model) {

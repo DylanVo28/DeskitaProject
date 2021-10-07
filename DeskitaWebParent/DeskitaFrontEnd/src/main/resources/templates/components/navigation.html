@@ -2,7 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+
 <div class="container index" th:fragment="navigation">
+<style>
+	.dropdown-toggle{
+		display:flex;
+	}
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" th:href="@{/}">Logo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +54,7 @@
       <li class="nav-item">
         <a class="nav-link " th:href="@{/orders}">Orders</a>
       </li>
-      
+       <th:block sec:authorize="!isAuthenticated()">
       <li class="nav-item">
         <a class="nav-link " th:href="@{/login}">Login</a>
       </li>
@@ -57,7 +63,7 @@
         <a class="nav-link " th:href="@{/register}">Register</a>
       </li>
   
-       
+       </th:block>
       <th:block sec:authorize="isAuthenticated()">
       <li class="nav-item">
         
@@ -66,7 +72,7 @@
     <span class="fas fa-user fa-2x"></span>
     <a class="nav-link"   th:href="@{/account}" sec:authentication="principal.fullName"></a>
   </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="display: block">
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
    <a class="dropdown-item" id="logoutLink" th:href="@{/change-password}">Change Password</a>
   </div>

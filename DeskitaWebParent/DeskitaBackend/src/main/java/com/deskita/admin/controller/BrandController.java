@@ -59,6 +59,7 @@ public class BrandController {
 		model.addAttribute("brand", brand);
 		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save");
 		service.saveBrand(brand);
+
 		return "redirect:/brands";
 
 	}

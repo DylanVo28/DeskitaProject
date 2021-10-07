@@ -17,7 +17,7 @@ import com.deskita.repository.ProductRepository;
 
 @Service
 public class ProductService {
-	public static int PAGE_SIZE=6;
+	public static int PAGE_SIZE=8;
 	
 	@Autowired
 	private ProductRepository repo;
