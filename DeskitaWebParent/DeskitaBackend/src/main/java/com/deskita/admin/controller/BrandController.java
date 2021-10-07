@@ -64,8 +64,12 @@ public class BrandController {
 	}
 
 	@PostMapping("/brands/save/{id}")
-	public String saveBrandById(@PathVariable(name = "id") Integer id, Model model) {
+	public String saveBrandById(@PathVariable(name = "id") Integer id, Model model, HttpServletRequest request,
+			@RequestParam(name = "fileImage", required = false) MultipartFile image) {
 		Brand brand = service.getBrandById(id);
+		String uploadfile = StringUtils.cleanPath(image.getOriginalFilename());
+
+		brand.setLogo(uploadfile);
 		model.addAttribute("brand", brand);
 		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save/");
 		service.saveBrand(brand);
