@@ -97,6 +97,17 @@ public class ProductDetail {
 	public ProductDetail() {
 		super();
 	}
+
+	public ProductDetail(Integer id) {
+		super();
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductDetail [id=" + id + ", value=" + value + ", name=" + name + ", stock=" + stock + ", productId="
+				+ productId + "]";
+	}
 	
 	
 	

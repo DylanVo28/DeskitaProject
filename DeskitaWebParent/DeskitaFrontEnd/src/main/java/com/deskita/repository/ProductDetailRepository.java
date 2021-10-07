@@ -25,5 +25,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
 			+ " WHERE pd.productId=:#{#id}")
 	public void deleteProductDetailByProductId(int id);
 	
-	
+	@Query("SELECT c FROM  ProductDetail c "
+			+ "WHERE c.productId =?1 and c.name=?2")
+	public ProductDetail getProductDetailByProDuctIdAndName(int productId,String name);
 }

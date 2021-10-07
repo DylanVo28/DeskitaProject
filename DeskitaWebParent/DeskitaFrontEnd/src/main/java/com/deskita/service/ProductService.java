@@ -49,4 +49,8 @@ public class ProductService {
 	public List<ProductImage> getAllProductImages(int id){
 		return pir.findImageByProductId(id);
 	}
+	
+	public ProductDetail getProductDetailByProDuctIdAndName(int id, String name) {
+		return pdr.getProductDetailByProDuctIdAndName(id, name);
+	}
 }

@@ -118,6 +118,13 @@ public class Product {
 	public Product() {
 		
 	}
+	
+	
+
+	public Product(Integer id) {
+		super();
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {
