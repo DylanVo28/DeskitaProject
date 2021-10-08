@@ -33,8 +33,9 @@ public class CartController {
 			Model model) {
 		Product product=productservice.findProductById(productId);
 		ProductDetail productDetail=productservice.getProductDetailByProDuctIdAndName(productId, productDetailName);
-		
-		return "redirect:/products/page/1";
+		model.addAttribute("productDetail",productDetail);
+		model.addAttribute("product",product);
+		return "cart/cart";
 	}
 	
 	
