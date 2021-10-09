@@ -113,9 +113,7 @@
     margin-top: 1.25rem
 }
 
-.card form {
-    padding: 2vh 0
-}
+
 
 .card select {
     border: 1px solid rgba(0, 0, 0, 0.137);
@@ -189,6 +187,8 @@
 <br>
 <br>
 <div class="card container">
+	<form th:action="@{/order-now}" method="post">
+	
     <div class="row">
         <div class="col-md-8 cart">
             <div class="title">
@@ -196,7 +196,19 @@
                     <div class="col">
                         <h4><b>Shopping Cart</b></h4>
                     </div>
-                    <div class="col align-self-center text-right text-muted">3 items</div>
+                  
+                </div>
+            </div>
+             <div class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                    <div class="col-2">Ảnh</div>
+                    <div class="col">
+                        Tên
+                    </div>
+                    <div class="col">Số lượng</div>
+                     <div class="col">Giá gốc</div> 
+                    <div class="col">Tổng</div>
+                   <span class="close">Đơn vị</span>
                 </div>
             </div>
             <div class="row border-top border-bottom">
@@ -206,7 +218,7 @@
                         <div class="row text-muted" th:text="${product.name}">Shirt</div>
                         <div class="row" th:text="${productDetail.name}">Cotton T-shirt</div>
                     </div>
-                    <div class="col"><input type="number" value="1" min="1" class="input_quantity"/></div>
+                    <div class="col"><input type="number" value="1" min="1" th:max="${productDetail.stock}" name="quantity_product" class="input_quantity"/></div>
                      <div class="col price_origin_product" th:text="${productDetail.value}">&euro; 44.0</div> 
                     <div class="col price_total_product" th:text="${productDetail.value}">&euro; 44.0</div>
                    <span class="close">USD</span>
@@ -221,22 +233,37 @@
             </div>
             <hr>
             
-            <form>
-               <p>Fullname</p> <input id="fullname" placeholder="Enter your fullname">
-                <p>Address</p> <input id="address" placeholder="Enter your address">
-                 <p>Phone Number</p> <input id="phoneNum" placeholder="Enter your phone number">
-            </form>
+            
+               <p>Fullname</p> <input name="fullname" id="fullname" placeholder="Enter your fullname">
+                <p>Address</p> <input name="address" id="address" placeholder="Enter your address">
+                 <p>Phone Number</p> <input name="phone_number" id="phoneNum" placeholder="Enter your phone number">
+        
+             <div class="row" >
+                <div class="col">PHƯƠNG THỨC THANH TOÁN</div>
+                <div class="col text-right">COD</div>
+                <input type="hidden" value="COD"  th:name="payment_method" >
+            </div> 
+            <div class="row"  style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TẠM TÍNH</div>
+                <div class="col text-right total_price" th:text="${productDetail.value}">&euro; 137.00</div>
+            </div> 
+            
             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                 <div class="col">TOTAL PRICE</div>
                 <div class="col text-right total_price" th:text="${productDetail.value}">&euro; 137.00</div>
-            </div> <button class="btn">CHECKOUT</button>
+                <input type="hidden" name="total_price_order" th:value="${productDetail.value}" id="total_price_order">
+            </div> 
+            
+            <button class="btn">ĐẶT MUA</button>
         </div>
     </div>
+	</form>
 </div>
 <script type="text/javascript">
 	$(".input_quantity").change(function(){
 		$(".price_total_product").text($(this).val()*parseInt( $(".price_origin_product").text()))	
 		$(".total_price").text($(this).val()*parseInt( $(".price_origin_product").text()))
+		$("#total_price_order").val($(this).val()*parseInt( $(".price_origin_product").text()))
 	})
 </script>
 </body>

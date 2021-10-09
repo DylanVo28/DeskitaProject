@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.deskita.common.entity.Customer;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
+import com.deskita.dto.OrderDTO;
 import com.deskita.security.CustomerAuthentication;
 import com.deskita.service.CustomerService;
 import com.deskita.service.ProductService;
@@ -31,10 +32,13 @@ public class CartController {
 			@RequestParam(name="product_detail_name_selected",required = false) String productDetailName,
 			
 			Model model) {
+		
 		Product product=productservice.findProductById(productId);
 		ProductDetail productDetail=productservice.getProductDetailByProDuctIdAndName(productId, productDetailName);
+		
 		model.addAttribute("productDetail",productDetail);
 		model.addAttribute("product",product);
+		
 		return "cart/cart";
 	}
 	
