@@ -21,6 +21,9 @@ public class OrderDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name="product_detail_id")
+	private int productDetailId;
+	
 	private int quantity;
 	
 	private String name;
@@ -88,13 +91,24 @@ public class OrderDetail {
 		this.value = value;
 	}
 
-	public OrderDetail(int quantity, String name, String image, Order order, BigDecimal value) {
+	
+	
+	public int getProductDetailId() {
+		return productDetailId;
+	}
+
+	public void setProductDetailId(int productDetailId) {
+		this.productDetailId = productDetailId;
+	}
+
+	public OrderDetail(int quantity, String name, String image, Order order, BigDecimal value,Integer productDetailId) {
 		super();
 		this.quantity = quantity;
 		this.name = name;
 		this.image = image;
 		this.order = order;
 		this.value=value;
+		this.productDetailId=productDetailId;
 	}
 
 	

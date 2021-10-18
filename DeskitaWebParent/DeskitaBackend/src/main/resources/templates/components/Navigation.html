@@ -2,9 +2,27 @@
 <html>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light navigation" th:fragment="navigation">
-	<div class="container-fluid">
-  <a class="navbar-brand" th:href="@{/}">Logo</a>
+
+<nav class="navbar navbar-expand-lg navbar-light navigation" th:fragment="navigation" style="background: white">
+<style>
+	.dropdown-toggle{
+		display:flex;
+	}
+	.logo{
+		width: 100px;
+	}
+	.navigation{
+		box-shadow: 1px 1px 15px #eaeaea;
+	}
+	.navbar-light .navbar-nav .nav-link{
+		    font-size: 20px;
+	}
+	*{
+		font-size: 18px;
+	}
+</style>
+	<div class="container">
+  <a class="navbar-brand" th:href="@{/}"><img class="logo" th:src="@{/images/logo/logodeskita.png}"/></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -39,21 +57,12 @@
         <a class="nav-link " th:href="@{/customers}">Customers</a>
       </li>
       </th:block>
-      <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/shipping}">Shipping</a>
-      </li>
-      </th:block>
       <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
       <li class="nav-item">
         <a class="nav-link " th:href="@{/orders}">Orders</a>
       </li>
       </th:block>
-      <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/report}">Sales Report</a>
-      </li>
-      </th:block>
+    
       
     
     </ul>

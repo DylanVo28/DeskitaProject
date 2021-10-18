@@ -68,12 +68,26 @@ public class OrderController {
 		return "order/order_detail";
 	}
 	
+	@PostMapping("/update-status")
+	public String updateStatus(@RequestParam(name="orderId",required = false) Integer id,
+			@RequestParam(name="status",required=false) String status
+			) {
+		Order order=orderService.findOrderById(id);
+		
+		try {
+			orderService.updateStatus(order, status);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:/order/"+order.getId();
+	}
+	
 	@GetMapping("/my-order")
 	public String myOrder(@AuthenticationPrincipal DeskitaCustomerDetails loggedUser,Model model) {
 		Customer customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
 		Set<Order> orders=customer.getOrders();
 		model.addAttribute("orders",orders);
-//		System.out.println(customer.getOrders());
 		return "order/my_order";
 	}
 	
