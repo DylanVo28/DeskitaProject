@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
+<head th:replace="components/head_title :: page_head('Deskita')">
+
+<body>
+	<style>
+		.image img{
+			width: 80%;
+		}
+		.order_complete .col-md-4{
+			background:white;
+			padding:15px 0;
+		}
+		.order_complete .title h3{
+			color: #2ecc71;
+   		 	font-weight: bold;
+		}
+		.order_complete .svjhdva{
+			margin: 0;
+		}
+	</style>
+	<div th:replace="components/navigation :: navigation"></div>
+	<br>
+	<br>
+	
+	<div class="container order_complete">
+		<div class="row justify-content-center">
+			<div class="col-md-4 text-center">
+				<div class="title"><h3>Đặt hàng thành công</h3></div>
+				<div class="code-order">Mã đơn hàng: <a th:href="@{'/order/' + ${order.id}}" th:text="${order.id}">123</a></div>
+				<div class="image" th:each="orderDetail: ${order.orderDetails}"><img th:src="@{'/images/'+${orderDetail.image}}"/></div>
+				
+				<br>
+				<div class="row svjhdva text-left">
+					<div class="col-md-6">Họ và tên</div>
+					<div class="col-md-6" th:text="${order.fullName}"></div>
+				</div>
+				<div class="row svjhdva text-left">
+					<div class="col-md-6">Số điện thoại</div>
+					<div class="col-md-6" th:text="${order.phoneNumber}"></div>
+				</div>
+				<div class="row svjhdva text-left">
+					<div class="col-md-6">Tổng đơn hàng</div>
+					<div class="col-md-6" th:text="${order.total}"></div>
+				</div>
+				<div class="row svjhdva text-left">
+					<div class="col-md-6">Ngày tạo</div>
+					<div class="col-md-6" th:text="${order.orderTime}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

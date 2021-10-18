@@ -1,12 +1,16 @@
 package com.deskita.common.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +50,10 @@ public class Customer {
 	@Column(name="created_time")
 	private Date createdTime;
 
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+	private Set<Order> orders=new HashSet<>();
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -126,6 +134,16 @@ public class Customer {
 
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
+	}
+
+	
+	
+	public Set<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override

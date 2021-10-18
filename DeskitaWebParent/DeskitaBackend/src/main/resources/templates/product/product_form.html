@@ -121,6 +121,11 @@
 						class="btn btn-primary" value="Remove"
 					>
 					</li>
+					<li id="product_image_0" class="col-md-4" th:if="${listProductImages==null}">
+					<img id="thumbnail_0" src="/DeskitaAdmin/images/default.png" alt="Chua co anh" style="width: 100%" />
+				<input type="file" id="fileImage_0" onClick="inputImage(0)" name="fileImage" accept="image/png, image/jpeg, image/jpg" required />
+					<input type="button" onClick="removeImage(0)" class="btn btn-primary" value="Remove">
+					</li>
 				</ul>
 				</div>
 				</div>
@@ -148,6 +153,21 @@
 					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation"/>
 				</div>
 				<div class="variation_detail"><input type="button"  th:attr="onclick=|removeDetail(${iter.index})|" value="Remove"></div>
+			</li>
+			<li style="display: flex;margin-bottom: 10px;" id="product_detail_0" th:if="${listProductDetails==null}" >
+					<div class="variation_detail">
+					<label>Variation name</label>
+					<input name="nameDetail"  class="input_variation" required/>
+				</div>
+				<div class="variation_detail">
+					<label>Giá</label>
+					<input name="valueDetail"  class="input_variation" required/>
+					</div>
+				<div class="variation_detail">
+				<label>Số lượng</label>
+				<input name="stockDetail"  class="input_variation" required/>
+				</div>
+				<div class="variation_detail"><input type="button" onClick="removeDetail(0)" value="Remove"></div>
 			</li>
 				</ul> 
 					</div>
@@ -207,6 +227,10 @@
 			'</li>')
 		})
 		function removeDetail(i){
+			if($("#list-variation li").length==1){
+				alert("phải có ít nhất là 1 variation");
+				return;
+			}
 			$('#product_detail_'+i).remove();
 		}
 		
@@ -225,6 +249,10 @@
 			reader.readAsDataURL(file);
 		}
 		function removeImage(i){
+			if($("#list-images li").length==1){
+				alert("phải có ít nhất là 1 file ảnh được upload");
+				return;
+			}
 			$('#product_image_'+i).remove();
 		}
 		 $('.form-check-input-brand').change(function(){

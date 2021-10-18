@@ -1,6 +1,8 @@
 package com.deskita.common.entity;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.text.DecimalFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ProductDetails")
 public class ProductDetail {
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -29,6 +34,7 @@ public class ProductDetail {
 	private Integer productId;
 
 	public BigDecimal getValue() {
+	
 		return value;
 	}
 
@@ -90,6 +96,17 @@ public class ProductDetail {
 
 	public ProductDetail() {
 		super();
+	}
+
+	public ProductDetail(Integer id) {
+		super();
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductDetail [id=" + id + ", value=" + value + ", name=" + name + ", stock=" + stock + ", productId="
+				+ productId + "]";
 	}
 	
 	
