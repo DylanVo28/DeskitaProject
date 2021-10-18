@@ -85,8 +85,10 @@
     <a class="nav-link"   th:href="@{/account}" sec:authentication="principal.fullName"></a>
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <a class="dropdown-item"   th:href="@{/account}" >Profile</a>
+  <a class="dropdown-item"   th:href="@{/my-order}" >My Order</a>
     <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
-   <a class="dropdown-item" id="logoutLink" th:href="@{/change-password}">Change Password</a>
+   <a class="dropdown-item" th:href="@{/change-password}">Change Password</a>
   </div>
   
 </div>
