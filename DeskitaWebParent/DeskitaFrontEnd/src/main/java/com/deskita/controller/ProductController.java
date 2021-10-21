@@ -1,6 +1,7 @@
 package com.deskita.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,12 @@ public class ProductController {
 		return "product/product_form";
 	}
 	
+	
+	
 	@GetMapping("/product/{id}")
-	public String viewProductDetail(@PathVariable(name="id") Integer id,Model model) {
+	public String viewProductDetail(@PathVariable(name="id") Integer id,Model model,Locale locale) {
+		
+		
 		Product product=service.findProductById(id);
 		List<ProductDetail> productDetails=service.getAllProductDetails(id);
 		List<ProductImage> productImages=service.getAllProductImages(id);
@@ -36,4 +41,6 @@ public class ProductController {
 		model.addAttribute("product",product);
 		return "product/product_detail";
 	}
+	
+	
 }

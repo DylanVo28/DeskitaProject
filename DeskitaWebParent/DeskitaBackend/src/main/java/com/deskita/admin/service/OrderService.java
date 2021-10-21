@@ -57,11 +57,14 @@ public class OrderService {
 					Set<OrderDetail> orderDetails=order.getOrderDetails();
 					
 					for(OrderDetail orderDetail :orderDetails) {
-						ProductDetail pd=productDetailRepo.findById(orderDetail.getId()).get();
+					
+						ProductDetail pd=productDetailRepo.findById(orderDetail.getProductDetailId()).get();
+						
 						if(pd.getStock()-orderDetail.getQuantity()<0) {
 							throw new Exception("MAX_STOCK");
 						}
 						pd.setStock(pd.getStock()-orderDetail.getQuantity());
+						productDetailRepo.save(pd);
 					}
 					
 					order.setStatus(orderStatus);

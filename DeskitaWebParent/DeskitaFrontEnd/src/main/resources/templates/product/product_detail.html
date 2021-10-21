@@ -90,7 +90,7 @@ button.btn_order_now{
 				<p th:text=${product.fullDescription}></p>
 				<br>
 				<div>
-					<span>Thể loại: </span>
+					<span th:utext="#{homepage.productDetail.label.category}">Thể loại: </span>
 					<span th:text="${product.category.getName()}"></span>
 				</div>
 				<br>
