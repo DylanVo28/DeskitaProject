@@ -55,6 +55,7 @@ public class CustomerController {
 	
 	@GetMapping("/reset-password")
 	public String showResetPasswordForm(@Param(value="token") String token, Model model) {
+		
 		Customer customer=service.getByResetPasswordToken(token);
 		model.addAttribute("token",token);
 		if(customer==null) {
@@ -64,7 +65,7 @@ public class CustomerController {
 		return "authen/reset-password-form";
 	}
 	
-	@PostMapping("reset-password")
+	@PostMapping("/reset-password")
 	public String processResetPassword(HttpServletRequest request,Model model) {
 		String token=request.getParameter("token");
 		String password=request.getParameter("password");
@@ -82,9 +83,15 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/save")
-	public String saveCustomer(Customer customer) {
+	public String saveCustomer(Customer customer,Model model) {
+		try {
+			service.saveCustomer(customer);
+			return "success/register_successfully";
+		}
+		catch(Exception ex) {
+			model.addAttribute("title_error","Không thể tạo khách hàng");
+			return "error/404_NotFound";
+		}
 		
-		service.saveCustomer(customer);
-		return "redirect:/register";
 	}
 }

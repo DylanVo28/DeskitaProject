@@ -48,13 +48,16 @@ public class MainController {
 	
 	@GetMapping("/products/page/{currentPage}")
 	public String pagingProduct(@PathVariable(name="currentPage") int currentPage,Model model) {
-		List<Product> products=ps.pagingProduct(currentPage).getContent();
-		Long totalPage=(ps.pagingProduct(currentPage).getTotalElements()/SIZE_PRODUCT_PAGE) +1;
+		try {
+			List<Product> products=ps.pagingProduct(currentPage).getContent();
+			Long totalPage=(ps.pagingProduct(currentPage).getTotalElements()/SIZE_PRODUCT_PAGE) +1;
+			model.addAttribute("products",products);
+			model.addAttribute("totalPage",totalPage);
+			return "index";
+		}catch(Exception e ) {
+			return "error/404_NotFound";
+		}
 		
-		
-		model.addAttribute("products",products);
-		model.addAttribute("totalPage",totalPage);
-		return "index";
 	}
 	
 	

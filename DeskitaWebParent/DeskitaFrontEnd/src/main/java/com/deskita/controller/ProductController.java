@@ -22,24 +22,26 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 	
-	@GetMapping("/products")
-	public String pagingProduct(Model model) {
-		return "product/product_form";
-	}
+	
 	
 	
 	
 	@GetMapping("/product/{id}")
 	public String viewProductDetail(@PathVariable(name="id") Integer id,Model model,Locale locale) {
+		try {
+			Product product=service.findProductById(id);
+			List<ProductDetail> productDetails=service.getAllProductDetails(id);
+			List<ProductImage> productImages=service.getAllProductImages(id);
+			model.addAttribute("productDetails",productDetails);
+			model.addAttribute("productImages",productImages);
+			model.addAttribute("product",product);
+			return "product/product_detail";
+		}catch(Exception ex) {
+			model.addAttribute("title_error","Không tìm thấy sản phẩm cần tìm");
+			return "error/404_NotFound";
+		}
 		
 		
-		Product product=service.findProductById(id);
-		List<ProductDetail> productDetails=service.getAllProductDetails(id);
-		List<ProductImage> productImages=service.getAllProductImages(id);
-		model.addAttribute("productDetails",productDetails);
-		model.addAttribute("productImages",productImages);
-		model.addAttribute("product",product);
-		return "product/product_detail";
 	}
 	
 	

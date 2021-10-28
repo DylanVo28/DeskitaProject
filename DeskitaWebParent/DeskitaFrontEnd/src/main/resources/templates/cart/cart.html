@@ -222,14 +222,16 @@
                         <div class="row text-muted" th:text="${product.name}">Shirt</div>
                         <div class="row" th:text="${productDetail.name}">Cotton T-shirt</div>
                     </div>
-                    <div class="col"><input type="number" value="1" min="1" th:max="${productDetail.stock}" name="quantity_product" class="input_quantity"/></div>
+                    <div class="col"><input type="number" value="1" min="1" th:max="${productDetail.stock}" name="quantity_product" class="input_quantity"
+                 
+                    /></div>
                      <div class="col price_origin_product" th:text="${productDetail.value}">&euro; 44.0</div> 
                     <div class="col price_total_product" th:text="${productDetail.value}">&euro; 44.0</div>
                    <span class="close">USD</span>
                 </div>
             </div>
            
-            <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+            <div class="back-to-shop"><a th:href="@{/}">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
         </div>
         <div class="col-md-4 summary">
             <div>
@@ -238,9 +240,14 @@
             <hr>
             
             
-               <p>Fullname</p> <input name="fullname" id="fullname" placeholder="Enter your fullname">
-                <p>Address</p> <input name="address" id="address" placeholder="Enter your address">
-                 <p>Phone Number</p> <input name="phone_number" id="phoneNum" placeholder="Enter your phone number">
+               <p>Fullname</p> <input name="fullname" id="fullname" placeholder="Enter your fullname"
+               pattern="^(?:((([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-.\s])){1,}(['’,\-\.]){0,1}){2,}(([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-. ]))*(([ ]+){0,1}(((([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-\.\s])){1,})(['’\-,\.]){0,1}){2,}((([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-\.\s])){2,})?)*)$"
+               required
+               >
+                <p>Address</p> <input name="address" id="address" placeholder="Enter your address" required>
+                 <p>Phone Number</p> <input name="phone_number" id="phoneNum" placeholder="Enter your phone number" required 
+                 pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+           >
         
              <div class="row" >
                 <div class="col">PHƯƠNG THỨC THANH TOÁN</div>
@@ -281,6 +288,13 @@ var month = ("0" + (d.getMonth() + 1)).slice(-2);
 var strDate =d.getDate()+"/"+ (d.getMonth()+1)+"/"+d.getFullYear() ;
 	$("#dateDelivery").text(strDate)
 	$(".input_quantity").change(function(){
+		
+		if(parseInt($(this).val())>parseInt($(this).attr('max'))){
+			$(this).val($(this).attr('max'))
+		}
+		if(parseInt($(this).val())<=0){
+			$(this).val(1)
+		}
 		$(".price_total_product").text($(this).val()*parseInt( $(".price_origin_product").text()))	
 		$(".total_price").text($(this).val()*parseInt( $(".price_origin_product").text()))
 		$("#total_price_order").val($(this).val()*parseInt( $(".price_origin_product").text()))

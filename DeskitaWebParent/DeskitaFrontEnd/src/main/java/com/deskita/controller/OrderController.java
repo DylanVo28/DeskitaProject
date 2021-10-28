@@ -33,7 +33,7 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
-	
+
 	@PostMapping("/order-now")
 	public String viewOrder(
 			@RequestParam(name="quantity_product",required = false) Integer quantityProduct,
@@ -54,49 +54,82 @@ public class OrderController {
 		PaymentMethod paymentMethodOrder= PaymentMethod.valueOf(paymentMethod);
 
 		OrderDTO orderDTO=new OrderDTO(quantityProduct, fullname, address, phoneNumber, paymentMethod, Float.parseFloat(totalPriceOrder),Float.parseFloat(shippingPrice),productId,productDetailId);
-	
-		Customer customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
-
-		Order order=orderService.createOrder(customer, paymentMethodOrder, orderDTO);
-		model.addAttribute("order",order);
+		Customer customer = null;
+		Order order=null;
+		try {
+			customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
+			order=orderService.createOrder(customer, paymentMethodOrder, orderDTO);
+			model.addAttribute("order",order);
+			return "order/order_complete";
+		}catch(Exception ex) {
+			if(customer==null) {
+				return "redirect:/login";
+			}
+			model.addAttribute("title_error","Không thể tạo đơn hàng");
+			return "error/404_NotFound";
+		}
 		
-		return "order/order_complete";
-	}
-	
-	@GetMapping("/code-ui")
-	public String viewCodeUI() {
-		return "order/order_detail";
+		
+
+		
 	}
 	
 	@PostMapping("/update-status")
 	public String updateStatus(@RequestParam(name="orderId",required = false) Integer id,
 			@RequestParam(name="status",required=false) String status
 			) {
-		Order order=orderService.findOrderById(id);
+		
 		
 		try {
+			Order order=orderService.findOrderById(id);
 			orderService.updateStatus(order, status);
+			return "redirect:/order/"+order.getId();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			return "redirect:/login";
 		}
-		return "redirect:/order/"+order.getId();
+		
 	}
 	
 	@GetMapping("/my-order")
 	public String myOrder(@AuthenticationPrincipal DeskitaCustomerDetails loggedUser,Model model) {
-		Customer customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
-		Set<Order> orders=customer.getOrders();
-		model.addAttribute("orders",orders);
-		return "order/my_order";
+		Set<Order> orders = null;
+		Customer customer = null;
+		try {
+			customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
+			orders=customer.getOrders();
+			model.addAttribute("orders",orders);
+			return "order/my_order";
+		}catch(Exception ex) {
+			if(customer==null) {
+				return "redirect:/login";
+			}
+			model.addAttribute("title_error","Lõi hệ thống");
+			return "error/404_NotFound";
+			
+		}
+		
+		
 	}
 	
 	@GetMapping("/order/{orderId}")
 	public String orderDetail(@AuthenticationPrincipal DeskitaCustomerDetails loggedUser,Model model,@PathVariable(name = "orderId") Integer id) {
-		Order order=orderService.findOrderById(id);
-		Customer customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
-		model.addAttribute("order",order);
-		model.addAttribute("customer",customer);
-		return "order/order_detail";
+		Customer customer=null;
+		Order order=null;
+		try {
+			customer=customerService.getCustomerByEmail(loggedUser.getUsername()) ;
+			order=orderService.findOrderById(id);
+			
+			model.addAttribute("order",order);
+			model.addAttribute("customer",customer);
+			return "order/order_detail";
+		}catch(Exception ex) {
+			if(customer==null) {
+				return "redirect:/login";
+			}
+			model.addAttribute("title_error","Không tìm thấy đơn hàng");
+			return "error/404_NotFound";
+		}
+		
 	}
 }
