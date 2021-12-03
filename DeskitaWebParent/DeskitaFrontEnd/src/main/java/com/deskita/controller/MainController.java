@@ -1,6 +1,7 @@
 package com.deskita.controller;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,17 +15,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.deskita.common.entity.Brand;
+import com.deskita.common.entity.Category;
 import com.deskita.common.entity.Product;
 import com.deskita.config.WebMvcConfig;
+import com.deskita.service.BrandService;
+import com.deskita.service.CategoryService;
 import com.deskita.service.ProductService;
 @Controller
 public class MainController {
 
 	@Autowired
 	ProductService ps;
+	
+	@Autowired
+	BrandService brandService;
+	
+	@Autowired
+	CategoryService categoryService;
+	
 	
 	private int SIZE_PRODUCT_PAGE=8;
 	
@@ -37,24 +50,37 @@ public class MainController {
 	@GetMapping("")
 	public String viewHomePage(Model model,Locale locale) {
 		
-		List<Product> products=ps.pagingProduct(1).getContent();
-		long totalPage= (ps.pagingProduct(1).getTotalElements()/SIZE_PRODUCT_PAGE)+1;
-		model.addAttribute("products",products);
-		model.addAttribute("totalPage",totalPage);
-		model.addAttribute("language",locale.getLanguage());
-	
-		return "index";
+		
+		return "redirect:/products/1/page";
 	}
 	
-	@GetMapping("/products/page/{currentPage}")
-	public String pagingProduct(@PathVariable(name="currentPage") int currentPage,Model model) {
+	@GetMapping("/products/{currentPage}/page")
+	public String pagingProduct(@PathVariable(name="currentPage") int currentPage,
+			@RequestParam(value="brand",required = false) String brandId,
+			@RequestParam(value="category",required=false) String categoryId,
+			Model model) {
 		try {
-			List<Product> products=ps.pagingProduct(currentPage).getContent();
-			Long totalPage=(ps.pagingProduct(currentPage).getTotalElements()/SIZE_PRODUCT_PAGE) +1;
+			
+			
+			List<Brand> brands=brandService.listAll();
+			List<Category> categories= categoryService.listAll();
+			List<Product> products=ps.pagingProduct(currentPage,brandId,categoryId).getContent();
+			
+			Long totalPage=(ps.pagingProduct(currentPage,brandId,categoryId).getTotalElements()/SIZE_PRODUCT_PAGE) +1;
+			model.addAttribute("categories",categories);
+			model.addAttribute("brands",brands);
 			model.addAttribute("products",products);
 			model.addAttribute("totalPage",totalPage);
+			System.out.println(categoryId+"|"+brandId);
+			if(brandId != null) {
+				model.addAttribute("brandId",brandId);
+			}
+			if(categoryId!=null) {
+				model.addAttribute("categoryId",categoryId);
+			}
 			return "index";
-		}catch(Exception e ) {
+		}catch(NumberFormatException  e ) {
+			System.out.println(e.getMessage());
 			return "error/404_NotFound";
 		}
 		

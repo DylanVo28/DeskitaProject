@@ -17,6 +17,7 @@
 	.navbar-light .navbar-nav .nav-link{
 		    font-size: 20px;
 	}
+	
 	*{
 		font-size: 18px;
 	}
@@ -47,7 +48,7 @@
         <a class="nav-link " th:href="@{/brands}">Brands</a>
       </li>
        </th:block>
-        <th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson','Shipper')">
+        <th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson')">
        <li class="nav-item">
         <a class="nav-link " th:href="@{/products}">Products</a>
       </li>
@@ -67,7 +68,7 @@
     
     </ul>
      <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button class="btn btn-secondary dropdown-toggle user_avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="fas fa-user fa-2x"></span>
     <a class="nav-link"   th:href="@{/account}" ><span sec:authentication="principal.Username"></span></a>
   </button>

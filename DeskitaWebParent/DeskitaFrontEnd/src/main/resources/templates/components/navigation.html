@@ -17,6 +17,15 @@
 	.navbar-light .navbar-nav .nav-link{
 		    font-size: 20px;
 	}
+	.user_avatar{
+		background: none;
+	    border: none;
+	    border-bottom: 1px solid black;
+	    border-radius: 0px;
+	}
+	.fa-user{
+		color: black;
+	}
 	*{
 		font-size: 18px;
 	}
@@ -35,20 +44,6 @@
         <a class="nav-link" th:href="@{/}" >[[#{label.home}]]</a>
       </li>
    
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/categories}">Categories</a>
-      </li>
-     
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/brands}">Brands</a>
-      </li>
-     
-       
-       <li class="nav-item">
-        <a class="nav-link " th:href="@{/products}">Products</a>
-      </li>
       
        <th:block sec:authorize="!isAuthenticated()">
       <li class="nav-item">
@@ -64,7 +59,7 @@
       <li class="nav-item">
         
         <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button class="btn btn-secondary dropdown-toggle user_avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="fas fa-user fa-2x"></span>
     <a class="nav-link"   th:href="@{/account}" sec:authentication="principal.fullName"></a>
   </button>
@@ -79,19 +74,7 @@
       </li>
       
       </th:block>
-      <li>
-      	<div class="dropdown show">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Ngôn ngữ
-  </a>
-
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-    <a class="dropdown-item" th:href="@{''(lang=vi)}">Việt nam</a>
-    <a class="dropdown-item" th:href="@{''(lang=en)}">English</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div>
-      </li>
+     
     </ul>
     
   </div>

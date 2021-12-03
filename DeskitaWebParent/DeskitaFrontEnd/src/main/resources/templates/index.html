@@ -40,7 +40,7 @@
     padding-right: 15px;
 }
 .frame_product {
-    border-radius: 15px;
+    
     overflow: hidden;
     background: white;
     box-shadow: 1px 1px 20px 0px #a29bfe26;
@@ -61,7 +61,57 @@
 .dropdown-menu.show{
 	border-radius: 0;	
 }
+.manager_dropdown .dropdown-item{
+	display:flex;
+	list-style: none;
+}
+.img_brand{
+	width: 60px;
+	padding: 5px;
+}
+.filter_dropdown{
+	width: 580px;
+}
 
+.dropdown-item:focus, .dropdown-item:hover{
+	background: none;
+}
+.item_filter_brand{
+    margin: 5px;
+    background: #dddddd8a;
+    border-radius: 10px;
+    padding: 5px;
+}
+.list_brand_item{
+display:flex;
+flex-wrap: wrap;
+flex-direction: row;
+}
+.filter_btn{
+    margin-left: auto;
+    margin-bottom: 15px;
+    background: none;
+    color: black;
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+    padding-right: 0;
+    font-weight: 600;
+}
+.dropdown-toggle::after{
+display:none;
+}
+.dropleft .dropdown-toggle::before{
+	display:none;
+}
+.vdajshdjhvcjhasvjhasv{
+    padding: 10px 30px;
+    background: black;
+    color: white;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    float: right;
+}
 </style>
 	<div th:replace="components/navigation :: navigation"></div>
 	<div class="container">
@@ -97,20 +147,50 @@
 		<!-- End slide banner -->
 		<br>
 		<br>
-		
-		<!-- Slide product -->
-		<div class="manager_dropdown">
-			<div class="dropdown">
-  <button class="btn dropdown-toggle dropdown_category" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Category
+		<div class="row">
+			<div class="col-md-4">
+			
+
+			</div>
+			<div class="col-md-8">
+			<div class="manager_dropdown">
+			<div class="dropdown dropleft">
+  <button class="btn  dropdown-toggle filter_btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Bộ lọc
   </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
+  <div class="dropdown-menu filter_dropdown" aria-labelledby="dropdownMenuButton">
+    
+    
+    <ul class="dropdown-item row" href="#">
+    <div class="col-md-3">Thương hiệu</div>
+    <div class="col-md-9 list_brand_item">   <li th:each="brand: ${brands}" class="item_filter_brand">
+    <input type="checkbox" class="brand_item" name="brand_item" th:value="${brand.id}" th:checked="${brand.id}==${brandId}">
+    <img class="img_brand" th:src="@{'/images/brands/'+${brand.logo}}"/>
+    
+    </li>
+     </div>
+ 
+    </ul>
+     <ul class="dropdown-item row" href="#">
+    <div class="col-md-3">Thể loại</div>
+    <div class="col-md-9 list_brand_item">   <li th:each="category: ${categories}" class="item_filter_brand">
+    <input type="checkbox" th:class="'category_item_'+${category.id}" name="category_item" th:checked="${category.id}==${categoryId}" th:value="${category.id}">
+    <label th:text="${category.name}">  </label>
+    
+    </li>
+     </div>
+ 
+    </ul>
+ 	<a th:href="@{/products/1/page(brand=${brandId},category=${categoryId})}" id="filter_product" class="vdajshdjhvcjhasvjhasv">Lọc</a>
+ 	
   </div>
 </div>
 		</div>
+			</div>
+		</div>
+		
+		<!-- Slide product -->
+		
 		<div class="row product_slide">
 			<div class="col-md-3" th:each="product: ${products}">
 				<div class="frame_product">
@@ -130,11 +210,13 @@
 					<ul class="pagination">
 						<li class="page-item"
 							th:each="i:${#numbers.sequence(1,totalPage)}"><a
-							class="page-link" th:href="@{'/products/page/'+${i}}">[[${i}]]</a></li>
+							class="page-link" th:href="@{'/products/'+${i}+'/page/'(brand=${brandId},category=${categoryId})}">[[${i}]]</a></li>
 					</ul>
 				</nav>
 	</div>
 	<script>
+		var filterBrandId="",filterCategoryId="";
+		var urlFilter="/Deskita/products/1/page?brand="+filterBrandId+"&category="+filterCategoryId
 		$(".dropdown_category").hover(function(){
 			
 			$(".dropdown").addClass("show");
@@ -143,6 +225,38 @@
 			
 			$(".dropdown").removeClass("show");
 			$(".dropdown-menu").removeClass("show");
+		})
+		
+		$('input[name="brand_item"]').change(function(){
+			
+			if (!$(this).is(':checked')) {
+					filterBrandId="";
+					$(this).prop('checked', false);
+					
+			}
+			else{
+				$('input[name="brand_item"]').prop('checked', false);
+				$(this).prop('checked', true);
+				filterBrandId=$(this).val()
+			}
+			
+			urlFilter="/Deskita/products/1/page?brand="+filterBrandId+"&category="+filterCategoryId
+			$("#filter_product").attr("href",urlFilter)
+		})
+		$('input[name="category_item"]').click(function(){
+			if (!$(this).is(':checked')) {
+				filterCategoryId="";
+				$(this).prop('checked', false);
+				
+		}
+		else{
+			$('input[name="category_item"]').prop('checked', false);
+			$(this).prop('checked', true);
+			filterCategoryId=$(this).val()
+		}
+			
+			urlFilter="/Deskita/products/1/page?brand="+filterBrandId+"&category="+filterCategoryId
+			$("#filter_product").attr("href",urlFilter)
 		})
 	</script>
 </body>
