@@ -28,9 +28,42 @@ public class ProductService {
 	@Autowired
 	private ProductImageRepository pir;
 	
-	public Page<Product> pagingProduct(int currentPage){
+	private int ConvertIntoNumeric(String xVal)
+	{
+	 try
+	  { 
+	     return Integer.parseInt(xVal);
+	  }
+	 catch(Exception ex) 
+	  {
+	     return 0; 
+	  }
+	}
+	
+	public Page<Product> pagingProduct(int currentPage,String brandId,String categoryId){
+		
 		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
-		Page<Product> page=repo.findAll(pageable);
+		Page<Product> page;
+		int brand=ConvertIntoNumeric(brandId);
+		int category=ConvertIntoNumeric(categoryId);
+		
+		
+		if(brand!=0  && category!=0) {
+			System.out.println("hello ae1");
+			page=repo.filterBrandAndCategory(Integer.parseInt(categoryId), Integer.parseInt(brandId), pageable);
+		}else if(brand!=0) {
+			System.out.println("hello ae2");
+			page=repo.filterBrand(Integer.parseInt(brandId), pageable);
+		}
+		else if(category!=0) {
+			System.out.println("hello ae3");
+			page=repo.filterCategory(Integer.parseInt(categoryId), pageable);
+		}
+		else {
+			System.out.println("hello ae4");
+			page=repo.findAll(pageable);
+		}
+		
 		return page;
 	}	
 

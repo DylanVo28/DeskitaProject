@@ -93,14 +93,7 @@
         <p class="h2 text-center">Form</p>
         <form th:action="@{/account/update}" method="post" th:object="${customer}">
         <input type="hidden" th:field="*{id}" />
-            <div class="preview text-center">
-                <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200"/>
-                <div class="browse-button">
-                    <i class="fa fa-pencil-alt"></i>
-                    <input class="browse-input" type="file" name="UploadedFile" id="UploadedFile"/>
-                </div>
-                <span class="Error"></span>
-            </div>
+          
              <div class="form-group">
                 <label th:text="'ID: '+${customer.id}"></label>
                
