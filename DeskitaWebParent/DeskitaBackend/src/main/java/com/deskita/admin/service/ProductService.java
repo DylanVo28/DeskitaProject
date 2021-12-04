@@ -1,6 +1,7 @@
 package com.deskita.admin.service;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +94,7 @@ public class ProductService {
 			String[] detailStock,List<String> fileNameImage,String[] imageIDs,String[] detailIds) {
 		
 		product.setImage(fileNameImage.get(0));
+		product.setCreateAt(new Date(0));
 		Product savedProduct=productRepository.save(product);
 		List<ProductImage> listImage=new ArrayList<ProductImage>();
 		List<ProductDetail> list=new ArrayList<ProductDetail>();

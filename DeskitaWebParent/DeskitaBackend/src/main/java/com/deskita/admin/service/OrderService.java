@@ -24,6 +24,10 @@ public class OrderService {
 	@Autowired
 	ProductDetailRepository productDetailRepo;
 	
+	public List<Order> exportOrders(Date startDate,Date endDate){
+		return repo.exportOrder(startDate, endDate);
+	}
+	
 	public List<Order> findAll(){
 		return repo.findAll();
 	}

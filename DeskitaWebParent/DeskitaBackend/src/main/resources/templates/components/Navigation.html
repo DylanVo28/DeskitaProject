@@ -63,7 +63,11 @@
         <a class="nav-link " th:href="@{/orders}">Orders</a>
       </li>
       </th:block>
-    
+     <th:block sec:authorize="hasAnyAuthority('Admin')">
+      <li class="nav-item">
+        <a class="nav-link " th:href="@{/analytics}">Analytics</a>
+      </li>
+      </th:block>
       
     
     </ul>
