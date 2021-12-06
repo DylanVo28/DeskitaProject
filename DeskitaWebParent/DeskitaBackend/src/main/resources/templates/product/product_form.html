@@ -180,7 +180,7 @@
 				<div class="form-group row">
   	<div class="form-check col-md-3" th:each="brand:${listBrand}">
 	  <input class="form-check-input-brand" type="checkbox" th:field="*{brand}" value="" th:value="${brand.id}" >
-	  <img th:src="'/DeskitaAdmin/images/brands/'+${brand.name} +.png" style="width: 70px"/>
+	  <img th:src="'/DeskitaAdmin/images/brands/'+${brand.logo}" style="width: 70px"/>
 	  <label class="form-check-label" for="flexCheckDefault" th:text="${brand.name}">
 	    Default checkbox
 	  </label>
