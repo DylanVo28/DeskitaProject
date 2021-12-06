@@ -158,20 +158,41 @@ h2 {
   background-color: #007bff;
   opacity: .2;
   border: 2px solid #007bff; }
-
-
+.xem_chi_tiet_order{
+background: gray;
+    padding: 10px 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 15px;
+}
+.status_order{
+background: white;
+   
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 15px;
+    padding: 5px;
+}
+.my_order{
+    background: white;
+    border-radius: 15px;
+    padding: 0;
+    box-shadow: 1px 1px 14px #00000026;
+}
 </style>
 	<div th:replace="components/navigation :: navigation"></div>
 		<div class="content">
     
-    <div class="container">
-      <h2 class="mb-5">Table #9</h2>
+    <div class="container my_order">
+      <h2 class="mb-3 mt-3" style="padding: 10px 0px 0px 10px">Đơn hàng của tôi</h2>
 
       <div class="table-responsive">
 
         <table class="table custom-table">
           <thead>
-            <tr>
+            <tr style="background: #f7f7f7">
               <th scope="col">
                 <label class="control control--checkbox">
                   <input type="checkbox" class="js-check-all">
@@ -201,8 +222,16 @@ h2 {
              <th th:text="${order.orderTime}"></th>
               <th th:text="${order.paymentMethod}"></th>
               <th th:text="${order.total}"></th>
-               <th th:text="${order.status}"></th>
-               <th> <a th:href="@{'/order/'+${order.id}}">Xem chi tiết</a></th>
+              <th:block th:switch="${#strings.toString(order.status)}">
+              <th th:case="'NEW'"><p th:text="${order.status}" class="status_order" style="color: #55E6C1"></p></th>
+               <th th:case="'CANCELLED'"><p th:text="${order.status}" class="status_order" style="color: #FC427B"></p></th>
+                <th th:case="'CONFIRMED'"><p th:text="${order.status}" class="status_order" style="color: #1B9CFC"></p></th>
+                 <th th:case="'SHIPPING'"><p th:text="${order.status}" class="status_order" style="color: #EAB543"></p></th>
+                  <th th:case="'DELIVERED'"><p th:text="${order.status}" class="status_order" style="color: #F97F51"></p></th>
+                   <th th:case="'PAID'"><p th:text="${order.status}" class="status_order" style="color: #9AECDB"></p></th>
+              </th:block>
+               
+               <th> <a th:href="@{'/order/'+${order.id}}" class="xem_chi_tiet_order">Xem chi tiết</a></th>
             </tr>
          
             

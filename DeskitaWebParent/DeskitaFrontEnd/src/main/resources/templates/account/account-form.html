@@ -87,9 +87,7 @@
 	<div th:replace="components/navigation :: navigation"></div>
 	
 	<div class="container account">
-       <div class="Back">
-            <i class="fa fa-arrow-left" onclick="Back()"></i>
-        </div>
+       
         <p class="h2 text-center">Form</p>
         <form th:action="@{/account/update}" method="post" th:object="${customer}">
         <input type="hidden" th:field="*{id}" />
