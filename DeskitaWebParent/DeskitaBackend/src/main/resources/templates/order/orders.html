@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
+<head th:replace="components/head_title :: page_head('New User - Deskita Admin')">
+
+<body>
+
+<style type="text/css">
+body {
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: #fff;
+  font-weight: 300; }
+
+p {
+  color: #b3b3b3;
+  font-weight: 300; }
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; }
+
+a {
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease; }
+  a, a:hover {
+    text-decoration: none !important; }
+
+.content {
+  padding: 7rem 0; }
+
+h2 {
+  font-size: 20px; }
+
+.custom-table {
+  min-width: 900px; }
+  .custom-table thead tr, .custom-table thead th {
+    border-top: none;
+    border-bottom: none !important; }
+  .custom-table tbody th, .custom-table tbody td {
+    color: #777;
+    font-weight: 400;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    font-weight: 300; }
+    .custom-table tbody th small, .custom-table tbody td small {
+      color: #b3b3b3;
+      font-weight: 300; }
+  .custom-table tbody .persons {
+    padding: 0;
+    margin: 0; }
+    .custom-table tbody .persons li {
+      padding: 0;
+      margin: 0 0 0 -15px;
+      list-style: none;
+      display: inline-block; }
+      .custom-table tbody .persons li a {
+        display: inline-block;
+        width: 36px; }
+        .custom-table tbody .persons li a img {
+          border-radius: 50%;
+          max-width: 100%; }
+  .custom-table tbody tr th, .custom-table tbody tr td {
+    position: relative;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease; }
+    .custom-table tbody tr th:before, .custom-table tbody tr th:after, .custom-table tbody tr td:before, .custom-table tbody tr td:after {
+      -webkit-transition: .3s all ease;
+      -o-transition: .3s all ease;
+      transition: .3s all ease;
+      content: "";
+      left: 0;
+      right: 0;
+      position: absolute;
+      height: 1px;
+      background: #bfbfbf;
+      width: 100%;
+      opacity: 0;
+      visibility: hidden; }
+    .custom-table tbody tr th:before, .custom-table tbody tr td:before {
+      top: -1px; }
+    .custom-table tbody tr th:after, .custom-table tbody tr td:after {
+      bottom: -1px; }
+  .custom-table tbody tr:hover th, .custom-table tbody tr:hover td {
+    background: rgba(0, 0, 0, 0.03); }
+    .custom-table tbody tr:hover th:before, .custom-table tbody tr:hover th:after, .custom-table tbody tr:hover td:before, .custom-table tbody tr:hover td:after {
+      opacity: 1;
+      visibility: visible; }
+  .custom-table tbody tr.active th, .custom-table tbody tr.active td {
+    background: rgba(0, 0, 0, 0.03); }
+    .custom-table tbody tr.active th:before, .custom-table tbody tr.active th:after, .custom-table tbody tr.active td:before, .custom-table tbody tr.active td:after {
+      opacity: 1;
+      visibility: visible; }
+
+/* Custom Checkbox */
+.control {
+  display: block;
+  position: relative;
+  margin-bottom: 25px;
+  cursor: pointer;
+  font-size: 18px; }
+
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0; }
+
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  background: transparent; }
+
+.control--radio .control__indicator {
+  border-radius: 50%; }
+
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  border: 2px solid #007bff; }
+
+.control input:checked ~ .control__indicator {
+  border: 2px solid #007bff;
+  background: #007bff; }
+
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+  border: 2px solid #ccc; }
+
+.control__indicator:after {
+  font-family: 'icomoon';
+  content: '\e5ca';
+  position: absolute;
+  display: none; }
+
+.control input:checked ~ .control__indicator:after {
+  display: block;
+  color: #fff; }
+
+.control--checkbox .control__indicator:after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -52%);
+  -ms-transform: translate(-50%, -52%);
+  transform: translate(-50%, -52%); }
+
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b; }
+
+.control--checkbox input:disabled:checked ~ .control__indicator {
+  background-color: #007bff;
+  opacity: .2;
+  border: 2px solid #007bff; }
+.xem_chi_tiet_order{
+background: gray;
+    padding: 10px 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 15px;
+}
+.status_order{
+background: white;
+   
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 15px;
+    padding: 5px;
+}
+.my_order{
+    background: white;
+    border-radius: 15px;
+    padding: 0;
+    box-shadow: 1px 1px 14px #00000026;
+}
+</style>
+	<div th:replace="components/navigation :: navigation"></div>
+		<div class="content">
+    
+    <div class="container my_order">
+      <h2 class="mb-3 mt-3" style="padding: 10px 0px 0px 10px">Quản lý đơn hàng</h2>
+
+      <div class="table-responsive">
+
+        <table class="table custom-table">
+          <thead>
+            <tr style="background: #f7f7f7">
+              <th scope="col">
+                <label class="control control--checkbox">
+                  <input type="checkbox" class="js-check-all">
+                  <div class="control__indicator"></div>
+                </label>
+              </th>
+              <th scope="col">Id</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Created At</th>
+              <th scope="col">Payment Method</th>
+              <th scope="col">Total</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="order :${orders}">
+           
+              <th scope="row">
+                <label class="control control--checkbox">
+                  <input type="checkbox">
+                  <div class="control__indicator"></div>
+                </label>
+              </th>
+             <th th:text="${order.id}"></th>
+             <th th:text="${order.fullName}"></th>
+             <th th:text="${order.orderTime}"></th>
+              <th th:text="${order.paymentMethod}"></th>
+              <th th:text="${order.total}"></th>
+              <th:block th:switch="${#strings.toString(order.status)}">
+              <th th:case="'NEW'"><p th:text="${order.status}" class="status_order" style="color: #55E6C1"></p></th>
+               <th th:case="'CANCELLED'"><p th:text="${order.status}" class="status_order" style="color: #FC427B"></p></th>
+                <th th:case="'CONFIRMED'"><p th:text="${order.status}" class="status_order" style="color: #1B9CFC"></p></th>
+                 <th th:case="'SHIPPING'"><p th:text="${order.status}" class="status_order" style="color: #EAB543"></p></th>
+                  <th th:case="'DELIVERED'"><p th:text="${order.status}" class="status_order" style="color: #F97F51"></p></th>
+                   <th th:case="'PAID'"><p th:text="${order.status}" class="status_order" style="color: #9AECDB"></p></th>
+              </th:block>
+               
+               <th> <a th:href="@{'/order/'+${order.id}}" class="xem_chi_tiet_order">Xem chi tiết</a></th>
+            </tr>
+         
+            
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+  </div>	
+	
+	<script>
+		
+	</script>
+</body>
+</html>

@@ -13,10 +13,7 @@ public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(name="enabled")
-	private boolean enabled;
+	private Integer id;	
 	
 	@Column(name="name",length = 128)
 	private String name;
@@ -27,14 +24,6 @@ public class Category {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public String getName() {
@@ -50,10 +39,9 @@ public class Category {
 		this.name = name;
 	}
 
-	public Category(Integer id, boolean enabled, String name) {
+	public Category(Integer id, String name) {
 		super();
 		this.id = id;
-		this.enabled = enabled;
 		this.name = name;
 	}
 
@@ -63,7 +51,7 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", enabled=" + enabled + ", name=" + name + "]";
+		return "Category [id=" + id + ", name=" + name + "]";
 	}
 
 	

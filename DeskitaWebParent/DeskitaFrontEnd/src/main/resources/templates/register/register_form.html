@@ -3,155 +3,46 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0, minium-scale=1.0">
-
-<title>Deskita</title>
-<link rel="stylesheet" type="text/css" th:href="@{/register/register_form.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}">
-<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/popper.js/2.9.3/cjs/popper.js}"></script>
-</head>
+<head th:replace="components/head_title :: page_head('Deskita')">
 <style>
-		.index .dropdown-menu{
-		display:block
-		}
+		
 </style>
 <body>
 
 <div class="container index">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" th:href="@{/}">Logo</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
-	<input type="submit"/>
-</form>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item ">
-        <a class="nav-link" th:href="@{/}">Home(current)</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/users}">Users</a>
-      </li>
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/categories}">Categories</a>
-      </li>
-     
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/brands}">Brands</a>
-      </li>
-     
-       
-       <li class="nav-item">
-        <a class="nav-link " th:href="@{/products}">Products</a>
-      </li>
-      
-      
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/customers}">Customers</a>
-      </li>
-    
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/shipping}">Shipping</a>
-      </li>
-     
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/orders}">Orders</a>
-      </li>
-     
-     
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/report}">Sales Report</a>
-      </li>
-  
-      
-     <th:block sec:authorize="isAuthenticated()">
-      <li class="nav-item">
-        
-        <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="fas fa-user fa-2x"></span>
-    <a class="nav-link"   th:href="@{/account}" sec:authentication="principal.fullName"></a>
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
-   
-  </div>
-</div>
-      </li>
-      </th:block>
-    </ul>
-    
-  </div>
-</nav>
+<div th:replace="components/navigation :: navigation"></div>
 <div class="card bg-light">
-<article class="card-body mx-auto" style="max-width: 400px;">
+<article class="card-body mx-auto" style="width: 400px;">
 	<h4 class="card-title mt-3 text-center">Create Account</h4>
 	<p class="text-center">Get started with your free account</p>
-	<p>
-		<a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
-		<a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
-	</p>
-	<p class="divider-text">
-        <span class="bg-light">OR</span>
-    </p>
+
 	<form th:action="@{/customer/save}" method="post" th:object="${customer}">
 	<div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
-        <input name="" class="form-control" placeholder="First name" type="text" th:field="*{firstName}">
+        <input name="" class="form-control"  placeholder="First name" type="text" th:field="*{firstName}" required pattern="[^\d]+">
     </div> <!-- form-group// -->
 	<div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
-        <input name="" class="form-control" placeholder="Last name" type="text" th:field="*{lastName}">
+        <input name="" class="form-control" placeholder="Last name" type="text" th:field="*{lastName}"  required pattern="[^\d]+">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 		 </div>
-        <input name="" class="form-control" placeholder="Email address" type="email" th:field="*{email}">
+        <input name="" class="form-control" placeholder="Email address" type="email" th:field="*{email}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
 		</div>
-		<select class="custom-select" style="max-width: 120px;">
-		    <option selected="0">+84</option>
-		  
-		</select>
-    	<input name="" class="form-control" placeholder="Phone number" type="text" th:field="*{phoneNumber}">
+		
+    	<input name="" class="form-control" placeholder="Phone number" type="tel" th:field="*{phoneNumber}" required title="Số điện thoại không khớp" pattern="[0-9]{3}[0-9]{3}[0-9]{4}">
     </div> <!-- form-group// -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-		</div>
-		<select class="form-control">
-			<option selected=""> Select Province</option>
-			
-		</select>
-		<select class="form-control">
-			<option selected=""> Select District</option>
-			
-		</select>
-		<select class="form-control">
-			<option selected=""> Select Ward</option>
-			
-		</select>
-	</div> <!-- form-group end.// -->
+ 
 	 <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
@@ -162,7 +53,7 @@
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input class="form-control" placeholder="Create password" id="password" type="password" th:field="*{password}"
+        <input class="form-control" placeholder="Create password" id="password" type="password" th:field="*{password}" required
         oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"
         >
     </div> <!-- form-group// -->
@@ -170,14 +61,14 @@
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input class="form-control" placeholder="Repeat password" type="password" id="confirmPassword"
+        <input class="form-control" placeholder="Repeat password" type="password" id="confirmPassword" required
         oninput="checkPasswordMatch(this)"
         >
     </div> <!-- form-group// -->                                      
     <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
     </div> <!-- form-group// -->      
-    <p class="text-center">Have an account? <a href="">Log In</a> </p>                                                                 
+    <p class="text-center">Have an account? <a th:href="@{/login}">Log In</a> </p>                                                                 
 </form>
 </article>
 </div> <!-- card.// -->

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
+<head th:replace="components/head_title :: page_head('New User - Deskita Admin')">
+
+<body>
+<style type="text/css">
+.card {
+    border: none
+}
+
+
+
+.totals tr td {
+    font-size: 13px
+}
+
+.footer {
+    background-color: #eeeeeea8
+}
+
+.footer span {
+    font-size: 12px
+}
+
+.product-qty span {
+    font-size: 12px;
+    color: #dedbdb
+}
+.btn_status{
+	float:right;
+}
+</style>
+	
+	<nav th:replace="components/Navigation :: navigation"></nav>
+		
+    <div class="container mt-5 mb-5">
+    
+    <div class="row d-flex justify-content-center">
+        <form class="col-md-8" method="post" th:action="@{/update-status}">
+        	<input type="hidden" th:value="${order.id}" th:name="orderId"/>
+            <div class="card">
+              
+                <div class="invoice p-5">
+                    <h5 >Trạng thái đơn hàng
+                    <span th:text="${order.status}"></span>
+                    <th:block th:switch="${order.status.name()}">
+                     <th:block sec:authorize="hasAnyAuthority('Salesperson')">
+                     	<div th:case="'NEW'" style="float: right">
+                     	<button type="submit" th:name="status" th:value="CANCEL" class="btn_status btn btn-danger">Hủy đơn hàng</button>
+                     	<button  type="submit" th:name="status" th:value="CONFIRMED" class="btn_status btn btn-success">Xác nhận đơn</button>
+                     	</div>
+                     	<button th:case="'CONFIRMED'" type="submit" th:name="status" th:value="SHIPPING" class="btn_status btn btn-success">Giao cho vận chuyển</button>
+                    	
+                     </th:block>
+                      <th:block sec:authorize="hasAnyAuthority('Shipper')">
+                      <button th:case="'SHIPPING'" type="submit" th:name="status" th:value="DELIVERED" class="btn_status btn btn-success">Đã giao</button>
+                    <button th:case="'DELIVERED'" type="submit" th:name="status" th:value="PAID" class="btn_status btn btn-success">Đã nhận đơn hàng</button>
+                  
+                      </th:block>
+                    	
+                    </th:block>
+                   
+                    <div th:switch="${order.status.name()}">
+                    	<span th:case="'NEW'">Đơn hàng của bạn đang chờ xác nhận</span>
+                    </div>
+                    
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Order Date</span> <span th:text="${order.orderTime}">12 Jan,2018</span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Mã đơn hàng</span> <span th:text="${order.id}">MT12332345</span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Payment</span> <span th:text="${order.paymentMethod.name()}"></span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Shiping Address</span> <span th:text="${order.address}">414 Advert Avenue, NY,USA</span> </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="product border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr th:each="orderDetail: ${order.orderDetails}">
+                                    <td width="20%"> <img th:src="@{'/images/'+${orderDetail.image}}" width="90"> </td>
+                                    <td width="60%"> <span class="font-weight-bold" th:text="${orderDetail.name}">Men's Sports cap</span>
+                                        <div class="product-qty"> <span class="d-block">Quantity:<span th:text="${orderDetail.quantity}"></span></span> </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right"> <span class="font-weight-bold" th:text="'$'+${orderDetail.quantity*orderDetail.value}">$67.50</span> </div>
+                                    </td>
+                                </tr>
+                              
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-8">
+                            <table class="table table-borderless">
+                                <tbody class="totals">
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Giá sản phẩm</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span th:text="'$'+${order.productCost}">$168.50</span> </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Giá ship</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span th:text="'$'+${order.shippingCost}"></span> </div>
+                                        </td>
+                                    </tr>
+                                   
+                                  
+                                    <tr class="border-top border-bottom">
+                                        <td>
+                                            <div class="text-left"> <span class="font-weight-bold">Tổng đơn hàng</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span class="font-weight-bold" th:text="'$'+${order.total}">$238.50</span> </div>
+                                        </td>
+                                    </tr>
+                                     <tr th:if="${order.deliverDate == null}">
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Dự kiến giao sau</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span th:text="${order.deliverDays}+' ngày, bắt đầu từ ngày tạo đơn'"></span> </div>
+                                        </td>
+                                    </tr>
+                                     <tr th:if="${order.deliverDate}">
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Ngày giao</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span th:text="${order.deliverDate}"></span> </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p> <span>Deskita Team</span>
+                </div>
+                </div>
+        </form>
+    </div>
+</div>
+    
+	<script>
+		
+	</script>
+</body>
+</html>

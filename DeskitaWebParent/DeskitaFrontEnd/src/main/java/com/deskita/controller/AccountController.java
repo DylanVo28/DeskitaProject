@@ -32,23 +32,31 @@ public class AccountController {
 	
 	@GetMapping("/account")
 	public String viewDetails(@AuthenticationPrincipal DeskitaCustomerDetails loggedUser,Model model) {
-		String email=loggedUser.getUsername();
+		try {
+			String email=loggedUser.getUsername();
+			
+			Customer customer=service.getCustomerByEmail(email);
+			
+			model.addAttribute("customer",customer);
+			return "account/account-form";
+		}
+		catch(Exception ex) {
+			return "redirect:/login";
+		}
 		
-		Customer customer=service.getCustomerByEmail(email);
-		
-		model.addAttribute("customer",customer);
-//		model.addAttribute("user",user);
-//		model.addAttribute("listRoles",listRoles);
-//		
-		return "account/account-form";
 	}
 	
 	@PostMapping("/account/update")
 	public String updateAccount(Customer customer,RedirectAttributes redirectAttributes,@AuthenticationPrincipal DeskitaCustomerDetails loggedUser) {
-//		System.out.println(customer);
-		service.updateAccount(customer);
+		try {
+			service.updateAccount(customer);
+			
+			return "redirect:/account";
+		}
+		catch(Exception ex) {
+			return "redirect:/login";
+		}
 		
-		return "redirect:/account";
 	}
 	
 	@PostMapping("/update/password")
@@ -56,12 +64,17 @@ public class AccountController {
 	  @RequestParam("newPassword") String newPassword, 
 	  @RequestParam("oldPassword") String oldPassword,
 	  @RequestParam("confirmPassword") String confirmPassword) {
-	    Customer customer=service.getCustomerByEmail(loggedUser.getUsername());
-	    boolean checkSave=service.updatePassword(customer, oldPassword, newPassword, confirmPassword);
-		if(!checkSave) {
-			return "redirect:/change-password";
+		try {
+			 Customer customer=service.getCustomerByEmail(loggedUser.getUsername());
+			 boolean checkSave=service.updatePassword(customer, oldPassword, newPassword, confirmPassword);
+			 if(!checkSave) {
+				 return "redirect:/change-password";
+			 }
+				return "redirect:/account";
+		}catch(Exception ex) {
+			return "redirect:/login";
 		}
-		return "redirect:/account";
+	   
 	}
 	
 	@GetMapping("/change-password")

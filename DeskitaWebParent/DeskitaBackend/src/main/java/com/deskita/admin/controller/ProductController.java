@@ -1,40 +1,67 @@
 package com.deskita.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import com.deskita.admin.dto.ProductDetailsDTO;
+import com.deskita.admin.service.BrandService;
+import com.deskita.admin.service.CategoryService;
+import com.deskita.admin.service.ProductDetailService;
+import com.deskita.admin.service.ProductImageService;
 import com.deskita.admin.service.ProductService;
 import com.deskita.common.entity.Brand;
 import com.deskita.common.entity.Category;
 import com.deskita.common.entity.Product;
 import com.deskita.common.entity.ProductDetail;
+import com.deskita.common.entity.ProductImage;
 
 @Controller
 public class ProductController {
 	
+	public static int PRODUCT_PER_PAGE=10;
+	
 	@Autowired
 	private ProductService service;
 	
+	@Autowired
+	private BrandService brandService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private ProductDetailService productDetailService;
+	
+	@Autowired
+	private ProductImageService productImageService;
+	
 	@GetMapping("/products")
 	public String listAll(Model model) {
-		System.out.println("hello ae");
+		
 		return "redirect:/products/page/1";
 	}
 	
 	@GetMapping("/products/page/{currentPage}")
 	public String pagingProduct(@PathVariable(name="currentPage") int currentPage,Model model) {
-		List<Product> allProducts=service.listAll();
-		System.out.println(allProducts);
-		int totalPage=allProducts.size()/10+1;
-		List<Product> listProducts=service.pagingProduct(currentPage);
+		List<Product> listProducts=service.pagingProduct(currentPage).getContent();
+		Long total=(service.pagingProduct(currentPage).getTotalElements()/PRODUCT_PER_PAGE) +1;
+		System.out.println(listProducts);
+		
 		model.addAttribute("listProducts",listProducts);
-		model.addAttribute("totalPage",totalPage);
+		model.addAttribute("totalPage",total);
 		return "product/products";
 	}
 	
@@ -42,53 +69,71 @@ public class ProductController {
 	@GetMapping("/products/new")
 	public String createProduct(Model model) {
 		Product product=new Product();
-		List<ProductDetail> listProductDetails= service.listProductDetails();
+		ProductDetailsDTO productDetails1=new ProductDetailsDTO();
+		List<Brand> listBrand=brandService.listAll();
+		List<Category> listCategories=categoryService.listAll();
+
 		
+		model.addAttribute("listCategories",listCategories);
 		model.addAttribute("product",product);
-		model.addAttribute("listProductDetails",listProductDetails);
+		model.addAttribute("listBrand",listBrand);
+		model.addAttribute("listProductDetails",productDetails1.productDetails);
 		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		
 		return "product/product_form";
 	}
 	
 	@PostMapping("/products/save")
-	public String saveProduct(Product product,Model model) {
-			List<ProductDetail> listProductDetails= service.listProductDetails();
-			Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
-			product.setBrand(brand);
-			Category category = new Category(1, true, "dien thoai");
-			product.setCategory(category);
-			model.addAttribute("product",product);
-			model.addAttribute("listProductDetails",listProductDetails);
-			model.addAttribute("actionSave","/DeskitaAdmin/products/save");
-			service.saveProduct(product);
-			return "redirect:/products";
-		
-	}
-		
-	@PostMapping("/products/save/{id}")
-	public String saveProductById(Product product,Model model) {
-			List<ProductDetail> listProductDetails= service.listProductDetails();
-	//		Brand brand=new Brand(1,"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202101262201","apple");
+	public String saveProduct(Product product,Model model,HttpServletRequest request,
+			@RequestParam(name="nameDetail",required=false) String[] nameDetail,
+			@RequestParam(name="valueDetail",required=false) String[] valueDetail,
+			@RequestParam(name="stockDetail",required=false) String[] stockDetail,
+			@RequestParam(name="fileImage",required=false) List<MultipartFile> images,
+			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
+			@RequestParam(name = "imageNames", required = false) String[] imageNames,
 			
-	//		product.setBrand(brand);
-			model.addAttribute("product",product);
-			model.addAttribute("listProductDetails",listProductDetails);
-			model.addAttribute("actionSave","/DeskitaAdmin/products/save/"+product.getId());		
-			service.saveProduct(product);
-		return "redirect:/products";
+			@RequestParam(name = "detailIds", required = false) String[] detailIds
+			) {
+			
+			List<String> listImage=new ArrayList<>();
+			int idx=0;
+			for(MultipartFile image:images) {
+				if((!image.isEmpty() && imageIDs==null)||
+						(!image.isEmpty() && idx<imageIDs.length && imageIDs[idx]!=null)||
+						(!image.isEmpty() && idx>=imageIDs.length)
+						) {
+				listImage.add(StringUtils.cleanPath(image.getOriginalFilename()));
+				}
+				
+				if(image.isEmpty() && imageIDs[idx]!=null) {
+					listImage.add(imageNames[idx]);
+				}
+			
+				idx++;
+			}
+			
+			service.saveProduct(product, nameDetail,valueDetail, stockDetail,listImage,imageIDs,detailIds);
+			return "redirect:/products";
+	
 	}
+		
+	
 	
 	@GetMapping("/products/edit/{id}")
 	public String editProduct(@PathVariable(name="id") Integer id,Model model) {
-		System.out.println(id);
+		
 		Product product=service.getProductById(id);
-		System.out.println(product.toString());
-		List<ProductDetail> listProductDetails= service.listProductDetails();
+		List<ProductDetail> listProductDetails=productDetailService.findAll(id);
+		List<ProductImage> listProductImages=productImageService.findImageByProductId(id);
+		List<Brand> listBrand=brandService.listAll();
+		List<Category> listCategories=categoryService.listAll();
+		model.addAttribute("listCategories",listCategories);
+		model.addAttribute("listBrand",listBrand);
 		model.addAttribute("product",product);
 		model.addAttribute("listProductDetails",listProductDetails);
+		model.addAttribute("listProductImages",listProductImages);
+		model.addAttribute("actionSave","/DeskitaAdmin/products/save");
 		
-		model.addAttribute("actionSave","/DeskitaAdmin/users/save/"+product.getId());
 		return "product/product_form";
 	}
 	

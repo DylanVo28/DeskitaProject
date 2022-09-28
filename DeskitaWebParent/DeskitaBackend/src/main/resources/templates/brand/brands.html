@@ -1,50 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/head_title :: page_head('Brands - Deskita Admin')">
+<head
+	th:replace="components/head_title :: page_head('Brands - Deskita Admin')">
 <style>
-
 </style>
 <body>
-<div class="container">
-<nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Brands</h1>
-	<a th:href="@{/brands/new}">Create new brand</a>
-<div>
-	<table>
-		<thead>
-			<tr>
-				<th>
-					Brand Id
-				</th>
-				<th>
-					Logo
-				</th>
-				<th>
-					Name
-				</th>
-				<th>Action</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="brand:${listBrands}">
-				<th >[[${brand.id}]]</th>
-				<th ></th>
-				<th >[[${brand.logo}]]</th>
-				<th >[[${brand.name}]]</th>
-				<th>					
-					<a class="fas fa-edit" th:href="@{'/brands/edit/'+${brand.id}}"></a>
-					<a class="far fa-trash-alt" th:href="@{'/brands/delete/'+${brand.id}}"></a>
-				</th>
-			</tr>
-		</tbody>
-	</table>
-	<nav aria-label="Page navigation example">
-  <ul class="pagination">
-     <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/brands/page/'+${i}}" >[[${i}]]</a></li>
-  </ul>
-</nav>
-</div>
-</div>
+	<div class="container">
+		<nav th:replace="components/Navigation :: navigation"></nav>
+		<h1>Brands</h1>
+		<a th:href="@{/brands/new}">Create new brand</a>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>Brand Id</th>
+						<th>Logo</th>
+						<th>Name</th>
+						<th>Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="brand:${listBrands}">
+						<th>[[${brand.id}]]</th>
+						<th><img
+							th:src="'/DeskitaAdmin/images/brands/'+${brand.logo}"
+							style="width: 80px" /></th>
+						<th>[[${brand.name}]]</th>
+						<th><a class="fas fa-edit"
+							th:href="@{'/brands/edit/'+${brand.id}}"></a></th>
+					</tr>
+				</tbody>
+			</table>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a
+						class="page-link" th:href="@{'/brands/page/'+${i}}">[[${i}]]</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
 </body>
 </html>

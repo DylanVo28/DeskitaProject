@@ -4,10 +4,263 @@
 >
 
 <head th:replace="components/head_title :: page_head('Deskita')">
-<style>
-	
-</style>
+
 <body>
+<style type="text/css">
+.product_slide .col-md-3{
+	margin-bottom: 30px;
+}
+	.carousel-item.banner{
+		height: calc(100vh - 95px);
+	    background-size: cover!important;
+	    background-repeat: no-repeat !important;
+	    background-position: center!important;
+	}
+	.product_image {
+    height: 300px;
+      background-size: cover!important;
+    background-position: center!important;
+}
+.product_slide .col-md-4{
+	margin-bottom: 20px;
+}
+.pagination_product .pagination{
+	justify-content: center;
+}
+.link_product_detail{
+	color:black;
+}
+.product_info button{
+    background: none;
+    color: black;
+    border: none;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    padding: 0;
+    padding-right: 15px;
+}
+.frame_product {
+    
+    overflow: hidden;
+    background: white;
+    box-shadow: 1px 1px 20px 0px #a29bfe26;
+    padding: 11px;
+}
+.dropdown_category{
+    background: none;
+    border: none;
+    color: black;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+    padding: 0;
+    font-weight: bold;
+}
+.dropdown_category::after{
+	content:none;
+}
+.dropdown-menu.show{
+	border-radius: 0;	
+}
+.manager_dropdown .dropdown-item{
+	display:flex;
+	list-style: none;
+}
+.img_brand{
+	width: 60px;
+	padding: 5px;
+}
+.filter_dropdown{
+	width: 580px;
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+	background: none;
+}
+.item_filter_brand{
+    margin: 5px;
+    background: #dddddd8a;
+    border-radius: 10px;
+    padding: 5px;
+}
+.list_brand_item{
+display:flex;
+flex-wrap: wrap;
+flex-direction: row;
+}
+.filter_btn{
+    margin-left: auto;
+    margin-bottom: 15px;
+    background: none;
+    color: black;
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+    padding-right: 0;
+    font-weight: 600;
+}
+.dropdown-toggle::after{
+display:none;
+}
+.dropleft .dropdown-toggle::before{
+	display:none;
+}
+.vdajshdjhvcjhasvjhasv{
+    padding: 10px 30px;
+    background: black;
+    color: white;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    float: right;
+}
+</style>
 	<div th:replace="components/navigation :: navigation"></div>
+	<div>
+		
+		<!-- slide banner -->
+		<div id="carouselExampleIndicators" class="carousel slide slide_index" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item banner active" style="background: url(https://cdn.tgdd.vn/2021/09/campaign/Group4288-1920x603.png)">
+     
+    </div>
+    <div class="carousel-item banner" style="background: url(https://cdn.tgdd.vn/2021/09/campaign/desktgd-1920x500.png)">
+  
+    </div>
+    <div class="carousel-item banner" style="background: url(https://cdn.tgdd.vn/2021/08/banner/Thờitrang-1200x200.png)">
+     
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+		<!-- End slide banner -->
+		<br>
+		<br>
+		<div class="container">
+		
+		<div class="row">
+			<div class="col-md-4">
+			
+
+			</div>
+			<div class="col-md-8">
+			<div class="manager_dropdown">
+			<div class="dropdown dropleft">
+  <button class="btn  dropdown-toggle filter_btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Bộ lọc
+  </button>
+  <div class="dropdown-menu filter_dropdown" aria-labelledby="dropdownMenuButton">
+    
+    
+    <ul class="dropdown-item row" href="#">
+    <div class="col-md-3">Thương hiệu</div>
+    <div class="col-md-9 list_brand_item">   <li th:each="brand: ${brands}" class="item_filter_brand">
+    <input type="checkbox" class="brand_item" name="brand_item" th:value="${brand.id}" th:checked="${brand.id}==${brandId}">
+    <img class="img_brand" th:src="@{'/images/brands/'+${brand.logo}}"/>
+    
+    </li>
+     </div>
+ 
+    </ul>
+     <ul class="dropdown-item row" href="#">
+    <div class="col-md-3">Thể loại</div>
+    <div class="col-md-9 list_brand_item">   <li th:each="category: ${categories}" class="item_filter_brand">
+    <input type="checkbox" th:class="'category_item_'+${category.id}" name="category_item" th:checked="${category.id}==${categoryId}" th:value="${category.id}">
+    <label th:text="${category.name}">  </label>
+    
+    </li>
+     </div>
+ 
+    </ul>
+ 	<a th:href="@{/products/1/page(brand=${brandId},category=${categoryId})}" id="filter_product" class="vdajshdjhvcjhasvjhasv">Lọc</a>
+ 	
+  </div>
+</div>
+		</div>
+			</div>
+		</div>
+		</div>
+		<!-- Slide product -->
+		<div class="container">
+		<div class="row product_slide">
+			<div class="col-md-3" th:each="product: ${products}">
+				<div class="frame_product">
+				<a th:href="@{'/product/'+${product.id}}" class="link_product_detail">
+				<div class="product_image" th:style="'background: url('+@{'/images/'+${product.image}}+')'" ></div>
+				<div class="product_info">
+				
+					<div class="product_title" th:text="${product.name}"></div>
+					<div class="product_price" th:text="${product.shortDescription}"></div>
+					<button>Mua ngay</button>
+				</div>
+				</a>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<nav aria-label="Page navigation example" class="pagination_product">
+					<ul class="pagination">
+						<li class="page-item"
+							th:each="i:${#numbers.sequence(1,totalPage)}"><a
+							class="page-link" th:href="@{'/products/'+${i}+'/page/'(brand=${brandId},category=${categoryId})}">[[${i}]]</a></li>
+					</ul>
+				</nav>
+	</div>
+	<script>
+		var filterBrandId="",filterCategoryId="";
+		var urlFilter="/Deskita/products/1/page?brand="+filterBrandId+"&category="+filterCategoryId
+		$(".dropdown_category").hover(function(){
+			
+			$(".dropdown").addClass("show");
+			$(".dropdown-menu").addClass("show");
+		},function(){
+			
+			$(".dropdown").removeClass("show");
+			$(".dropdown-menu").removeClass("show");
+		})
+		
+		$('input[name="brand_item"]').change(function(){
+			
+			if (!$(this).is(':checked')) {
+					filterBrandId="";
+					$(this).prop('checked', false);
+					
+			}
+			else{
+				$('input[name="brand_item"]').prop('checked', false);
+				$(this).prop('checked', true);
+				filterBrandId=$(this).val()
+			}
+			
+			urlFilter="/Deskita/products/1/page?brand="+filterBrandId+"&category="+filterCategoryId
+			$("#filter_product").attr("href",urlFilter)
+		})
+		$('input[name="category_item"]').click(function(){
+			if (!$(this).is(':checked')) {
+				filterCategoryId="";
+				$(this).prop('checked', false);
+				
+		}
+		else{
+			$('input[name="category_item"]').prop('checked', false);
+			$(this).prop('checked', true);
+			filterCategoryId=$(this).val()
+		}
+			
+			urlFilter="/Deskita/products/1/page?brand="+filterBrandId+"&category="+filterCategoryId
+			$("#filter_product").attr("href",urlFilter)
+		})
+	</script>
 </body>
 </html>

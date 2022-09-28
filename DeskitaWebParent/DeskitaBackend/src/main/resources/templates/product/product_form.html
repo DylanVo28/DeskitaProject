@@ -1,35 +1,274 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/head_title :: page_head('New Product - Deskita Admin')">
+<head
+	th:replace="components/head_title :: page_head('New Product - Deskita Admin')"/>
 <style>
+.product .product-info{
+	background: white;
+    padding: 20px;
+}
+.product .product-info .form-control{
+	border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.product-category{
+	background: white;
+	padding: 20px;
+}
 
+.product .product_image{
+	background:white;
+	padding:20px;
+}
+.product #list-images{
+	list-style: none;
+	margin-top: 15px;
+}
+.product_variation{
+	background: white;
+}
+.variation_detail{
+	margin-right:30px;
+}
+#list-variation{
+	margin-top:20px;
+}
+.product_brand{
+	background: white;
+}
+.product .btn_cancel a{
+	color:white!important;
+}
+.product .input_variation{
+	    border: none;
+    border-bottom: 1px solid black;
+}
 </style>
-<body>
-<div class="container">
+<body style="background: #dff9fb">
 <nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Products</h1>
-<div>
-	<form th:action="${actionSave}" th:method="POST" th:object="${product}">
-  <div class="form-group">
-  
-    <label>Product name</label>
+	<div class="container product">
+		
+		<h1>Products</h1>
+		<div>
+			<form th:action="${actionSave}" th:method="POST" 
+				enctype="multipart/form-data"
+				th:object="${product}">
+				<input type="hidden" th:field="*{id}" />
+				<div class="row">
+				<div class="product-info col-md-7">
+				<h3>Product info</h3>
+				<div class="form-group">
 
-    <input type="text" th:name="name" th:value="${product.name}"  th:field="*{name}"  required minlength="5" maxlength="50" class="form-control"  placeholder="Enter product name:"/>
-   
-  </div>
-  <div class="form-group">
-    <label>Short description</label>
-    <input type="text" th:name="shortDescription" th:value="${product.shortDescription}"  th:field="*{shortDescription}"  required minlength="2" maxlength="150" class="form-control"  placeholder="Enter short description:"/>
-  </div>
-  <div class="form-group">
-    <label>Full description</label>
-    <input type="text" th:name="fullDescription" th:value="${product.fullDescription}"  th:field="*{fullDescription}"  required minlength="2" maxlength="300" class="form-control"  placeholder="Enter full description:"/>
-  </div>
-  
-  <button type="submit" value="Save" class="btn btn-primary">Submit</button>
-  <button type="button" class="btn btn-secondary" ><a th:href="@{/products}">Cancel</a></button>
-</form>
+					<label>Product name</label> <input type="text" th:name="name"
+						th:value="${product.name}" th:field="*{name}" 
+						minlength="5" maxlength="50" class="form-control"
+						placeholder="Enter product name:" />
+
+				</div>
+				<div class="form-group">
+					<label>Short description</label> <input type="text"
+						th:name="shortDescription" th:value="${product.shortDescription}"
+						th:field="*{shortDescription}"  minlength="2"
+						maxlength="150" class="form-control"
+						placeholder="Enter short description:" />
+				</div>
+				<div class="form-group">
+					<label>Full description</label> <input type="text"
+						th:name="fullDescription" th:value="${product.fullDescription}"
+						th:field="*{fullDescription}" minlength="2"
+						maxlength="300" class="form-control"
+						placeholder="Enter full description:" />
+				</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4 product-category">
+				<h3>Category</h3>
+				<div class="form-group">
+					<div class="form-check" th:each="category: ${listCategories}">
+					 <input class="form-check-input-category" type="checkbox" th:field="*{category}" value="" th:value="${category.id}" >
+	  
+	  <label class="form-check-label" for="flexCheckDefault" th:text="${category.name}">
+	    Default checkbox
+	  </label>
+					</div>
+				</div>
+				</div>
+				</div>
+				<br>
+				<br>
+				<div class="row">
+				<div class="col-md-12 product_image">
+				<h3>Images</h3>
+				<input type="button" id="add-image" value="Add image" class="btn_add_image btn btn-dark">
+				<ul id="list-images" class="row">
+					<li th:id="'product_image_'+${iter.index}" th:each="productImage,iter :${listProductImages}" class="col-md-4">
+					<input type="hidden" name="imageIDs" th:id="'imageId' + ${iter.index}"
+				th:value="${productImage.id}" />
+			<input type="hidden" name="imageNames" th:id="'imageName' + ${iter.index}"
+				th:value="${productImage.url}" />
+			
+					<img th:id="'thumbnail_'+${iter.index}" th:src="@{/images/}+${productImage.url}" alt="Chua co anh" style="width: 100%"/>
+				<input type="file" th:id="'fileImage_'+${iter.index}" 
+				th:value="${productImage.url}"
+				th:attr="onclick=|inputImage(${iter.index})|" 
+				name="fileImage" accept="image/png, image/jpeg, image/jpg"
+				
+				/>
+					<input type="button" 
+						th:attr="onclick=|removeImage(${iter.index})|" 
+						class="btn btn-primary" value="Remove"
+					>
+					</li>
+					<li id="product_image_0" class="col-md-4" th:if="${listProductImages==null}">
+					<img id="thumbnail_0" src="/DeskitaAdmin/images/default.png" alt="Chua co anh" style="width: 100%" />
+				<input type="file" id="fileImage_0" onClick="inputImage(0)" name="fileImage" accept="image/png, image/jpeg, image/jpg" required />
+					<input type="button" onClick="removeImage(0)" class="btn btn-primary" value="Remove">
+					</li>
+				</ul>
+				</div>
+				</div>
+				<br>
+				<br>
+				<div class="row">
+					<div class="col-md-12 product_variation">
+					<h3>Variations</h3>
+				<input type="button" id="add-variation" value="Add variation" class="btn btn-dark">
+				
+				<ul id="list-variation"> 
+					<li style="display: flex;margin-bottom: 10px;"  th:each="productDetail,iter :${listProductDetails}"  th:id="'product_detail_'+${iter.index}"  >
+					<input type="hidden" name="detailIds" th:id="'detailId' + ${iter.index}"
+				th:value="${productDetail.id}" />
+					<div class="variation_detail">
+					<label>Variation name</label>
+					<input name="nameDetail" th:value="${productDetail.name}" class="input_variation"/>
+				</div>
+				<div class="variation_detail">
+					<label >Giá</label>
+					<input name="valueDetail" th:value="${productDetail.value}" class="input_variation" />
+					</div>
+				<div class="variation_detail">
+					<label>Số lượng</label>
+					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation"/>
+				</div>
+				<div class="variation_detail"><input type="button"  th:attr="onclick=|removeDetail(${iter.index})|" value="Remove"></div>
+			</li>
+			<li style="display: flex;margin-bottom: 10px;" id="product_detail_0" th:if="${listProductDetails==null}" >
+					<div class="variation_detail">
+					<label>Variation name</label>
+					<input name="nameDetail"  class="input_variation" required/>
+				</div>
+				<div class="variation_detail">
+					<label>Giá</label>
+					<input name="valueDetail"  class="input_variation" required/>
+					</div>
+				<div class="variation_detail">
+				<label>Số lượng</label>
+				<input name="stockDetail"  class="input_variation" required/>
+				</div>
+				<div class="variation_detail"><input type="button" onClick="removeDetail(0)" value="Remove"></div>
+			</li>
+				</ul> 
+					</div>
+				</div>
+			<br>
+			<br>
+			
+				<div class="product_brand" >
+					<h3>Brand</h3>
+				<div class="form-group row">
+  	<div class="form-check col-md-3" th:each="brand:${listBrand}">
+	  <input class="form-check-input-brand" type="checkbox" th:field="*{brand}" value="" th:value="${brand.id}" >
+	  <img th:src="'/DeskitaAdmin/images/brands/'+${brand.logo}" style="width: 70px"/>
+	  <label class="form-check-label" for="flexCheckDefault" th:text="${brand.name}">
+	    Default checkbox
+	  </label>
+	 
 </div>
 </div>
+				</div>
+				
+				
+				<button type="submit" value="Save" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-secondary btn_cancel">
+					<a th:href="@{/products}">Cancel</a>
+				</button>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		let i=999;
+		$("#add-image").on("click",function(event){
+			i++;
+			
+			$("#list-images").append('<li id="product_image_'+i+'" class="col-md-4">'+
+					'<img id="thumbnail_'+i+'" src="/DeskitaAdmin/images/default.png" alt="Chua co anh" style="width: 100%" />'+
+				'<input type="file" id="fileImage_'+i+'" onClick="inputImage('+i+')" name="fileImage" accept="image/png, image/jpeg, image/jpg" required />'+
+					'<input type="button" onClick="removeImage('+i+')" class="btn btn-primary" value="Remove">'+
+					'</li>')
+		})
+		$("#add-variation").on("click",function(event){
+			i++;
+			$("#list-variation").append('<li style="display: flex;margin-bottom: 10px;" id="product_detail_'+i+'" >'+
+					'<div class="variation_detail">'+
+					'<label>Variation name</label>'+
+					'<input name="nameDetail"  class="input_variation"/>'+
+				'</div>'+
+				'<div class="variation_detail">'+
+					'<label>Giá</label>'+
+					'<input name="valueDetail"  class="input_variation"/>'+
+					'</div>'+
+				'<div class="variation_detail">'+
+					'<label>Số lượng</label>'+
+					'<input name="stockDetail"  class="input_variation"/>'+
+				'</div>'+
+				'<div class="variation_detail"><input type="button" onClick="removeDetail('+i+')" value="Remove"></div>'+
+			'</li>')
+		})
+		function removeDetail(i){
+			if($("#list-variation li").length==1){
+				alert("phải có ít nhất là 1 variation");
+				return;
+			}
+			$('#product_detail_'+i).remove();
+		}
+		
+		function inputImage(index){
+			$("#fileImage_"+index).change(function(){
+				fileSize=this.files[0].size;
+				showImage(this,index);
+			})
+		}
+		function showImage(fileInput,index){
+			var file =fileInput.files[0];
+			var reader= new FileReader();
+			reader.onload=function(e){
+				$("#thumbnail_"+index).attr("src",e.target.result);
+			}
+			reader.readAsDataURL(file);
+		}
+		function removeImage(i){
+			if($("#list-images li").length==1){
+				alert("phải có ít nhất là 1 file ảnh được upload");
+				return;
+			}
+			$('#product_image_'+i).remove();
+		}
+		 $('.form-check-input-brand').change(function(){
+			 if(this.checked){
+				 $('.form-check-input-brand').prop('checked',false);
+				 $(this).prop('checked',true);
+			 }
+		 })
+		$('.form-check-input-category').change(function() {
+
+			if (this.checked) {
+				$('.form-check-input-category').prop('checked', false);
+				$(this).prop('checked', true);
+			}
+		})
+	</script>
+	</script>
 </body>
 </html>

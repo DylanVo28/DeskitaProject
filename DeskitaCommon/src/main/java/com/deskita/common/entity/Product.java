@@ -1,5 +1,12 @@
 package com.deskita.common.entity;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,6 +29,9 @@ public class Product {
 	
 	@Column(name="name",length = 50)
 	private String name;
+	
+	@Column(name="image")
+	private String image;
 	
 	@Column(name="shortdescription",length=150)
 	private String shortDescription;
@@ -44,6 +55,32 @@ public class Product {
 			)
 	private Category category =new Category();	
 	
+	
+	
+	private Date createAt;
+	
+	
+	
+	
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
+	
+
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -94,22 +131,29 @@ public class Product {
 		this.category = category;
 	}
 
-	public Product(Integer id, String name, String shortDescription, String fullDescription) {
+	public Product(Integer id, String name, String shortDescription, String fullDescription,String image) {
 		this.id = id;
 		this.name = name;
 		this.shortDescription = shortDescription;
 		this.fullDescription = fullDescription;
-		
+		this.image=image;
 	}
 
 	public Product() {
 		
 	}
+	
+	
+
+	public Product(Integer id) {
+		super();
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {
-		return "products [id=" + id + ", name=" + name + ", shortDescription=" + shortDescription
-				+ ", fullDescription=" + fullDescription + "]";
+		return "Product [id=" + id + ", name=" + name + ", image=" + image + ", shortDescription=" + shortDescription
+				+ ", fullDescription=" + fullDescription + ", brand=" + brand + ", category=" + category + "]";
 	}
 	
 	

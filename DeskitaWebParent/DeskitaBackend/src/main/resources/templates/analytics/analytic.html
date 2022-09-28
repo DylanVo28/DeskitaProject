@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:replace="components/head_title :: page_head('Analytics - Deskita Admin')">
+<style>
+</style>
+<body>
+	<div class="container">
+		<nav th:replace="components/Navigation :: navigation"></nav>
+		<h1>Thống kê theo đơn đặt hàng</h1>
+		<form th:action="@{/export/excel/order}" method="GET">
+		<input type="date" id="startDate" name="startDate">
+		<input type="date" id="endDate" name="endDate">
+		<button type="submit">Export</button>
+		</form>
+		
+	
+	</div>
+</body>
+</html>

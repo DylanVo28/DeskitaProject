@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+
+<head th:replace="components/head_title :: page_head('Deskita')">
+
+<body>
+<style>
+.card {
+  
+ 	padding:0;
+    vertical-align: middle;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold
+}
+
+.card .title {
+    margin-bottom: 5vh
+}
+
+.card {
+    margin: auto;
+  
+
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+    border: transparent
+}
+
+@media(max-width:767px) {
+    .card {
+        margin: 3vh auto
+    }
+}
+
+.cart {
+   
+    padding: 4vh 5vh;
+
+}
+
+@media(max-width:767px) {
+    .cart {
+        padding: 4vh;
+     
+      
+    }
+}
+
+.card .summary {
+    background-color: #ddd;
+ 
+    padding: 4vh;
+    color: rgb(65, 65, 65)
+}
+
+@media(max-width:767px) {
+   
+}
+
+.card .summary .col-2 {
+    padding: 0
+}
+
+.card .summary .col-10 {
+    padding: 0
+}
+
+.card .row {
+    margin: 0
+}
+
+.card .title b {
+    font-size: 1.5rem
+}
+
+.card .main {
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%
+}
+
+.card .col-2,
+.card .col {
+    padding: 0 1vh
+}
+
+.card a {
+    padding: 0 1vh
+}
+
+.card .close {
+    margin-left: auto;
+    font-size: 0.7rem
+}
+
+.card img {
+    width: 3.5rem
+}
+
+.card .back-to-shop {
+    margin-top: 4.5rem
+}
+
+.card h5 {
+    margin-top: 4vh
+}
+
+.card hr {
+    margin-top: 1.25rem
+}
+
+
+
+.card select {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247)
+}
+
+.card input {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247)
+}
+
+.card input:focus::-webkit-input-placeholder {
+    color: transparent
+}
+
+.card .btn {
+    background-color: #000;
+    border-color: #000;
+    color: white;
+    width: 100%;
+    font-size: 0.7rem;
+    margin-top: 4vh;
+    padding: 1vh;
+ 
+}
+
+.card .btn:focus {
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+    -webkit-user-select: none;
+    transition: none
+}
+
+.card .btn:hover {
+    color: white
+}
+
+.card a {
+    color: black
+}
+
+.card a:hover {
+    color: black;
+    text-decoration: none
+}
+
+.card #address {
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center
+}
+.card .input_quantity{
+	    width: 60px;
+    margin: 0;
+    background: white;
+}
+</style>
+<div th:replace="components/navigation :: navigation"></div>
+<br>
+<br>
+<div class="card container">
+	<form th:action="@{/order-now}" method="post">
+	
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col">
+                        <h4><b>Shopping Cart</b></h4>
+                    </div>
+                  
+                </div>
+            </div>
+             <div class="row border-top border-bottom">
+           
+                <div class="row main align-items-center">
+                    <div class="col-2">Ảnh</div>
+                    <div class="col">
+                        Tên
+                    </div>
+                    <div class="col">Số lượng</div>
+                     <div class="col">Giá gốc</div> 
+                    <div class="col">Tổng</div>
+                   <span class="close">Đơn vị</span>
+                </div>
+            </div>
+            <div class="row border-top border-bottom">
+            	<input type="hidden" th:value="${productDetail.id}" th:name="product_detail_id"/>
+            	<input type="hidden" th:value="${product.id}" th:name="product_id"/>
+                <div class="row main align-items-center" >
+                	
+                    <div class="col-2"><img class="img-fluid" th:src="@{'/images/'+${product.image}}"></div>
+                    <div class="col">
+                        <div class="row text-muted" th:text="${product.name}">Shirt</div>
+                        <div class="row" th:text="${productDetail.name}">Cotton T-shirt</div>
+                    </div>
+                    <div class="col"><input type="number" value="1" min="1" th:max="${productDetail.stock}" name="quantity_product" class="input_quantity"
+                 
+                    /></div>
+                     <div class="col price_origin_product" th:text="${productDetail.value}">&euro; 44.0</div> 
+                    <div class="col price_total_product" th:text="${productDetail.value}">&euro; 44.0</div>
+                   <span class="close">USD</span>
+                </div>
+            </div>
+           
+            <div class="back-to-shop"><a th:href="@{/}">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        </div>
+        <div class="col-md-4 summary">
+            <div>
+                <h5><b>Summary</b></h5>
+            </div>
+            <hr>
+            
+            
+               <p>Fullname</p> <input name="fullname" id="fullname" placeholder="Enter your fullname"
+               pattern="^(?:((([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-.\s])){1,}(['’,\-\.]){0,1}){2,}(([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-. ]))*(([ ]+){0,1}(((([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-\.\s])){1,})(['’\-,\.]){0,1}){2,}((([^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]'’,\-\.\s])){2,})?)*)$"
+               required
+               >
+                <p>Address</p> <input name="address" id="address" placeholder="Enter your address" required>
+                 <p>Phone Number</p> <input name="phone_number" id="phoneNum" placeholder="Enter your phone number" required 
+                 pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+           >
+        
+             <div class="row" >
+                <div class="col">PHƯƠNG THỨC THANH TOÁN</div>
+                <div class="col text-right">COD</div>
+                <input type="hidden" value="COD"  th:name="payment_method" >
+            </div> 
+            <div class="row"  style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TẠM TÍNH</div>
+                <div class="col text-right total_price" th:text="${productDetail.value}">&euro; 137.00</div>
+            </div> 
+            
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right total_price" th:text="${productDetail.value}">&euro; 137.00</div>
+                <input type="hidden" name="total_price_order" th:value="${productDetail.value}" id="total_price_order">
+            </div> 
+             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">SHIPPING PRICE</div>
+                <div class="col text-right shipping_price" >2</div>
+                <input type="hidden" name="shipping_price" th:value="2.00">
+            </div> 
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">DỰ KIẾN GIAO</div>
+                <div class="col text-right" id="dateDelivery">&euro; 137.00</div>
+               
+            </div> 
+            <button class="btn">ĐẶT MUA</button>
+        </div>
+    </div>
+	</form>
+</div>
+<script type="text/javascript">
+var d = new Date();
+d.setDate(d.getDate()+5);
+var day = ("3" + d.getDate()).slice(-2);
+var month = ("0" + (d.getMonth() + 1)).slice(-2);
+
+var strDate =d.getDate()+"/"+ (d.getMonth()+1)+"/"+d.getFullYear() ;
+	$("#dateDelivery").text(strDate)
+	$(".input_quantity").change(function(){
+		
+		if(parseInt($(this).val())>parseInt($(this).attr('max'))){
+			$(this).val($(this).attr('max'))
+		}
+		if(parseInt($(this).val())<=0){
+			$(this).val(1)
+		}
+		$(".price_total_product").text($(this).val()*parseInt( $(".price_origin_product").text()))	
+		$(".total_price").text($(this).val()*parseInt( $(".price_origin_product").text()))
+		$("#total_price_order").val($(this).val()*parseInt( $(".price_origin_product").text()))
+	})
+</script>
+</body>
+</html>
