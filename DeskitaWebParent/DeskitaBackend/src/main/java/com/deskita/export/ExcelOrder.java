@@ -89,7 +89,12 @@ public class ExcelOrder {
 		         createCell(row, columnCount++, o.getPaymentMethod().name(), style);
 		         createCell(row, columnCount++, o.getStatus().name(), style);
 		         createCell(row, columnCount++, o.getOrderTime().toString(), style);
-		         createCell(row, columnCount++, o.getDeliverDate().toString(), style);
+		         if(o.getDeliverDate()!=null) {
+		        	 createCell(row, columnCount++, o.getDeliverDate().toString(), style);
+		         }
+		         else {
+		        	 createCell(row, columnCount++, "", style);
+		         }
 		         createCell(row, columnCount++, od.getName(), style);
 		         createCell(row, columnCount++, od.getQuantity(), style);
 		         createCell(row, columnCount++, String.valueOf(o.getProductCost()) , style);
