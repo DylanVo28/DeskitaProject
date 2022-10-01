@@ -67,6 +67,7 @@ public class DeskitaUserDetails implements UserDetails {
 		return user.isEnabled();
 	}
 
+
 	
 	public String getFullname() {
 		return user.getFirstName()+" "+user.getLastName();
