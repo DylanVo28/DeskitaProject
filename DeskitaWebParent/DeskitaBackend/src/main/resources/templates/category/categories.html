@@ -1,45 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/head_title :: page_head('Categories - Deskita Admin')">
-<style>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-</style>
-<body>
-<div class="container">
-<nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Categories</h1>
-<a th:href="@{/categories/new}">Create new category</a>
-<div>
-	<table>
-		<thead>
-			<tr>
-				<th>
-					Category Id
-				</th>
-				<th>
-					Name
-				</th>
-				<th>Action</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="category:${listCategories}">
-				<th >[[${category.id}]]</th>
-				<th >[[${category.name}]]</th>
-				<th>					
-					<a class="fas fa-edit" th:href="@{'/categories/edit/'+${category.id}}"></a>
-				</th>
-			</tr>
-		</tbody>
-	</table>
-	<nav aria-label="Page navigation example">
-  <ul class="pagination">
-     <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/categories/page/'+${i}}" >[[${i}]]</a></li>
-  </ul>
-</nav>
-</div>
-</div>
-	
-</body>
+<head th:replace="components/head_title :: page_head('Categories - Deskita Admin')">
+    <style>
+
+    </style>
+
+    <body>
+        <div class="container">
+            <nav th:replace="components/Navigation :: navigation"></nav>
+
+            <div class="box_shadow-table">
+                <div class="table-content-modify">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>Categories management</h2>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a class="add-btn" th:href="@{/categories/new}"> ADD NEW</a>
+							</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Category Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="category:${listCategories}">
+                                <th>[[${category.id}]]</th>
+                                <th>[[${category.name}]]</th>
+                                <th>
+                                    <a class="fas fa-edit" th:href="@{'/categories/edit/'+${category.id}}"></a>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/categories/page/'+${i}}">[[${i}]]</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+
 </html>
