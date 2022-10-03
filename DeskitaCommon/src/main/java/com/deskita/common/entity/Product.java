@@ -39,7 +39,7 @@ public class Product {
 	@Column(name="fulldescription",length=300)
 	private String fullDescription;
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinTable(
 			name="products_brands",
 			joinColumns = @JoinColumn(name="product_id"),
@@ -47,7 +47,7 @@ public class Product {
 			)
 	private Brand brand=new Brand();
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinTable(
 			name="products_categories",
 			joinColumns = @JoinColumn(name="product_id"),
