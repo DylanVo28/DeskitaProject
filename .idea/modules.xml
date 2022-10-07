@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DeskitaWebParent/DeskitaBackend/DeskitaBackend.iml" filepath="$PROJECT_DIR$/DeskitaWebParent/DeskitaBackend/DeskitaBackend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DeskitaCommon/DeskitaCommon.iml" filepath="$PROJECT_DIR$/DeskitaCommon/DeskitaCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DeskitaWebParent/DeskitaFrontEnd/DeskitaFrontEnd.iml" filepath="$PROJECT_DIR$/DeskitaWebParent/DeskitaFrontEnd/DeskitaFrontEnd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DeskitaProject.iml" filepath="$PROJECT_DIR$/DeskitaProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DeskitaWebParent/DeskitaWebParent.iml" filepath="$PROJECT_DIR$/DeskitaWebParent/DeskitaWebParent.iml" />
+    </modules>
+  </component>
+</project>

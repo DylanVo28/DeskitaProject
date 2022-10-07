@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<style>
+	.btn-secondary{
+		background: #fff !important;
+	}
+	.btn-secondary :hover{
+		text-decoration: none !important;
+	}
+</style>
 <head
 	th:replace="components/head_title :: page_head('New Brand - Deskita Admin')">
 
-	<style>
-</style>
+
 <body>
+
 	<div class="container">
 		<nav th:replace="components/Navigation :: navigation"></nav>
 		<h1>Brands</h1>
@@ -21,7 +29,7 @@
 
 				</div>
 
-				<input type="file" id="files" name="fileImage" accept="image/png, image/jpeg, image/jpg"/> <img id="image" th:src="@{/images/brands/}+${brand.logo}"width="300"
+				<input type="file" id="files" name="fileImage" accept="image/png, image/jpeg, image/jpg"/> <img id="image" th:src="${brand.logo}"width="300"
 
 					height="250" />
 					<button type="submit" value="Save" class="btn btn-primary">Submit</button>

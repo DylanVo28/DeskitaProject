@@ -51,7 +51,7 @@
                         <tbody>
                             <tr th:each="product:${listProducts}">
                                 <th>[[${product.id}]]</th>
-                                <th><img style="width: 50px" th:src="'/DeskitaAdmin/images/'+${product.image}" /></th>
+                                <th><img style="height: 45px;width: 45px;object-fit: fill" alt="chua co anh" th:src= "${product.getImage()}" /></th>
                                 <th>[[${product.name}]]</th>
                                 <th>[[${product.shortDescription}]]</th>
                                 <th>[[${product.fullDescription}]]</th>
@@ -71,6 +71,8 @@
                     </nav>
                 </div>
             </div>
+
+        </div>
 
         </div>
     </body>

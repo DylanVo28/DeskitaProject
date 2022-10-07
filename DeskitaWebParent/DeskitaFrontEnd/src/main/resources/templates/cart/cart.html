@@ -217,7 +217,7 @@
             	<input type="hidden" th:value="${product.id}" th:name="product_id"/>
                 <div class="row main align-items-center" >
                 	
-                    <div class="col-2"><img class="img-fluid" th:src="@{'/images/'+${product.image}}"></div>
+                    <div class="col-2"><img class="img-fluid" th:src="@{${product.image}}"></div>
                     <div class="col">
                         <div class="row text-muted" th:text="${product.name}">Shirt</div>
                         <div class="row" th:text="${productDetail.name}">Cotton T-shirt</div>
