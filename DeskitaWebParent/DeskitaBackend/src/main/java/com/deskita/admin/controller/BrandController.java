@@ -79,11 +79,13 @@ public class BrandController {
 
 	@PostMapping("/brands/save/{id}")
 	public String saveBrandById(@PathVariable(name = "id") Integer id, Model model, HttpServletRequest request,
-			@RequestParam(name = "fileImage", required = false) MultipartFile image) {
+			@RequestParam(name = "fileImage", required = false) MultipartFile image) throws IOException {
 		Brand brand = service.getBrandById(id);
-		String uploadfile = StringUtils.cleanPath(image.getOriginalFilename());
-
-		brand.setLogo(uploadfile);
+		String filePath = request.getServletContext().getRealPath("/");
+		File file=new File(filePath);
+		image.transferTo(file);
+		Map uploadResult=cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+		brand.setLogo(uploadResult.get("url").toString());
 		model.addAttribute("brand", brand);
 		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save/");
 		service.saveBrand(brand);

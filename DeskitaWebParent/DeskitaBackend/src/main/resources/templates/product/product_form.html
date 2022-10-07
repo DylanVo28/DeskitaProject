@@ -17,7 +17,12 @@
 	background: white;
 	padding: 20px;
 }
-
+.btn-secondary{
+	background: #fff !important;
+}
+.btn-secondary :hover{
+	text-decoration: none !important;
+}
 .product .product_image{
 	background:white;
 	padding:20px;
@@ -39,7 +44,7 @@
 	background: white;
 }
 .product .btn_cancel a{
-	color:white!important;
+	color:black!important;
 }
 .product .input_variation{
 	    border: none;
@@ -109,7 +114,7 @@
 			<input type="hidden" name="imageNames" th:id="'imageName' + ${iter.index}"
 				th:value="${productImage.url}" />
 			
-					<img th:id="'thumbnail_'+${iter.index}" th:src="@{/images/}+${productImage.url}" alt="Chua co anh" style="width: 100%"/>
+					<img th:id="'thumbnail_'+${iter.index}" th:src="${productImage.url}" alt="Chua co anh" style="width: 100%"/>
 				<input type="file" th:id="'fileImage_'+${iter.index}" 
 				th:value="${productImage.url}"
 				th:attr="onclick=|inputImage(${iter.index})|" 
@@ -180,7 +185,7 @@
 				<div class="form-group row">
   	<div class="form-check col-md-3" th:each="brand:${listBrand}">
 	  <input class="form-check-input-brand" type="checkbox" th:field="*{brand}" value="" th:value="${brand.id}" >
-	  <img th:src="'/DeskitaAdmin/images/brands/'+${brand.logo}" style="width: 70px"/>
+	  <img th:src="${brand.logo}" style="width: 70px"/>
 	  <label class="form-check-label" for="flexCheckDefault" th:text="${brand.name}">
 	    Default checkbox
 	  </label>

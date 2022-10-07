@@ -166,7 +166,7 @@ display:none;
     <div class="col-md-3">Thương hiệu</div>
     <div class="col-md-9 list_brand_item">   <li th:each="brand: ${brands}" class="item_filter_brand">
     <input type="checkbox" class="brand_item" name="brand_item" th:value="${brand.id}" th:checked="${brand.id}==${brandId}">
-    <img class="img_brand" th:src="@{'/images/brands/'+${brand.logo}}"/>
+    <img class="img_brand" th:src="@{${brand.logo}}"/>
     
     </li>
      </div>
@@ -196,7 +196,7 @@ display:none;
 			<div class="col-md-3" th:each="product: ${products}">
 				<div class="frame_product">
 				<a th:href="@{'/product/'+${product.id}}" class="link_product_detail">
-				<div class="product_image" th:style="'background: url('+@{'/images/'+${product.image}}+')'" ></div>
+				<div class="product_image" th:style="'background: url('+@{${product.image}}+')'"  ></div>
 				<div class="product_info">
 				
 					<div class="product_title" th:text="${product.name}"></div>

@@ -76,7 +76,7 @@ p{
 		<ul class="list_image" style="padding:0">
 				<li th:each="productImage: ${productImages}" style="margin-bottom: 10px">
 					<div class="image">
-					<img th:src="@{'/images/'+${productImage.url}}" class="image_item" >
+					<img th:src="@{${productImage.url}}" class="image_item" >
 					</div>
 					
 				</li>
@@ -84,7 +84,7 @@ p{
 		</div>
 			<div class="col-md-7 images" >
 			<div class="main-image text-center">
-				<img th:src="@{'/images/'+${product.image}}" class="image_main">
+				<img th:src="@{${product.image}}" class="image_main">
 			</div>
 			<br>
 			
@@ -111,7 +111,7 @@ p{
 				</div>
 				<br>
 				<span style="font-size: 20px">Thương hiệu:</span>
-				<img th:src="@{'/images/brands/'+${product.getBrand().getLogo()}}" style="height: 60px">
+				<img th:src="@{${product.getBrand().getLogo()}}" style="height: 60px">
 				<br>
 				<br>
 				<div>
