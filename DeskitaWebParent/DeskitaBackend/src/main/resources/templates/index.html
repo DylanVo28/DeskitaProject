@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:replace="components/head_title :: page_head('Home - Deskita Admin')">
 
 </head>
 <style>
-		
+
 </style>
+
 <body>
 
-<div class="container index">
-<nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Welcome asssse</h1>
-<a th:href="@{/account}" ></a>
-<span sec:authentication="principal.authorities"></span>
-</div>
-	
+    <div class="container index">
+        <nav th:replace="components/Navigation :: navigation"></nav>
+        <h1>Welcome asssse</h1>
+        <a th:href="@{/account}"></a>
+        <span sec:authentication="principal.authorities"></span>
+    </div>
+
 </body>
+
 </html>

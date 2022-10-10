@@ -3,96 +3,108 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light navigation" th:fragment="navigation" style="background: white">
-<style>
-	.dropdown-toggle{
-		display:flex;
-	}
-	.logo{
-		width: 100px;
-	}
-	.navigation{
-		box-shadow: 1px 1px 15px #eaeaea;
-	}
-	.navbar-light .navbar-nav .nav-link{
-		    font-size: 20px;
-	}
-	
-	*{
-		font-size: 18px;
-	}
-</style>
-	<div class="container">
-  <a class="navbar-brand" th:href="@{/}"><img class="logo" th:src="@{/images/logo/logodeskita.png}"/></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light navigation" th:fragment="navigation" style="background: white">
+        <style>
+            .dropdown-toggle {
+                display: flex;
+            }
+            
+            .logo {
+                width: 100px;
+            }
+            
+            .navigation {
+                box-shadow: 1px 1px 15px #eaeaea;
+            }
+            
+            .navbar-light .navbar-nav .nav-link {
+                font-size: 20px;
+            }
+            
+            * {
+                font-size: 18px;
+            }
+        </style>
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}"><img class="logo" th:src="@{/images/logo/logodeskita.png}" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
-	<input type="submit"/>
-</form>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item ">
-        <a class="nav-link" th:href="@{/}">Home(current)</a>
-      </li>
-      <li class="nav-item" sec:authorize="hasAuthority('Admin')">
-        <a class="nav-link" th:href="@{/users}">Users</a>
-      </li>
-     <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/categories}">Categories</a>
-      </li>
-     </th:block>
-       <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/brands}">Brands</a>
-      </li>
-       </th:block>
-        <th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson')">
-       <li class="nav-item">
-        <a class="nav-link " th:href="@{/products}">Products</a>
-      </li>
-       </th:block>
-       <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/customers}">Customers</a>
-      </li>
-      </th:block>
-      <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/orders}">Orders</a>
-      </li>
-      </th:block>
-     <th:block sec:authorize="hasAnyAuthority('Admin')">
-      <li class="nav-item">
-        <a class="nav-link " th:href="@{/analytics}">Analytics</a>
-      </li>
-      </th:block>
-      
-    
-    </ul>
-     <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle user_avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+                <input type="submit" />
+            </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item" sec:authorize="hasAuthority('Admin')">
+                        <a class="nav-link" th:href="@{/users}">Users</a>
+                    </li>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/categories}">Categories</a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/brands}">Brands</a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/products}">Products</a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/customers}">Customers</a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/orders}">Orders</a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/analytics}">Analytics</a>
+                        </li>
+                    </th:block>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary">[[#{label.language}]]</button>
+                        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/Deskita/products/1/page?lang=vi">Vietnamese</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Deskita/products/1/page?lang=en">English</a>
+                        </div>
+                    </div>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle user_avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="fas fa-user fa-2x"></span>
     <a class="nav-link"   th:href="@{/account}" ><span sec:authentication="principal.Username"></span></a>
   </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-  <a class="dropdown-item"  th:href="@{/account}">My profile</a>
-    <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
-   
-  </div>
-</div>
-  </div>
-  </div>
-  <script type="text/javascript">
-		$(document).ready(function(){
-			$("#logoutLink").on("click",function(e){
-				e.preventDefault();
-				document.logoutForm.submit();
-			});
-		});
-	</script>
-</nav>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" th:href="@{/account}">My profile</a>
+                        <a class="dropdown-item" id="logoutLink" th:href="@{/logout}">Logout</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#logoutLink").on("click", function(e) {
+                    e.preventDefault();
+                    document.logoutForm.submit();
+                });
+            });
+        </script>
+    </nav>
 
 </body>
+
 </html>

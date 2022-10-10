@@ -1,87 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:replace="components/head_title :: page_head('Deskita')">
-<style>
-		
-</style>
-<body>
+    <style>
 
-<div class="container index">
-<div th:replace="components/navigation :: navigation"></div>
-<div class="card bg-light">
-<article class="card-body mx-auto" style="width: 400px;">
-	<h4 class="card-title mt-3 text-center">Create Account</h4>
-	<p class="text-center">Get started with your free account</p>
+    </style>
 
-	<form th:action="@{/customer/save}" method="post" th:object="${customer}">
-	<div class="form-group input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		 </div>
-        <input name="" class="form-control"  placeholder="First name" type="text" th:field="*{firstName}" required pattern="[^\d]+">
-    </div> <!-- form-group// -->
-	<div class="form-group input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		 </div>
-        <input name="" class="form-control" placeholder="Last name" type="text" th:field="*{lastName}"  required pattern="[^\d]+">
-    </div> <!-- form-group// -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-		 </div>
-        <input name="" class="form-control" placeholder="Email address" type="email" th:field="*{email}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-    </div> <!-- form-group// -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-		</div>
-		
-    	<input name="" class="form-control" placeholder="Phone number" type="tel" th:field="*{phoneNumber}" required title="Số điện thoại không khớp" pattern="[0-9]{3}[0-9]{3}[0-9]{4}">
-    </div> <!-- form-group// -->
- 
-	 <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-		 </div>
-        <input name="" class="form-control" placeholder="Address info" type="text" th:field="*{address}">
-    </div> <!-- form-group// -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        <input class="form-control" placeholder="Create password" id="password" type="password" th:field="*{password}" required
-        oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"
-        >
-    </div> <!-- form-group// -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        <input class="form-control" placeholder="Repeat password" type="password" id="confirmPassword" required
-        oninput="checkPasswordMatch(this)"
-        >
-    </div> <!-- form-group// -->                                      
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
-    </div> <!-- form-group// -->      
-    <p class="text-center">Have an account? <a th:href="@{/login}">Log In</a> </p>                                                                 
-</form>
-</article>
-</div> <!-- card.// -->
+    <body>
 
-</div>
-	<script type="text/javascript">
-		function checkPasswordMatch(confirmPassword){
-			if(confirmPassword.value!= $("#password").val()){
-				confirmPassword.setCustomValidity("Passwords do not match");
-			} else{
-				confirmPassword.setCustomValidity("");
-			}
-		}
-	</script>
-</body>
+        <div class="container index">
+            <div th:replace="components/navigation :: navigation"></div>
+            <div class="card bg-light">
+                <article class="card-body mx-auto" style="width: 400px;">
+                    <h4 class="card-title mt-3 text-center">Create Account</h4>
+                    <p class="text-center">Get started with your free account</p>
+
+                    <form th:action="@{/customer/save}" method="post" th:object="${customer}">
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                            </div>
+                            <input name="" class="form-control" placeholder="First name" type="text" th:field="*{firstName}" required pattern="[^\d]+">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Last name" type="text" th:field="*{lastName}" required pattern="[^\d]+">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Email address" type="email" th:field="*{email}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                            </div>
+
+                            <input name="" class="form-control" placeholder="Phone number" type="tel" th:field="*{phoneNumber}" required title="Số điện thoại không khớp" pattern="[0-9]{3}[0-9]{3}[0-9]{4}">
+                        </div>
+                        <!-- form-group// -->
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Address info" type="text" th:field="*{address}">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input class="form-control" placeholder="Create password" id="password" type="password" th:field="*{password}" required oninput="checkPasswordMatch(document.getElementById('confirmPassword'))">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input class="form-control" placeholder="Repeat password" type="password" id="confirmPassword" required oninput="checkPasswordMatch(this)">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+                        </div>
+                        <!-- form-group// -->
+                        <p class="text-center">Have an account? <a th:href="@{/login}">Log In</a> </p>
+                    </form>
+                </article>
+            </div>
+            <!-- card.// -->
+
+        </div>
+        <script type="text/javascript">
+            function checkPasswordMatch(confirmPassword) {
+                if (confirmPassword.value != $("#password").val()) {
+                    confirmPassword.setCustomValidity("Passwords do not match");
+                } else {
+                    confirmPassword.setCustomValidity("");
+                }
+            }
+        </script>
+    </body>
+
 </html>
