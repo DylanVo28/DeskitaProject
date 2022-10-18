@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+<style>
+    .choice{
+        border: solid 1px #cccccc;
+        margin: 4px;
+        padding: 4px;
+        border-radius: 5px;
+        display: inline-block;
+    }
+</style>
+
+<body>
+    <div id="conversation">
+        <p>Hi! I am a chatbot</p>
+        <p>What would you like to do?</p>
+        <div>
+            <a onclick="submitChoice(this)" class="choice">Tell me a joke</a>
+            <a onclick="submitChoice(this)" class="choice">Search Google</a>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function submitChoice(el){
+        let choice =el.dataset.choice;
+        $.post("/Deskita/chat/message",{choice:choice},function (result){
+            $(result).appendTo($("#conversation"));
+        });
+    }
+</script>
+</html>
