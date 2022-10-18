@@ -7,17 +7,99 @@
     </style>
 
     <body>
-        <div class="container">
-            <nav th:replace="components/Navigation :: navigation"></nav>
-            <h1>Thống kê theo đơn đặt hàng</h1>
-            <form th:action="@{/export/excel/order}" method="GET">
-                <input type="date" style="height:42px" id="startDate" name="startDate">
-                <input type="date" style="height:42px" id="endDate" name="endDate">
-                <button type="submit" style="margin-bottom: 4px;" class="btn btn-primary">Export</button>
-            </form>
+<div class="container">
+    <nav th:replace="components/Navigation :: navigation"></nav>
+    <h1>Thống kê theo đơn đặt hàng</h1>
+    <form th:action="@{/export/excel/order}" method="GET">
+        <input type="date" style="height:42px" id="startDate" name="startDate">
+        <input type="date" style="height:42px" id="endDate" name="endDate">
+        <button type="submit" style="margin-bottom: 4px;" class="btn btn-primary">Export</button>
+    </form>
+    <div id="chart_div"></div>
+    <figure class="highcharts-figure">
+        <div id="container-bar"></div>
+    </figure>
+</div>
+<script type="text/javascript" th:inline="javascript">
 
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages': ['corechart']});
 
-        </div>
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    let lHmRevenue=[[${hmRevenue}]]
+    let months=[]
+    let counts=[]
+    for(let i in lHmRevenue){
+        months.push(i)
+        counts.push(lHmRevenue[i])
+    }
+    drawChartRevenue(months,counts)
+    function drawChartRevenue(months, counts) {
+        Highcharts.chart('container-bar', {
+            chart : {
+                renderTo: "container",
+                type : 'column',
+                styledMode : true
+            },
+            title : {
+                text : 'Tổng doanh thu theo từng tháng'
+            },
+            xAxis : [ {
+                title : {
+                    text : 'tháng'
+                },
+                categories : months
+            } ],
+            yAxis : [ {
+                className : 'highcharts-color-0',
+                title : {
+                    text : 'doanh thu'
+                }
+            } ],
+            series : [ {
+                data : counts
+            } ],
+        });
+    }
+    function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        let lDataChart=[[${hmDataChart}]]
+
+        let dataChart=[]
+        dataChart.push(["CANCELLED",lDataChart.CANCELLED])
+        dataChart.push(["CONFIRMED",lDataChart.CONFIRMED])
+        dataChart.push(["DELIVERED",lDataChart.DELIVERED])
+        dataChart.push(["NEW",lDataChart.NEW])
+        dataChart.push(["PACKAGED",lDataChart.PACKAGED])
+        dataChart.push(["PAID",lDataChart.PAID])
+        dataChart.push(["PICKED",lDataChart.PICKED])
+        dataChart.push(["PROCESSING",lDataChart.PROCESSING])
+        dataChart.push(["REFUNDED",lDataChart.REFUNDED])
+        dataChart.push(["RETURNED",lDataChart.RETURNED])
+        dataChart.push(["SHIPPING",lDataChart.SHIPPING])
+
+        data.addRows(dataChart);
+
+        // Set chart options
+        var options = {'title':'Thống kê tình trạng các đơn hàng',
+            'width':400,
+            'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
     </body>
 
 </html>
