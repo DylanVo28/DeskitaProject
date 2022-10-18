@@ -2,10 +2,7 @@ package com.deskita.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.security.PermitAll;
@@ -13,7 +10,6 @@ import java.util.HashMap;
 
 @Controller
 @RequestMapping("/chat")
-@PermitAll
 public class ChatController {
     @GetMapping
     public String getChatPage(){
@@ -26,9 +22,13 @@ public class ChatController {
     }
     @PostMapping("/message")
     @ResponseBody
-    @PermitAll
-    public String createMessage(){
-        return "<div>That funny!</div>";
+    public String createMessage(@RequestParam("choice")String choice){
+        switch (choice){
+            case "joke":return "<div>That funny!</div>";
+            case "google":return "<div>Hello</div>";
+        }
+        return "<div>I don't understand</div>";
+
     }
 
 }

@@ -53,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email").permitAll().and().logout().permitAll().and().rememberMe()
 				.key("1234567890_aBcDeFgHiJkLmNoPqRsTuVwXyZ")
 				.tokenValiditySeconds(14*24*60*60);
-		http.headers().frameOptions().disable();
 				
 }
 	

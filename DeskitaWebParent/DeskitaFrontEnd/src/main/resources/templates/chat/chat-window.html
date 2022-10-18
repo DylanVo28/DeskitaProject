@@ -9,6 +9,7 @@
         padding: 4px;
         border-radius: 5px;
         display: inline-block;
+        background-color: bisque;
     }
 </style>
 
@@ -17,8 +18,8 @@
         <p>Hi! I am a chatbot</p>
         <p>What would you like to do?</p>
         <div>
-            <a onclick="submitChoice(this)" class="choice">Tell me a joke</a>
-            <a onclick="submitChoice(this)" class="choice">Search Google</a>
+            <a onclick="submitChoice(this)" data-choice="joke" class="choice">Tell me a joke</a>
+            <a onclick="submitChoice(this)" data-choice="google" class="choice">Search Google</a>
         </div>
     </div>
 </body>
@@ -26,6 +27,7 @@
 <script>
     function submitChoice(el){
         let choice =el.dataset.choice;
+        console.log(choice)
         $.post("/Deskita/chat/message",{choice:choice},function (result){
             $(result).appendTo($("#conversation"));
         });
