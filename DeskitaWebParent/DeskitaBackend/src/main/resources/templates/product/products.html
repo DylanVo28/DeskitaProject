@@ -20,10 +20,10 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-8">
-                                <h2>Products management</h2>
+                                <h2>[[#{label.ProductManagement}]]</h2>
                             </div>
                             <div class="col-sm-4">
-                                <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a class="add-btn" th:href="@{/products/new}"> ADD NEW</a>
+                                <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a class="add-btn" th:href="@{/products/new}"> [[#{label.add}]]</a>
 							</button>
                             </div>
                         </div>
@@ -34,14 +34,14 @@
 
                         <thead>
                             <tr>
-                                <th>Product Id</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Short description</th>
-                                <th>Full description</th>
-                                <th>Brand</th>
-                                <th>Category</th>
-                                <th>Action</th>
+                                <th>[[#{label.productID}]]</th>
+                                <th>[[#{label.image}]]</th>
+                                <th>[[#{label.name}]]</th>
+                                <th>[[#{label.shortDes}]]</th>
+                                <th>[[#{label.fullDes}]]</th>
+                                <th>[[#{label.brand}]]</th>
+                                <th>[[#{label.ProductCate}]]</th>
+                                <th>[[#{label.action}]]</th>
 
                             </tr>
                         </thead>

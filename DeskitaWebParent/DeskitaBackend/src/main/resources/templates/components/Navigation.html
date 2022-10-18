@@ -24,6 +24,26 @@
             * {
                 font-size: 18px;
             }
+            .nav-item a{
+                font-size: 14px !important;
+                color: #000 !important;
+            }
+            .container{
+                min-width: 1000px !important;
+            }
+            .btn-secondary{
+                background-color:#4e555b;
+            }
+            .btn-group {
+                background-color:#4e555b !important;
+                border-radius: 4px;
+
+            }
+            .btn-secondary:hover{
+                background-color:#4e555b !important;
+                border-radius: 4px;
+
+            }
         </style>
         <div class="container">
             <a class="navbar-brand" th:href="@{/}"><img class="logo" th:src="@{/images/logo/logodeskita.png}" /></a>
@@ -37,48 +57,54 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item" sec:authorize="hasAuthority('Admin')">
-                        <a class="nav-link" th:href="@{/users}">Users</a>
+                        <a class="nav-link" th:href="@{/users}">[[#{label.user}]]</a>
                     </li>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/categories}">Categories</a>
+                            <a class="nav-link " th:href="@{/categories}">[[#{label.category}]]</a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/brands}">Brands</a>
+                            <a class="nav-link " th:href="@{/brands}">[[#{label.brand}]]</a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/products}">Products</a>
+                            <a class="nav-link " th:href="@{/products}">[[#{label.product}]]</a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/customers}">Customers</a>
+                            <a class="nav-link " th:href="@{/customers}">[[#{label.customer}]]</a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/orders}">Orders</a>
+                            <a class="nav-link " th:href="@{/orders}">[[#{label.order}]]</a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/analytics}">Analytics</a>
+                            <a class="nav-link " th:href="@{/analytics}">[[#{label.analytic}]]</a>
                         </li>
                     </th:block>
 
-                    <div class="btn-group">
+                    <div class="btn-group ">
                         <button type="button" class="btn btn-secondary">[[#{label.language}]]</button>
                         <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                         <div class="dropdown-menu">
+<<<<<<< Updated upstream
                             <a class="dropdown-item" href="/DeskitaAdmin/products/1/page?lang=vi">Vietnamese</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/DeskitaAdmin/products/1/page?lang=en">English</a>
+=======
+                            <a class="dropdown-item" href="/DeskitaAdmin/users/page/1?lang=vi">Vietnamese</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/DeskitaAdmin/users/page/1?lang=en">English</a>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </ul>

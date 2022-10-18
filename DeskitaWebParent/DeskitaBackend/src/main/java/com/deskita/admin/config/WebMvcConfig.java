@@ -1,4 +1,4 @@
-package com.deskita.config;
+package com.deskita.admin.config;
 
 
 import java.util.Locale;
@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	@Bean(name = "localeResolver")
 	public LocaleResolver getLocaleResolver()  {
 		SessionLocaleResolver resolver= new SessionLocaleResolver();
-		resolver.setDefaultLocale(new Locale("vi"));
+		resolver.setDefaultLocale(Locale.US);
 		return resolver;		
 	} 
 	

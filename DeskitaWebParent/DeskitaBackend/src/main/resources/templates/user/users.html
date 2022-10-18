@@ -18,10 +18,10 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-8">
-                                <h2>Users management</h2>
+                                <h2>[[#{label.usersManagement}]]</h2>
                             </div>
                             <div class="col-sm-4">
-                                <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a class="add-btn" th:href="@{/users/new}"> ADD NEW</a>
+                                <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a class="add-btn" th:href="@{/users/new}"> [[#{label.add}]]</a>
                                         </button>
                             </div>
                         </div>
@@ -30,24 +30,24 @@
                         <thead>
                             <tr>
                                 <th>
-                                    User Id
+                                    [[#{label.userID}]]
                                 </th>
                                 <th>
-                                    Photos
+                                    [[#{label.userPhoto}]]
                                 </th>
                                 <th>
-                                    First Name
+                                    [[#{label.userFirstName}]]
                                 </th>
                                 <th>
-                                    Last Name
+                                    [[#{label.userLastName}]]
                                 </th>
                                 <th>
-                                    Roles
+                                    [[#{label.roles}]]
                                 </th>
                                 <th>
-                                    Enabled
+                                    [[#{label.enabled}]]
                                 </th>
-                                <th>Action</th>
+                                <th>[[#{label.action}]]</th>
 
                             </tr>
                         </thead>
