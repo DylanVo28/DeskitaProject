@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="DeskitaCommon" />
-        <module name="DeskitaBackend" />
         <module name="DeskitaFrontEnd" />
+        <module name="DeskitaBackend" />
       </profile>
     </annotationProcessing>
   </component>
