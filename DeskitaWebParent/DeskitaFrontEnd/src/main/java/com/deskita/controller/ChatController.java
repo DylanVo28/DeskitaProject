@@ -24,8 +24,10 @@ public class ChatController {
     @ResponseBody
     public String createMessage(@RequestParam("choice")String choice){
         switch (choice){
-            case "joke":return "<div>That funny!</div>";
-            case "google":return "<div>Hello</div>";
+            case "product":return "<div>Nếu mình đã chọn được sản phẩm, vui lòng cho em xin tên sản phẩm và địa chỉ để em kiểm tra thời gian và hỗ trợ nhanh hơn.</div>";
+            case "insurance":return "<div>Bạn cần tra cứu sản phẩm nào.</div>";
+            case "staff":return "<div>Bạn đợi một lát ạ.</div>";
+            case "advise":return "<div>Tất nhiên là được ạ.</div>";
         }
         return "<div>I don't understand</div>";
 
