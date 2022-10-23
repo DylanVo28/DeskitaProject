@@ -7,10 +7,9 @@
     </style>
 
     <body>
-<<<<<<< Updated upstream
 <div class="container">
     <nav th:replace="components/Navigation :: navigation"></nav>
-    <h1>Thống kê theo đơn đặt hàng</h1>
+    <h1>[[#{label.AnalyticManament}]]</h1>
     <form th:action="@{/export/excel/order}" method="GET">
         <input type="date" style="height:42px" id="startDate" name="startDate">
         <input type="date" style="height:42px" id="endDate" name="endDate">
@@ -22,16 +21,7 @@
     </figure>
 </div>
 <script type="text/javascript" th:inline="javascript">
-=======
-        <div class="container">
-            <nav th:replace="components/Navigation :: navigation"></nav>
-            <h1>[[#{label.AnalyticManament}]]</h1>
-            <form th:action="@{/export/excel/order}" method="GET">
-                <input type="date" style="height:42px" id="startDate" name="startDate">
-                <input type="date" style="height:42px" id="endDate" name="endDate">
-                <button type="submit" style="margin-bottom: 4px;" class="btn btn-primary">Export</button>
-            </form>
->>>>>>> Stashed changes
+
 
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages': ['corechart']});

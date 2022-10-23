@@ -96,15 +96,10 @@
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                         <div class="dropdown-menu">
-<<<<<<< Updated upstream
-                            <a class="dropdown-item" href="/DeskitaAdmin/products/1/page?lang=vi">Vietnamese</a>
+
+                            <a class="dropdown-item" href="/DeskitaAdmin/users/page/1?lang=vi" id="lang-vi">Vietnamese</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/DeskitaAdmin/products/1/page?lang=en">English</a>
-=======
-                            <a class="dropdown-item" href="/DeskitaAdmin/users/page/1?lang=vi">Vietnamese</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/DeskitaAdmin/users/page/1?lang=en">English</a>
->>>>>>> Stashed changes
+                            <a class="dropdown-item" href="/DeskitaAdmin/users/page/1?lang=en" id="lang-en">English</a>
                         </div>
                     </div>
                 </ul>
@@ -122,11 +117,15 @@
             </div>
         </div>
         <script type="text/javascript">
+            $("#lang-vi").attr("href",`${window.location.pathname}?lang=vi`)
+            $("#lang-en").attr("href",`${window.location.pathname}?lang=en`)
+
             $(document).ready(function() {
                 $("#logoutLink").on("click", function(e) {
                     e.preventDefault();
                     document.logoutForm.submit();
                 });
+
             });
         </script>
     </nav>
