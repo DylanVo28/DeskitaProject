@@ -176,14 +176,14 @@
             $(".btn_product_detail").removeClass("active_product_detail");
             $("#product_detail_name_selected").val("");
 
-            $("#min_max_price").text(Array.min(listPrice) + '-' + Array.max(listPrice));
+            $("#min_max_price").text(formatCurrency(Array.min(listPrice)) + '-' + formatCurrency(Array.max(listPrice)));
 
 
             return;
         }
         $(".btn_product_detail").removeClass("active_product_detail");
         $(this).addClass("active_product_detail");
-        $("#min_max_price").text($(this).attr('data'));
+        $("#min_max_price").text(formatCurrency($(this).attr('data')));
         $("#product_detail_name_selected").val($(this).val());
     })
     $('#form_product').submit(function () {

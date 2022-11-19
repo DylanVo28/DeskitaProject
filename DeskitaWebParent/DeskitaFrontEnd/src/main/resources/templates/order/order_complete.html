@@ -44,7 +44,7 @@
 				</div>
 				<div class="row svjhdva text-left">
 					<div class="col-md-6">Tổng đơn hàng</div>
-					<div class="col-md-6" th:text="${order.total}"></div>
+					<div class="col-md-6 total_price"  th:text="${order.total}"></div>
 				</div>
 				<div class="row svjhdva text-left">
 					<div class="col-md-6">Ngày tạo</div>
@@ -54,4 +54,7 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(".total_price").text(parseInt( $(".total_price").text()));
+</script>
 </html>
