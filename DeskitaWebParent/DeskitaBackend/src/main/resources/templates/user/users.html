@@ -32,9 +32,7 @@
                                 <th>
                                     [[#{label.userID}]]
                                 </th>
-                                <th>
-                                    [[#{label.userPhoto}]]
-                                </th>
+
                                 <th>
                                     [[#{label.userFirstName}]]
                                 </th>
@@ -54,7 +52,6 @@
                         <tbody>
                             <tr th:each="user:${listUsers}">
                                 <th>[[${user.id}]]</th>
-                                <th><img src=`[[${user.photos}]]` alt="image "></th>
                                 <th>[[${user.firstName}]]</th>
                                 <th>[[${user.lastName}]]</th>
                                 <th th:text="${user.roles[0].name }"></th>
