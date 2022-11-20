@@ -91,7 +91,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr th:each="orderDetail: ${order.orderDetails}">
-                                    <td width="20%"> <img th:src="@{'/images/'+${orderDetail.image}}" width="90"> </td>
+                                    <td width="20%"> <img th:src="@{${orderDetail.image}}" width="90"> </td>
                                     <td width="60%"> <span class="font-weight-bold" th:text="${orderDetail.name}">Men's Sports cap</span>
                                         <div class="product-qty"> <span class="d-block">Quantity:<span th:text="${orderDetail.quantity}"></span></span> </div>
                                     </td>
