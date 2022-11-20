@@ -31,7 +31,7 @@
 			<div class="col-md-4 text-center">
 				<div class="title"><h3>Đặt hàng thành công</h3></div>
 				<div class="code-order">Mã đơn hàng: <a th:href="@{'/order/' + ${order.id}}" th:text="${order.id}">123</a></div>
-				<div class="image" th:each="orderDetail: ${order.orderDetails}"><img th:src="@{'/images/'+${orderDetail.image}}"/></div>
+				<div class="image" th:each="orderDetail: ${order.orderDetails}"><img th:src="@{${orderDetail.image}}"/></div>
 				
 				<br>
 				<div class="row svjhdva text-left">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="row svjhdva text-left">
 					<div class="col-md-6">Tổng đơn hàng</div>
-					<div class="col-md-6 total_price"  th:text="${order.total}"></div>
+					<div class="col-md-6" th:text="${order.total}"></div>
 				</div>
 				<div class="row svjhdva text-left">
 					<div class="col-md-6">Ngày tạo</div>
@@ -54,7 +54,7 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	$(".total_price").text(parseInt( $(".total_price").text()));
+<script>
+	console.log("hello");s
 </script>
 </html>
