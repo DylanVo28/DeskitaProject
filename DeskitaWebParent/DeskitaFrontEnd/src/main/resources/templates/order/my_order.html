@@ -220,7 +220,7 @@ background: white;
              <th th:text="${order.fullName}"></th>
              <th th:text="${order.orderTime}"></th>
               <th th:text="${order.paymentMethod}"></th>
-              <th th:text="${order.total}"></th>
+              <th th:text="${#numbers.formatDecimal(order.total, 0 , 'COMMA', 0, 'POINT')}"></th>
               <th:block th:switch="${#strings.toString(order.status)}">
               <th th:case="'NEW'"><p th:text="${order.status}" class="status_order" style="color: #55E6C1"></p></th>
                <th th:case="'CANCELLED'"><p th:text="${order.status}" class="status_order" style="color: #FC427B"></p></th>
@@ -241,10 +241,11 @@ background: white;
 
     </div>
 
-  </div>	
-	
-	<script>
-		
-	</script>
+  </div>
+
+
 </body>
+<script type="text/javascript">
+	$(".total_price").text(parseInt( $(".total_price").text()));
+</script>
 </html>

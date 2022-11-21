@@ -91,7 +91,6 @@ public class UserController {
 	
 	@GetMapping("/users/edit/{id}")
 	public String editUser(@PathVariable(name="id") Integer id,Model model) {
-		System.out.println(id);
 		User user=service.getUserById(id);
 		System.out.println(user.toString());
 		List<Role> listRoles= service.listRoles();
