@@ -95,14 +95,17 @@ public class ProductService {
 		
 		product.setImage(fileNameImage.get(0));
 		product.setCreateAt(new Date(0));
+		//save product
 		Product savedProduct=productRepository.save(product);
 		List<ProductImage> listImage=new ArrayList<ProductImage>();
 		List<ProductDetail> list=new ArrayList<ProductDetail>();
 		
 		//update product detail
+		//check no variant
 		if(detailIds==null && product.getId()!=null ) {
 			productDetailRepository.deleteProductDetailByProductId(product.getId());
 		}
+		//have variant
 		if((detailIds!=null && product.getId()!=null)|| (detailIds==null && product.getId()!=null && detailName!=null)) {
 			List<ProductDetail> listPDExisted= productDetailRepository.getProductDetailsByProductId(product.getId());
 			int idxPD=0;

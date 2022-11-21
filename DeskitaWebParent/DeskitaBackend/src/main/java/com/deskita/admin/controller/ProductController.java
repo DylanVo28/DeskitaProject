@@ -106,7 +106,6 @@ public class ProductController {
 
 		List<String> listImage = new ArrayList<>();
 		int idx = 0;
-		System.out.println("hello");
 		for (MultipartFile image : images) {
 			if ((!image.isEmpty() && imageIDs == null) ||
 					(!image.isEmpty() && idx < imageIDs.length && imageIDs[idx] != null) ||
@@ -120,9 +119,7 @@ public class ProductController {
 
 			if (image.isEmpty() && imageIDs[idx] != null) {
 				listImage.add(imageNames[idx]);
-				System.out.println("image2:" + imageNames[idx]);
 			}
-
 			idx++;
 		}
 
