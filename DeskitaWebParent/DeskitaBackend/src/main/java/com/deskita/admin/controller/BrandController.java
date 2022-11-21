@@ -23,13 +23,14 @@ import com.deskita.common.entity.Brand;
 import com.deskita.common.entity.Category;
 import com.cloudinary.*;
 import com.cloudinary.utils.ObjectUtils;
+
 @Controller
 public class BrandController {
 	Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-		"cloud_name", "tmasolution",
-		"api_key", "811712366169655",
-		"api_secret", "9UxeBRilDj55JpJ6iV42HopcxTE",
-		"secure", true));
+			"cloud_name", "tmasolution",
+			"api_key", "811712366169655",
+			"api_secret", "9UxeBRilDj55JpJ6iV42HopcxTE",
+			"secure", true));
 	@Autowired
 	private BrandService service;
 
@@ -44,7 +45,7 @@ public class BrandController {
 		int totalPage = allBrands.size() / 10 + 1;
 		List<Brand> listBrands = service.pagingBrand(currentPage);
 		for (Brand brand : listBrands) {
-			System.out.println("image_brand"+brand.getLogo());
+			System.out.println("image_brand" + brand.getLogo());
 		}
 		model.addAttribute("listBrands", listBrands);
 		model.addAttribute("totalPage", totalPage);
@@ -63,11 +64,11 @@ public class BrandController {
 	@PostMapping("/brands/save")
 	public String saveBrand(Brand brand, Model model, HttpServletRequest request,
 			@RequestParam(name = "fileImage", required = false) MultipartFile image) throws IOException {
-	
-		String filePath = request.getServletContext().getRealPath("/"); 
-		File file=new File(filePath);
+
+		String filePath = request.getServletContext().getRealPath("/");
+		File file = new File(filePath);
 		image.transferTo(file);
-		Map uploadResult=cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+		Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 		brand.setLogo(uploadResult.get("url").toString());
 		model.addAttribute("brand", brand);
 		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save");
@@ -79,17 +80,29 @@ public class BrandController {
 
 	@PostMapping("/brands/save/{id}")
 	public String saveBrandById(@PathVariable(name = "id") Integer id, Model model, HttpServletRequest request,
+			@RequestParam(name = "name", required = true) String name,
 			@RequestParam(name = "fileImage", required = false) MultipartFile image) throws IOException {
 		Brand brand = service.getBrandById(id);
-		String filePath = request.getServletContext().getRealPath("/");
-		File file=new File(filePath);
-		image.transferTo(file);
-		Map uploadResult=cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-		brand.setLogo(uploadResult.get("url").toString());
-		model.addAttribute("brand", brand);
-		model.addAttribute("actionSave", "/DeskitaAdmin/brands/save/");
-		service.saveBrand(brand);
-		return "redirect:/brands";
+
+		if (image.isEmpty()) {
+			brand.setName(name);
+			model.addAttribute("brand", brand);
+			model.addAttribute("actionSave", "/DeskitaAdmin/brands/save/");
+			service.saveBrand(brand);
+			return "redirect:/brands";
+		} else {
+			String filePath = request.getServletContext().getRealPath("/");
+			File file = new File(filePath);
+			image.transferTo(file);
+			Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+			brand.setLogo(uploadResult.get("url").toString());
+			brand.setName(name);
+			model.addAttribute("brand", brand);
+			model.addAttribute("actionSave", "/DeskitaAdmin/brands/save/");
+			service.saveBrand(brand);
+			return "redirect:/brands";
+		}
+
 	}
 
 	@GetMapping("/brands/edit/{id}")
