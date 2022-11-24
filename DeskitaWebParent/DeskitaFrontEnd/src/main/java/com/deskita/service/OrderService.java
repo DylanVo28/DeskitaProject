@@ -77,9 +77,7 @@ public class OrderService {
 			}
 			case "CONFIRMED":{
 					if(order.getStatus()==OrderStatus.NEW) {
-						
 						OrderStatus orderStatus=OrderStatus.CONFIRMED;
-						
 						order.setStatus(orderStatus);
 					}
 				break;

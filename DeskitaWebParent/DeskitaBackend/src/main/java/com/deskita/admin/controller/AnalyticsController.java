@@ -33,8 +33,8 @@ public class AnalyticsController {
 	public String analyticsPage(Model model) {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		String currentDateTime = dateFormatter.format(new Date());
-		LocalDate now = LocalDate.now(); // 2015-11-23
-		LocalDate ldFirstDay = now.with(firstDayOfYear()); // 2015-01-01
+		LocalDate now = LocalDate.now(); // 2022-11-21
+		LocalDate ldFirstDay = now.with(firstDayOfYear()); // 2022-01-01
 		Date dFirstDay = Date.from(ldFirstDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		String firstDay= dateFormatter.format(dFirstDay);
 		List<Order> orders = order.exportOrders(java.sql.Date.valueOf(firstDay),java.sql.Date.valueOf(currentDateTime));

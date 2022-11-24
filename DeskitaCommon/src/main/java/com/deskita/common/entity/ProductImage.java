@@ -20,8 +20,6 @@ public class ProductImage {
 	@Column(name="product_id",length = 150)
 	private Integer productId;
 
-	
-	
 	public Integer getId() {
 		return id;
 	}

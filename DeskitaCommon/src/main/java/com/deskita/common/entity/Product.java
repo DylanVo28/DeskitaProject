@@ -6,18 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="products")
@@ -35,8 +24,9 @@ public class Product {
 	
 	@Column(name="shortdescription",length=150)
 	private String shortDescription;
-	
-	@Column(name="fulldescription",length=300)
+
+	@Lob
+	@Column(name="fulldescription", length=512)
 	private String fullDescription;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
@@ -54,14 +44,9 @@ public class Product {
 			inverseJoinColumns = @JoinColumn(name="category_id")
 			)
 	private Category category =new Category();	
-	
-	
-	
+
 	private Date createAt;
-	
-	
-	
-	
+
 	public Date getCreateAt() {
 		return createAt;
 	}
@@ -69,10 +54,6 @@ public class Product {
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
-
-	
-
-
 	public String getImage() {
 		return image;
 	}

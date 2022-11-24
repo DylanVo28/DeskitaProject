@@ -96,23 +96,18 @@
                     <img th:src="@{${product.image}}" class="image_main">
                 </div>
                 <br>
-
-
             </div>
             <div class="col-md-4">
-
                 <h3 th:text="${product.name}" style="font-weight: bold"></h3>
                 <div>
                     <p style="font-weight: bold">Nội dung ngắn: </p>
                     <p th:text=${product.shortDescription}></p>
                 </div>
-
                 <br>
-                <div>
-                    <p style="font-weight: bold">Nội dung: </p>
-                    <p th:text=${product.fullDescription}></p>
-                </div>
-
+<!--                <div>-->
+<!--                    <p style="font-weight: bold">Nội dung: </p>-->
+<!--                    <p th:text=${product.fullDescription}></p>-->
+<!--                </div>-->
                 <br>
                 <div>
                     <span style="font-size: 20px">Thể loại: </span>
@@ -130,7 +125,6 @@
                 </div>
                 <br>
                 <div class="list_product_details">
-
                     <div th:each="productDetail: ${productDetails}">
                         <input type="button" class="btn_product_detail" th:value="${productDetail.name}"
                                th:data="${productDetail.value}" th:field="*{productDetail}">
@@ -138,22 +132,27 @@
                         <input type="hidden" th:value="${productDetail.value}">
                         <input th:value="${productDetail.stock}" type="hidden">
                         </input>
-
                     </div>
                     <input type="hidden" id="product_detail_name_selected" th:name="product_detail_name_selected"
                            value=""/>
-
-
                 </div>
                 <br>
                 <br>
                 <button class="btn_order_now"> Mua ngay</button>
             </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-7">
+                <h3>Nội dung</h3>
+                <article
+                        id="article"
+                ></article>
+            </div>
         </div>
     </form>
 </div>
 <script type="text/javascript" th:src="@{/js/currency.js}"></script>
-<script>
+<script type="text/javascript" th:inline="javascript">
     Array.max = function (array) {
         return Math.max.apply(Math, array);
     };
@@ -164,10 +163,9 @@
     $(".btn_product_detail").each(function () {
         listPrice.push(parseFloat($(this).attr('data')))
     })
-
+    $("#article").html([[${product.fullDescription}]])
     $("#min_max_price").text(formatCurrency(Array.min(listPrice))+ '-' + formatCurrency(Array.max(listPrice)));
 
-    console.log(listPrice)
     $(".image_item").click(function () {
         $(".image_main").attr("src", $(this).attr('src'));
     })

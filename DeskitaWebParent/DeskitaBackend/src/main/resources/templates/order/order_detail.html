@@ -58,7 +58,6 @@
                       <th:block sec:authorize="hasAnyAuthority('Shipper')">
                       <button th:case="'SHIPPING'" type="submit" th:name="status" th:value="DELIVERED" class="btn_status btn btn-success">Đã giao</button>
                     <button th:case="'DELIVERED'" type="submit" th:name="status" th:value="PAID" class="btn_status btn btn-success">Đã nhận đơn hàng</button>
-                  
                       </th:block>
                     	
                     </th:block>

@@ -16,9 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ProductDetails")
 public class ProductDetail {
-	
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -35,10 +33,7 @@ public class ProductDetail {
 	@Column(name="product_id",length = 150)
 	private Integer productId;
 
-	
-	
 	public BigDecimal getValue() {
-	
 		return value;
 	}
 

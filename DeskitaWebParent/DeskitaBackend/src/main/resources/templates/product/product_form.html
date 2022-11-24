@@ -59,7 +59,8 @@
 		<div>
 			<form th:action="${actionSave}" th:method="POST" 
 				enctype="multipart/form-data"
-				th:object="${product}">
+				th:object="${product}"
+			id="form-submit">
 				<input type="hidden" th:field="*{id}" />
 				<div class="row">
 				<div class="product-info col-md-7">
@@ -79,13 +80,20 @@
 						maxlength="150" class="form-control"
 						placeholder="Enter short description:" />
 				</div>
-				<div class="form-group">
-					<label>Full description</label> <input type="text"
-						th:name="fullDescription" th:value="${product.fullDescription}"
-						th:field="*{fullDescription}" minlength="2"
-						maxlength="300" class="form-control"
-						placeholder="Enter full description:" />
-				</div>
+<!--				<div class="form-group">-->
+<!--					<label>Full description</label> <input type="text"-->
+<!--						th:name="fullDescription" th:value="${product.fullDescription}"-->
+<!--						th:field="*{fullDescription}" minlength="2"-->
+<!--						maxlength="300" class="form-control"-->
+<!--						placeholder="Enter full description:" />-->
+<!--				</div>-->
+					<div class="form-group">
+						<label>Full description</label>
+						<textarea type="text" rows="4" id="content" placeholder="Content" class="form-control"
+								  th:name="fullDescription"
+								  th:value="${product.fullDescription}"
+								  th:field="*{fullDescription}" autocomplete="off"></textarea>
+					</div>
 				</div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 product-category">
@@ -202,8 +210,16 @@
 			</form>
 		</div>
 	</div>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
 	<script type="text/javascript">
 		let i=999;
+		$('#content').summernote({
+			placeholder: 'Vui lòng nhập nội dung mô tả',
+			tabsize: 2,
+			height: 100
+		});
+
 		$("#add-image").on("click",function(event){
 			i++;
 			

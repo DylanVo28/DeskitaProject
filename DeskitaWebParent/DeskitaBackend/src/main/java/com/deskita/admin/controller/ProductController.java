@@ -1,13 +1,22 @@
 package com.deskita.admin.controller;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,7 +112,6 @@ public class ProductController {
 			@RequestParam(name = "imageNames", required = false) String[] imageNames,
 
 			@RequestParam(name = "detailIds", required = false) String[] detailIds) throws IllegalStateException, IOException {
-
 		List<String> listImage = new ArrayList<>();
 		int idx = 0;
 		for (MultipartFile image : images) {
@@ -122,6 +130,21 @@ public class ProductController {
 			}
 			idx++;
 		}
+
+		//handle full description
+		Document doc= Jsoup.parse(product.getFullDescription());
+		for(Element e:doc.select("img")){
+			try{
+				Image image = ImageIO.read(new URL(e.attr("src")));
+
+			}catch (Exception ex){
+				Map uploadResult = cloudinary.uploader().upload(e.attr("src"),ObjectUtils.emptyMap());
+				e.attr("src",uploadResult.get("url").toString());
+			}
+
+
+		}
+		product.setFullDescription(doc.toString());
 
 		service.saveProduct(product, nameDetail, valueDetail, stockDetail, listImage, imageIDs, detailIds);
 		return "redirect:/products";

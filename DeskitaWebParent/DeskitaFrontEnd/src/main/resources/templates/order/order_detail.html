@@ -46,7 +46,6 @@
                     <span th:text="${order.status}"></span>
                     <th:block th:switch="${order.status.name()}">
                     	<button th:case="'NEW'" type="submit" th:name="status" th:value="CANCEL" class="btn_status btn btn-danger">Hủy đơn hàng</button>
-                    	
                     	<button th:case="'DELIVERED'" type="submit" th:name="status" th:value="PAID" class="btn_status btn btn-success">Đã nhận đơn hàng</button>
                     </th:block>
                     </h5> <span class="font-weight-bold d-block mt-4">Hello, <span th:text="${customer.firstName+' '+customer.lastName}"></span></span></span> 
