@@ -47,7 +47,10 @@ public class ProductService {
 	public List<Product> listAll(){
 		return (List<Product>) productRepository.findAll();
 	}
-		
+	
+	public Product findByID(int id){
+		return productRepository.findById(id).orElse(null);
+	}
 	public List<ProductImage> listProductImages(){
 		return (List<ProductImage>) productImageRepository.findAll();
 	}
