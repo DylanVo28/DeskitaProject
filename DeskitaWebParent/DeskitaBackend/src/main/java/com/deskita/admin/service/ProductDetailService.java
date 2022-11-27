@@ -17,4 +17,7 @@ public class ProductDetailService {
 	public List<ProductDetail> findAll(int id){
 		return productDetailRepository.getProductDetailsByProductId(id);
 	}
+
+
+
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head th:replace="components/head_title :: page_head('Products - Deskita Admin')">
+  <style>
+
+  </style>
+
+<body>
+<div class="container">
+  <nav th:replace="components/Navigation :: navigation"></nav>
+
+  <div class="box_shadow-table">
+    <div class="table-content-modify">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8">
+            <h2>[[#{label.ProductManagement}]]</h2>
+          </div>
+
+        </div>
+      </div>
+
+
+      <table class="table table-bordered ">
+
+        <thead>
+        <tr>
+          <th>[[#{label.productID}]]</th>
+          <th>[[#{label.image}]]</th>
+          <th>[[#{label.name}]]</th>
+          <th>Số lượng tồn</th>
+          <th>Số lượng bán</th>
+
+          <th>[[#{label.action}]]</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product,iter:${listProducts}">
+          <th>[[${product.id}]]</th>
+          <th><img style="height: 45px;width: 45px;object-fit: fill" alt="No image" th:src="${product.getImage()}" /></th>
+          <th>[[${product.name}]]</th>
+          <th>[[${stockHouse[iter.index]}]]</th>
+          <th>[[${stockBill[iter.index]}]]</th>
+          <th>
+            <a class="fas fa-edit" th:href="@{'/inventories/edit/'+${product.id}}"></a>
+          </th>
+        </tr>
+        </tbody>
+      </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/inventories/page/'+${i}}">[[${i}]]</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</body>
+
+</html>

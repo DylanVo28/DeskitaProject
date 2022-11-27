@@ -1,10 +1,12 @@
 package com.deskita.admin.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import com.deskita.admin.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class OrderService {
 	
 	@Autowired
 	ProductDetailRepository productDetailRepo;
+
+	@Autowired
+	OrderDetailRepository orderDetailRepository;
 	
 	public List<Order> exportOrders(Date startDate,Date endDate){
 		return repo.exportOrder(startDate, endDate);
@@ -34,6 +39,17 @@ public class OrderService {
 	
 	public Order findById(int id) {
 		return repo.findById(id).get();
+	}
+
+	public List<OrderDetail> getOrderByProductDetail(Integer productDetailId,OrderStatus status){
+		List<OrderDetail> orderDetails=orderDetailRepository.getOrderDetailByProductDetail(productDetailId);
+		List<OrderDetail> result=new ArrayList<>();
+		for(OrderDetail orderDetail:orderDetails){
+			if(orderDetail.getOrder().getStatus()==status){
+				result.add(orderDetail);
+			}
+		}
+		return result;
 	}
 	
 	public void updateStatus(Order order,String status) throws Exception {

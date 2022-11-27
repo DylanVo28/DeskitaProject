@@ -30,8 +30,19 @@ public class ProductDetail {
 	@Column(name="stock",length=50)
 	private Integer stock;
 
+	@Column(name="stock_warehouse",nullable = true)
+	private Integer stockHouse;
+
 	@Column(name="product_id",length = 150)
 	private Integer productId;
+
+	public Integer getStockHouse() {
+		return stockHouse;
+	}
+
+	public void setStockHouse(Integer stockHouse) {
+		this.stockHouse = stockHouse;
+	}
 
 	public BigDecimal getValue() {
 		return value;

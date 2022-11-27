@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+        th:replace="components/head_title :: page_head('New Product - Deskita Admin')"/>
+<style>
+  .product .product-info{
+    background: white;
+    padding: 20px;
+  }
+  .product .product-info .form-control{
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .product-category{
+    background: white;
+    padding: 20px;
+  }
+  .btn-secondary{
+    background: #fff !important;
+  }
+  .btn-secondary :hover{
+    text-decoration: none !important;
+  }
+  .product .product_image{
+    background:white;
+    padding:20px;
+  }
+  .product #list-images{
+    list-style: none;
+    margin-top: 15px;
+  }
+  .product_variation{
+    background: white;
+  }
+  .variation_detail{
+    margin-right:30px;
+  }
+  #list-variation{
+    margin-top:20px;
+  }
+  .product_brand{
+    background: white;
+  }
+  .product .btn_cancel a{
+    color:black!important;
+  }
+  .product .input_variation{
+    border: none;
+    border-bottom: 1px solid black;
+  }
+</style>
+<body style="background: #dff9fb">
+<nav th:replace="components/Navigation :: navigation"></nav>
+<div class="container product">
+
+  <h1>Products</h1>
+  <div>
+    <form th:action="${actionSave}" th:method="POST"
+          enctype="multipart/form-data"
+          th:object="${product}"
+          id="form-submit">
+      <input type="hidden" th:field="*{id}" />
+      <div class="row">
+        <div class="product-info col-md-7">
+          <h3>Product info</h3>
+          <div class="form-group">
+
+            <label>Product name</label>
+            <input type="text" th:name="name"
+                                               th:value="${product.name}" th:field="*{name}"
+                                               minlength="5" maxlength="50" class="form-control"
+                                               placeholder="Enter product name:"
+            disabled
+            />
+
+          </div>
+
+
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4 product-category">
+
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-12 product_image">
+
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-12 product_variation">
+          <h3>Variations</h3>
+          <table class="table table-bordered ">
+
+            <thead>
+            <tr>
+              <th>Tên variation</th>
+              <th>Giá bán</th>
+              <th>Số lượng tồn</th>
+              <th>Số lượng bán</th>
+              <th>Số lượng đang giao</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="productDetail,iter :${listProductDetails}">
+              <th th:text="${productDetail.name}"></th>
+              <th th:text="${productDetail.value}"></th>
+              <th  th:text="${productDetail.stockHouse}"></th>
+              <th th:text="${productDetail.stock}">200</th>
+              <th >[[${quantityShipping[iter.index]}]]</th>
+              <th>
+                <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInputStock"
+                       th:attr="onclick=|changeDetailId(${productDetail.id})|"
+                       value="Nhập hàng"
+                >
+                <input type="button"
+                       class="btn btn-primary" data-toggle="modal" data-target="#modalExportStock"
+                       th:attr="onclick=|changeDetailId(${productDetail.id})|" value="Xuất hàng">
+              </th>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <br>
+      <br>
+
+      <div class="product_brand" >
+
+      </div>
+    </form>
+    <div class="modal fade" id="modalInputStock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form th:object="${receiptInventory}" th:action="@{/receipt-inventory/save}" th:method="POST">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="receipt_product_detail" th:name="productDetailId" />
+            <div class="variation_detail">
+              <label>Số lượng nhập</label>
+              <input class="input_variation"  th:value="${receiptInventory.quantity}"  th:field="*{quantity}" required/>
+            </div>
+            <div class="variation_detail">
+              <label>Giá nhập</label>
+              <input class="input_variation"  th:value="${receiptInventory.value}"  th:field="*{value}" required/>
+            </div>
+            <div class="variation_detail">
+              <label>Nhà cung cấp</label>
+              <input  th:value="${receiptInventory.supplier}"  th:field="*{supplier}" class="input_variation" required/>
+            </div>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+        </form>
+
+      </div>
+
+    </div>
+    <div class="modal fade" id="modalExportStock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form th:object="${billInventory}" th:action="@{/bill-inventory/save}" th:method="POST">
+
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" >Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="bill_product_detail" th:name="productDetailId" />
+              <div class="variation_detail">
+                <label>Số lượng xuất</label>
+                <input class="input_variation"  th:value="${billInventory.quantity}"  th:field="*{quantity}" required/>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<script type="text/javascript">
+  let i=999;
+  $('#content').summernote({
+    placeholder: 'Vui lòng nhập nội dung mô tả',
+    tabsize: 2,
+    height: 100
+  });
+
+  let idDetail=0;
+  $("#add-image").on("click",function(event){
+    i++;
+
+    $("#list-images").append('<li id="product_image_'+i+'" class="col-md-4">'+
+            '<img id="thumbnail_'+i+'" src="/DeskitaAdmin/images/default.png" alt="No image" style="width: 100%" />'+
+            '<input type="file" id="fileImage_'+i+'" onClick="inputImage('+i+')" name="fileImage" accept="image/png, image/jpeg, image/jpg" required />'+
+            '<input type="button" onClick="removeImage('+i+')" class="btn btn-primary" value="Remove">'+
+            '</li>')
+  })
+  $("#add-variation").on("click",function(event){
+    i++;
+    $("#list-variation").append('<li style="display: flex;margin-bottom: 10px;" id="product_detail_'+i+'" >'+
+            '<div class="variation_detail">'+
+            '<label>Variation name</label>'+
+            '<input name="nameDetail"  class="input_variation"/>'+
+            '</div>'+
+            '<div class="variation_detail">'+
+            '<label>Giá</label>'+
+            '<input name="valueDetail"  class="input_variation"/>'+
+            '</div>'+
+            '<div class="variation_detail">'+
+            '<label>Số lượng</label>'+
+            '<input name="stockDetail"  class="input_variation"/>'+
+            '</div>'+
+            '<div class="variation_detail"><input type="button" onClick="removeDetail('+i+')" value="Remove"></div>'+
+            '</li>')
+  })
+
+  function changeDetailId(i){
+    idDetail=i
+    $("#receipt_product_detail").val(idDetail)
+    $("#bill_product_detail").val(idDetail)
+  }
+  function getDetailId(){
+    return idDetail
+  }
+  function removeDetail(i){
+    if($("#list-variation li").length==1){
+      alert("phải có ít nhất là 1 variation");
+      return;
+    }
+    $('#product_detail_'+i).remove();
+  }
+
+  function inputImage(index){
+    $("#fileImage_"+index).change(function(){
+      fileSize=this.files[0].size;
+      showImage(this,index);
+    })
+  }
+  function showImage(fileInput,index){
+    var file =fileInput.files[0];
+    var reader= new FileReader();
+    reader.onload=function(e){
+      $("#thumbnail_"+index).attr("src",e.target.result);
+    }
+    reader.readAsDataURL(file);
+  }
+  function removeImage(i){
+    if($("#list-images li").length==1){
+      alert("phải có ít nhất là 1 file ảnh được upload");
+      return;
+    }
+    $('#product_image_'+i).remove();
+  }
+  $('.form-check-input-brand').change(function(){
+    if(this.checked){
+      $('.form-check-input-brand').prop('checked',false);
+      $(this).prop('checked',true);
+    }
+  })
+  $('.form-check-input-category').change(function() {
+
+    if (this.checked) {
+      $('.form-check-input-category').prop('checked', false);
+      $(this).prop('checked', true);
+    }
+  })
+</script>
+</script>
+</body>
+</html>

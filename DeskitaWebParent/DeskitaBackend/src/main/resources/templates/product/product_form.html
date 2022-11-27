@@ -163,7 +163,7 @@
 					</div>
 				<div class="variation_detail">
 					<label>Số lượng</label>
-					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation"/>
+					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation" disabled/>
 				</div>
 				<div class="variation_detail"><input type="button"  th:attr="onclick=|removeDetail(${iter.index})|" value="Remove"></div>
 			</li>
@@ -178,7 +178,7 @@
 					</div>
 				<div class="variation_detail">
 				<label>Số lượng</label>
-				<input name="stockDetail"  class="input_variation" required/>
+				<input name="stockDetail" value="0" class="input_variation" disabled required/>
 				</div>
 				<div class="variation_detail"><input type="button" onClick="removeDetail(0)" value="Remove"></div>
 			</li>
@@ -242,7 +242,7 @@
 					'</div>'+
 				'<div class="variation_detail">'+
 					'<label>Số lượng</label>'+
-					'<input name="stockDetail"  class="input_variation"/>'+
+					'<input name="stockDetail"  class="input_variation" value="0" disabled/>'+
 				'</div>'+
 				'<div class="variation_detail"><input type="button" onClick="removeDetail('+i+')" value="Remove"></div>'+
 			'</li>')
