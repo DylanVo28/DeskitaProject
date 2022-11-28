@@ -55,7 +55,7 @@
 <nav th:replace="components/Navigation :: navigation"></nav>
 <div class="container product">
 
-  <h1>Products</h1>
+  <h1>Hàng tồn kho</h1>
   <div>
     <form th:action="${actionSave}" th:method="POST"
           enctype="multipart/form-data"
@@ -64,10 +64,10 @@
       <input type="hidden" th:field="*{id}" />
       <div class="row">
         <div class="product-info col-md-7">
-          <h3>Product info</h3>
+          <h3>Thông tin sản phẩm</h3>
           <div class="form-group">
 
-            <label>Product name</label>
+            <label>Tên sản phẩm</label>
             <input type="text" th:name="name"
                                                th:value="${product.name}" th:field="*{name}"
                                                minlength="5" maxlength="50" class="form-control"
@@ -80,15 +80,8 @@
 
         </div>
         <div class="col-md-1"></div>
-        <div class="col-md-4 product-category">
-
-        </div>
-      </div>
-      <br>
-      <br>
-      <div class="row">
-        <div class="col-md-12 product_image">
-
+        <div class="col-md-4">
+          <img th:src="${product.image}" style="width: 100%">
         </div>
       </div>
       <br>

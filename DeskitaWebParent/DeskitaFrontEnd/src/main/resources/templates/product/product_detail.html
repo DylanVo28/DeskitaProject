@@ -127,13 +127,17 @@
                 <div class="list_product_details">
                     <div th:each="productDetail: ${productDetails}">
                         <input type="button" class="btn_product_detail" th:value="${productDetail.name}"
-                               th:data="${productDetail.value}" th:field="*{productDetail}">
+                               th:data="${productDetail.value}"
+                               th:attr="stock=${productDetail.stock}"
+                               th:field="*{productDetail}">
 
                         <input type="hidden" th:value="${productDetail.value}">
-                        <input th:value="${productDetail.stock}" type="hidden">
+                        <input th:value="${productDetail.stock}" type="hidden" class="product_detail_stock">
                         </input>
                     </div>
                     <input type="hidden" id="product_detail_name_selected" th:name="product_detail_name_selected"
+                           value=""/>
+                    <input type="hidden" id="product_detail_stock_selected" th:name="product_detail_stock_selected"
                            value=""/>
                 </div>
                 <br>
@@ -173,7 +177,7 @@
         if ($(this).hasClass("active_product_detail")) {
             $(".btn_product_detail").removeClass("active_product_detail");
             $("#product_detail_name_selected").val("");
-
+            $("#product_detail_stock_selected").val("");
             $("#min_max_price").text(formatCurrency(Array.min(listPrice)) + '-' + formatCurrency(Array.max(listPrice)));
 
 
@@ -183,6 +187,7 @@
         $(this).addClass("active_product_detail");
         $("#min_max_price").text(formatCurrency($(this).attr('data')));
         $("#product_detail_name_selected").val($(this).val());
+        $("#product_detail_stock_selected").val($(this).attr("stock"));
     })
     $('#form_product').submit(function () {
         // your code here
@@ -190,6 +195,10 @@
         if (!$('#product_detail_name_selected').val()) {
             event.preventDefault();
             alert("Vui lòng chọn variation")
+        }
+        if ($("#product_detail_stock_selected").val()==0) {
+            event.preventDefault();
+            alert("Sản phẩm này hiện không có trong tồn kho")
         }
 
     });
