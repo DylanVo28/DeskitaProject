@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class InventoryController {
     @Autowired
     private OrderService orderService;
 
+
+
     public static int PRODUCT_PER_PAGE = 10;
 
     @GetMapping("/inventories")
@@ -47,22 +51,48 @@ public class InventoryController {
         Long total = (productService.pagingProduct(currentPage).getTotalElements() / PRODUCT_PER_PAGE) + 1;
         List<Integer> stockHouse=new ArrayList<>();
         List<Integer> stockBill=new ArrayList<>();
-
+        List<BigDecimal> rangeCostReceipt=new ArrayList<>();
         for(Product product : listProducts){
             List<ProductDetail> productDetails=productDetailService.findAll(product.getId());
             int sumStockHouse=0;
             int sumBillHouse=0;
+            BigDecimal sumQuantityReceipt=BigDecimal.ZERO;
+            BigDecimal sumValueReceipt=BigDecimal.ZERO;
+            List<List<ReceiptInventory>> sumReceiptInventories=new ArrayList<>();
             for(ProductDetail productDetail:productDetails){
+                List<ReceiptInventory> receiptInventories=service.getReceiptByProductDetail(productDetail);
+                if(receiptInventories.size()!=0){
+                    sumReceiptInventories.add(receiptInventories);
+                }
                 if(productDetail.getStockHouse()!=null){
                     sumStockHouse+=productDetail.getStockHouse();
                 }
                 sumBillHouse+=productDetail.getStock();
+            }
+            for(List<ReceiptInventory> receiptInventories: sumReceiptInventories){
+
+                sumValueReceipt=sumValueReceipt.add(receiptInventories.stream().reduce(BigDecimal.ZERO,(bd,item)->bd.add(
+                        BigDecimal.valueOf(item.getQuantity()).movePointLeft(2).multiply(item.getValue())
+                ),BigDecimal::add));
+                sumQuantityReceipt=sumQuantityReceipt.add(receiptInventories.stream().reduce(BigDecimal.ZERO,(bd,item)->bd.add(
+                        BigDecimal.valueOf(item.getQuantity())
+                ),BigDecimal::add));
+
+
+            }
+            if(sumQuantityReceipt!=BigDecimal.ZERO){
+                BigDecimal sum= sumValueReceipt.divide(sumQuantityReceipt,2, RoundingMode.HALF_UP);
+                rangeCostReceipt.add(sum);
+            }
+            else{
+                rangeCostReceipt.add(BigDecimal.ZERO);
             }
             stockHouse.add(sumStockHouse);
             stockBill.add(sumBillHouse);
         }
         model.addAttribute("stockHouse", stockHouse);
         model.addAttribute("stockBill", stockBill);
+        model.addAttribute("rangeCostReceipt", rangeCostReceipt);
 
         model.addAttribute("listProducts", listProducts);
         model.addAttribute("totalPage", total);
@@ -75,8 +105,28 @@ public class InventoryController {
         Product product = productService.getProductById(id);
         List<ProductDetail> listProductDetails = productDetailService.findAll(id);
         List<Integer> quantityShipping=new ArrayList<>();
+        BigDecimal sumQuantityReceipt=BigDecimal.ZERO;
+        BigDecimal sumValueReceipt=BigDecimal.ZERO;
+        List<BigDecimal> rangeCostReceipt=new ArrayList<>();
+
         for(ProductDetail productDetail:listProductDetails){
             List<OrderDetail> orderDetails=orderService.getOrderByProductDetail(productDetail.getId(), OrderStatus.SHIPPING);
+            List<ReceiptInventory> receiptInventories=service.getReceiptByProductDetail(productDetail);
+
+            sumValueReceipt=receiptInventories.stream().reduce(BigDecimal.ZERO,(bd,item)->bd.add(
+                    BigDecimal.valueOf(item.getQuantity()).movePointLeft(2).multiply(item.getValue())
+            ),BigDecimal::add);
+            sumQuantityReceipt=receiptInventories.stream().reduce(BigDecimal.ZERO,(bd,item)->bd.add(
+                    BigDecimal.valueOf(item.getQuantity())
+            ),BigDecimal::add);
+            if(sumQuantityReceipt!=BigDecimal.ZERO){
+                BigDecimal sum= sumValueReceipt.divide(sumQuantityReceipt,2, RoundingMode.HALF_UP);
+                rangeCostReceipt.add(sum);
+            }
+            else{
+                rangeCostReceipt.add(BigDecimal.ZERO);
+            }
+
             int sumShipping=0;
             for (OrderDetail orderDetail:orderDetails){
                 sumShipping+=orderDetail.getQuantity();
@@ -87,7 +137,7 @@ public class InventoryController {
         BillInventory billInventory=new BillInventory();
         model.addAttribute("product", product);
         model.addAttribute("quantityShipping", quantityShipping);
-
+        model.addAttribute("rangeCostReceipt",rangeCostReceipt);
         model.addAttribute("receiptInventory", receiptInventory);
 
         model.addAttribute("listProductDetails", listProductDetails);

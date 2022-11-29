@@ -10,6 +10,8 @@ import com.deskita.common.entity.ReceiptInventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InventoryService {
 
@@ -22,6 +24,9 @@ public class InventoryService {
     @Autowired
     private ProductDetailRepository productDetailRepository;
 
+    public List<ReceiptInventory> getReceiptByProductDetail(ProductDetail productDetail){
+        return repository.getReceiptInventoryByProductDetail(productDetail);
+    }
     public void saveReceipt(ReceiptInventory receiptInventory,Integer productDetailId,DeskitaUserDetails loggedUser){
         ProductDetail productDetail= productDetailRepository.findById(productDetailId).get();
         if(productDetail.getStockHouse()==null){

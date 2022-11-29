@@ -36,6 +36,7 @@
           <th>[[#{label.name}]]</th>
           <th>Số lượng tồn</th>
           <th>Số lượng bán</th>
+          <th>Giá trung bình</th>
 
           <th>[[#{label.action}]]</th>
 
@@ -48,6 +49,7 @@
           <th>[[${product.name}]]</th>
           <th>[[${stockHouse[iter.index]}]]</th>
           <th>[[${stockBill[iter.index]}]]</th>
+          <th>[[${rangeCostReceipt[iter.index]}]]</th>
           <th>
             <a class="fas fa-edit" th:href="@{'/inventories/edit/'+${product.id}}"></a>
           </th>

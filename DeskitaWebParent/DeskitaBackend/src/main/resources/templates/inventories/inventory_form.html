@@ -97,6 +97,7 @@
               <th>Giá bán</th>
               <th>Số lượng tồn</th>
               <th>Số lượng bán</th>
+              <th>Giá trung bình</th>
               <th>Số lượng đang giao</th>
               <th></th>
             </tr>
@@ -107,6 +108,7 @@
               <th th:text="${productDetail.value}"></th>
               <th  th:text="${productDetail.stockHouse}"></th>
               <th th:text="${productDetail.stock}">200</th>
+              <th >[[${rangeCostReceipt[iter.index]}]]</th>
               <th >[[${quantityShipping[iter.index]}]]</th>
               <th>
                 <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInputStock"
