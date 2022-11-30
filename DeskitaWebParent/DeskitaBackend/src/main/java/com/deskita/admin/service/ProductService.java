@@ -120,12 +120,16 @@ public class ProductService {
 			}
 			for(String name:detailName) {
 				if(detailIds!=null && idxPD<detailIds.length) {
-					ProductDetail productDetail=new ProductDetail(Integer.parseInt(detailIds[idxPD]) ,
-							new BigDecimal(detailValue[idxPD]),
-							detailName[idxPD],
-							0,
+					ProductDetail productDetail= productDetailRepository.findById(Integer.parseInt(detailIds[idxPD])).get();
+					productDetail.setValue(new BigDecimal(detailValue[idxPD]));
+					productDetail.setName(detailName[idxPD]);
+					productDetail.setProductId(savedProduct.getId());
+//					ProductDetail productDetail=new ProductDetail(Integer.parseInt(detailIds[idxPD]) ,
+//							new BigDecimal(detailValue[idxPD]),
+//							detailName[idxPD],
+////							0,
 //							Integer.parseInt(detailStock[idxPD]),
-							savedProduct.getId());
+//							savedProduct.getId());
 					list.add(productDetail);
 				}
 				else {
