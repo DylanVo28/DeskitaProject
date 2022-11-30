@@ -17,7 +17,7 @@
     }
 
     .product_image {
-        height: 300px;
+        height: 240px;
         background-size: cover !important;
         background-position: center !important;
     }
@@ -48,7 +48,25 @@
         overflow: hidden;
         background: white;
         box-shadow: 1px 1px 20px 0px #a29bfe26;
-        padding: 11px;
+        padding: 28px;
+        border-radius: 4px;
+    }
+
+    .product_price {
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 12px;
+        text-transform: capitalize;
+    }
+
+    .product_title {
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        text-transform: capitalize;
+    }
+
+    .product_price::first-letter {
+        text-transform: uppercase;
     }
 
     .dropdown_category {
@@ -133,6 +151,34 @@
         text-decoration: none;
 
     }
+   .buy-btn {
+       padding: 6px 16px !important;
+       border-radius: 4px !important;
+       background-color: black !important;
+       color: #fff !important;
+       border: none !important;
+       outline: none !important;
+       width: 100%;
+       transition: background-color ease 0.1s;
+   }
+
+    .buy-btn:hover {
+        background-color: rgba(0, 0, 0, 0.8) !important;
+    }
+
+   .product_image{
+       overflow: hidden;
+   }
+   .product_image img {
+       height: 100%;
+       width: 100%;
+       object-fit: contain;
+       transition: transform 0.2s ease-out;
+   }
+
+   .product_image img:hover {
+       transform: scale(1.2) ;
+   }
 </style>
 <div th:replace="components/navigation :: navigation"></div>
 <div>
@@ -234,18 +280,18 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
             <div class="row product_slide">
                 <div class="col-md-3" th:each="product: ${products}">
                     <div class="frame_product">
-                        <a th:href="@{'/product/'+${product.id}}" class="link_product_detail">
-                            <div class="product_image" th:style="'background: url('+@{${product.image}}+')'"></div>
+                        <div class="link_product_detail">
+                            <div class="product_image" ><img th:src='@{${product.image}}' /></div>
                             <div class="product_info">
 
                                 <div class="product_title" th:text="${product.name}"></div>
                                 <div class="product_price" th:text="${product.shortDescription}"></div>
-                                <button class="btn btn-primary" style="    background: #71e93f;
-									color: #d13d3d;
-									padding-left: 13px;">[[#{label.buy}]]
-                                </button>
+                                <a th:href="@{'/product/'+${product.id}}">
+                                    <button class="btn btn-primary buy-btn" >[[#{label.buy}]]
+                                    </button>
+                                </a>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>

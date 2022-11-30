@@ -123,7 +123,8 @@ public class ProductService {
 					ProductDetail productDetail=new ProductDetail(Integer.parseInt(detailIds[idxPD]) ,
 							new BigDecimal(detailValue[idxPD]),
 							detailName[idxPD],
-							Integer.parseInt(detailStock[idxPD]),
+							0,
+//							Integer.parseInt(detailStock[idxPD]),
 							savedProduct.getId());
 					list.add(productDetail);
 				}
@@ -131,7 +132,8 @@ public class ProductService {
 					ProductDetail productDetail=new ProductDetail(
 							new BigDecimal(detailValue[idxPD]),
 							detailName[idxPD],
-							Integer.parseInt(detailStock[idxPD]),
+							0,
+//							Integer.parseInt(detailStock[idxPD]),
 							savedProduct.getId());
 					list.add(productDetail);
 				}
