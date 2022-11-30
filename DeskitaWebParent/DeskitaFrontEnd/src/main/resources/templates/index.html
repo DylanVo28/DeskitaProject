@@ -278,20 +278,23 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
         <!-- Slide product -->
         <div class="container">
             <div class="row product_slide">
-                <div class="col-md-3" th:each="product: ${products}">
+                <div class="col-md-3" th:each="product: ${products}" >
+                    <div  th:each="price: ${prices}" >
                     <div class="frame_product">
                         <div class="link_product_detail">
                             <div class="product_image" ><img th:src='@{${product.image}}' /></div>
                             <div class="product_info">
 
                                 <div class="product_title" th:text="${product.name}"></div>
-                                <div class="product_price" th:text="${product.shortDescription}"></div>
+                                <div class="product_price" th:text="${price}"></div>
                                 <a th:href="@{'/product/'+${product.id}}">
                                     <button class="btn btn-primary buy-btn" >[[#{label.buy}]]
                                     </button>
                                 </a>
                             </div>
                         </div>
+                    </div>
+
                     </div>
                 </div>
             </div>
