@@ -1,70 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <style type="">
+    .table-detail{
+      padding-left: 50px !important;
+      padding-top: 40px !important;
+    }
+    .tittle{
+      color: #5574c0;
+    font-weight: bold;
+    margin-bottom: 5%;
+    }
+    label{
+      font-weight: bold !important;
+    }
+    form{
+      font-size: 30px;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
 <head th:replace="components/head_title :: page_head('New User - Deskita Admin')">
-<style>
 
-</style>
+
 <body>
 <div class="container">
 <nav th:replace="components/Navigation :: navigation"></nav>
-<h1>Customer</h1>
-<div>
-<form  th:object="${customer}">
-	<input type="hidden" th:field="*{id}" />
-	<div class="form-group">
- 
-  
-    <label>Customer id: </label>
+<div class="box_shadow-table">
+  <div class="table-detail container-sm">
+    <h1 class="tittle">Customer detail</h1>
+    <div>
+    <form  th:object="${customer}">
+      <input type="hidden" th:field="*{id}" />
+      <div class="form-group">
+     
+      
+        <label>Customer id: </label>
+    
+       <span th:text="${customer.id}"></span>
+       
+      </div>
+      <div class="form-group">
+     
+      
+        <label>Email address: </label>
+    
+       <span th:text="${customer.email}"></span>
+       
+      </div>
+     <div class="form-group">
+     
+      
+        <label>Full name: </label>
+    
+       <span th:text="${customer.firstName+' '+customer.lastName}"></span>
+       
+      </div>
+      <div class="form-group">
+     
+      
+        <label>Phone Number: </label>
+    
+       <span th:text="${customer.phoneNumber}"></span>
+       
+      </div>
+      <div class="form-group">
+     
+      
+        <label>Address: </label>
+    
+       <span th:text="${customer.address}"></span>
+       
+      </div>
+    <div class="form-group">
+     
+      
+        <label>Created time: </label>
+    
+       <span th:text="${customer.createdTime}"></span>
+       
+      </div>
+    <div class="form-group">
+     
+      
+        <label>Status: </label>
+    
+       <span th:text="${customer.enabled}"></span>
 
-   <span th:text="${customer.id}"></span>
-   
   </div>
-  <div class="form-group">
- 
-  
-    <label>Email address: </label>
+</div>
 
-   <span th:text="${customer.email}"></span>
-   
-  </div>
- <div class="form-group">
- 
-  
-    <label>Full name: </label>
-
-   <span th:text="${customer.firstName+' '+customer.lastName}"></span>
-   
-  </div>
-  <div class="form-group">
- 
-  
-    <label>Phone Number: </label>
-
-   <span th:text="${customer.phoneNumber}"></span>
-   
-  </div>
-  <div class="form-group">
- 
-  
-    <label>Address: </label>
-
-   <span th:text="${customer.address}"></span>
-   
-  </div>
-<div class="form-group">
- 
-  
-    <label>Created time: </label>
-
-   <span th:text="${customer.createdTime}"></span>
-   
-  </div>
-<div class="form-group">
- 
-  
-    <label>Status: </label>
-
-   <span th:text="${customer.enabled}"></span>
    
   </div>
   

@@ -1,4 +1,5 @@
 package com.deskita.controller;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import com.deskita.common.entity.Brand;
 import com.deskita.common.entity.Category;
 import com.deskita.common.entity.Product;
+import com.deskita.common.entity.ProductDetail;
 import com.deskita.config.WebMvcConfig;
 import com.deskita.service.BrandService;
 import com.deskita.service.CategoryService;
@@ -65,12 +67,21 @@ public class MainController {
 			List<Brand> brands=brandService.listAll();
 			List<Category> categories= categoryService.listAll();
 			List<Product> products=ps.pagingProduct(currentPage,brandId,categoryId).getContent();
-			
+			List<String> prices=new ArrayList<>();
+			for (Product product : products) {
+				List<ProductDetail> productDetails=ps.getAllProductDetails(product.getId());
+				if(productDetails.size()>0)
+				{
+					prices.add(productDetails.get(0).getValue().toString());
+				}
+			}
 			Long totalPage=(ps.pagingProduct(currentPage,brandId,categoryId).getTotalElements()/SIZE_PRODUCT_PAGE) +1;
 			model.addAttribute("categories",categories);
 			model.addAttribute("brands",brands);
 			model.addAttribute("products",products);
 			model.addAttribute("totalPage",totalPage);
+			model.addAttribute("prices",prices);
+
 			System.out.println(categoryId+"|"+brandId);
 			if(brandId != null) {
 				model.addAttribute("brandId",brandId);

@@ -14,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	
 	@Query(value="from Order o where o.orderTime between :startDate and :endDate")
 	public List<Order> exportOrder(@Param("startDate")Date startDate,@Param("endDate")Date endDate);
+
+	
 }

@@ -48,20 +48,16 @@
                     <span th:text="${order.status}"></span>
                     <th:block th:switch="${order.status.name()}">
                      <th:block sec:authorize="hasAnyAuthority('Salesperson','Admin')">
-                     	<div th:case="'NEW'" style="float: right">
+                     	<div th:case="'NEW'" style="float: right;min-width: 240px;">
                      	<button type="submit" th:name="status" th:value="CANCEL" class="btn_status btn btn-danger">Hủy đơn hàng</button>
-                     	<button  type="submit" th:name="status" th:value="CONFIRMED" class="btn_status btn btn-success">Xác nhận đơn</button>
-                     	</div>
+                     	<button  type="submit" style="margin-right: 20px;" th:name="status" th:value="CONFIRMED" class="btn_status btn btn-success">Xác nhận đơn</button>
+                     	</div>`
                      	<button th:case="'CONFIRMED'" type="submit" th:name="status" th:value="SHIPPING" class="btn_status btn btn-success">Giao cho vận chuyển</button>
                     	
                      </th:block>
                       <th:block sec:authorize="hasAnyAuthority('Shipper')">
                       <button th:case="'SHIPPING'" type="submit" th:name="status" th:value="DELIVERED" class="btn_status btn btn-success">Đã giao</button>
-                    <button th:case="'DELIVERED'" type="submit" th:name="status" th:value="PAID" class="btn_status btn btn-success">Đã nhận đơn hàng</button>
-                      </th:block>
-                    	
                     </th:block>
-                   
                     <div th:switch="${order.status.name()}">
                     	<span th:case="'NEW'">Đơn hàng của bạn đang chờ xác nhận</span>
                     </div>

@@ -10,17 +10,69 @@
 <div class="container">
     <nav th:replace="components/Navigation :: navigation"></nav>
     <h1>[[#{label.AnalyticManament}]]</h1>
-    <form th:action="@{/export/excel/order}" method="GET">
-        <input type="date" style="height:42px" id="startDate" name="startDate">
-        <input type="date" style="height:42px" id="endDate" name="endDate">
-        <button type="submit" style="margin-bottom: 4px;" class="btn btn-primary">Export</button>
-    </form>
-    <div id="chart_div"></div>
+    <div class="d-flex  justify-content-between">
+        <form th:action="@{/export/excel/order}" method="GET">
+            <input type="date" style="height:42px" id="startDate" name="startDate">
+            <input type="date" style="height:42px" id="endDate" name="endDate">
+            <button type="submit" style="margin-bottom: 4px;" class="btn btn-primary">Export</button>
+        </form>
+ 
+     
+       
+     
+    
+        <form name="dataChoose" th:action="@{/getdata}" method="GET">
+      <div>
+        <select class="form-select" id="categoryChoose"  name="categoryChoose" style="height: 42px;">
+     
+        </select>
+          <button id="submit-btn" type="submit" style="margin-bottom: 4px;" class="btn btn-primary ">Submit</button>
+      </div>
+        </form>
+    </div>
+    <div id="chart_div" class="d-flex" style="background-color:white ;">
+
+
+      
+    </div>
     <figure class="highcharts-figure">
-        <div id="container-bar"></div>
+        <div id="container-bar">
+
+            
+        </div>
+        
     </figure>
+    
 </div>
+
+
 <script type="text/javascript" th:inline="javascript">
+    //loadComboBox
+    function loadComboBox()
+    {
+        let categories=[[${categories}]];
+        let dataGui=[[${dataSend}]];
+
+        let dropdownEL=document.getElementById('categoryChoose');
+        console.log(dropdownEL);
+        categories.map((category,index)=>{
+            console.log(category);
+            console.log(dataGui);
+            console.log("data "+category.name.includes(dataGui));
+            if(category.id==dataGui){
+                dropdownEL.innerHTML+=`<option  class="dropdown-item" selected  value=${category.id}>${category.name}</option >`;
+
+            }
+            else{
+            dropdownEL.innerHTML+=`<option  class="dropdown-item"  value=${category.id}>${category.name}</option >`;
+
+            }
+        })
+    }
+
+
+    loadComboBox();
+   
 
 
     // Load the Visualization API and the corechart package.
@@ -93,11 +145,46 @@
         // Set chart options
         var options = {'title':'Thống kê tình trạng các đơn hàng',
             'width':400,
-            'height':300};
+            'height':300,
+        };
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var tableEL=document.getElementById('chart_div');
+        
         chart.draw(data, options);
+
+
+        let thunhapList=[[${thuNhapList}]];
+        console.log(thunhapList);
+        tableEL.innerHTML+=`  <table class="table  table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Số lượng đã bán</th>
+                <th scope="col">Thu nhập</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              
+             
+            </tbody>
+          </table>`;
+          if(thunhapList.length!=0)
+          {
+            let tableBody=document.getElementById('tableBody');
+            thunhapList.map((data,index)=>{
+                tableBody.innerHTML+=` 
+                <tr>
+                <th scope="row">${index}</th>
+                <td>${data.tenSP}</td>
+                <td>${data.soluongBan}</td>
+                <td>${data.thuNhap} $</td>
+              </tr>`
+            })
+          }
+        
     }
 </script>
 
