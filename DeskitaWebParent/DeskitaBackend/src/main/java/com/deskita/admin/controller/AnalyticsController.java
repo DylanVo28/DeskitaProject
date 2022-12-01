@@ -16,35 +16,86 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.deskita.admin.service.CategoryService;
 import com.deskita.admin.service.OrderService;
+import com.deskita.admin.service.ProductDetailService;
+import com.deskita.admin.service.ProductService;
+import com.deskita.common.entity.Category;
+import com.deskita.common.entity.Income;
 import com.deskita.common.entity.Order;
+import com.deskita.common.entity.OrderDetail;
+import com.deskita.common.entity.Product;
+import com.deskita.common.entity.ProductDetail;
 import com.deskita.export.ExcelOrder;
 import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 
 @Controller
 public class AnalyticsController {
-
+	public String dataNhan;
 	@Autowired
 	OrderService order;
-	
+	@Autowired  CategoryService categoryService;
+	@Autowired ProductDetailService productDetailService;
+	@Autowired ProductService productService;
 	@GetMapping("/analytics")
 	public String analyticsPage(Model model) {
+		List<Category> categories=categoryService.listAll();		
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		String currentDateTime = dateFormatter.format(new Date());
 		LocalDate now = LocalDate.now(); // 2022-11-21
 		LocalDate ldFirstDay = now.with(firstDayOfYear()); // 2022-01-01
 		Date dFirstDay = Date.from(ldFirstDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		String firstDay= dateFormatter.format(dFirstDay);
+		List<Order> ordersCurrent=order.findAll();
+		List<Income> incomes=new ArrayList();
+		if(dataNhan!=null)
+		{
+		
+		for (Order order : ordersCurrent) {
+			int flag=0;
+			if(order.getStatus()==OrderStatus.PAID){
+				OrderDetail orderDetail= order.getOrderDetails().iterator().next();
+				ProductDetail productDetail=productDetailService.findByID(orderDetail.getProductDetailId());
+				Product product=productService.findByID(productDetail.getProductId());
+				System.out.println("sanpham:"+product);
+				if(product.getCategory().getId()==Integer.parseInt(dataNhan))
+				{
+					System.out.println("toiNhat:"+product);
+					for (Income incomex : incomes) {
+						if(incomex.getTenSP()==product.getName())
+						{
+							flag=1;
+							incomex.setSoluongBan(orderDetail.getQuantity()+incomex.getSoluongBan());
+							incomex.setThuNhap(incomex.getThuNhap()+(orderDetail.getQuantity()*orderDetail.getValue().doubleValue()));
+						}
+						
+					}
+					if(flag==0)
+					{
+						Income income=new Income();
+							income.setTenSP(product.getName());
+							income.setSoluongBan(orderDetail.getQuantity());
+							income.setThuNhap(orderDetail.getQuantity()*orderDetail.getValue().doubleValue());
+							incomes.add(income);
+					}
+				}
+
+			}
+		}
+		}
 		List<Order> orders = order.exportOrders(java.sql.Date.valueOf(firstDay),java.sql.Date.valueOf(currentDateTime));
 		HashMap<String,Integer> hmDataChart= new HashMap<>();
-		HashMap<Integer, Float> hmRevenue=new HashMap<>();
+		HashMap<Integer, Float> hmRevenue=new HashMap<>(); //CHECK XEM THÁNG ĐÓ CÓ Ở TRONG MAP K
 		for(int i=1;i<=now.getMonthValue();i++){
 			LocalDate date=now.withMonth(i);
 			LocalDate fldFirstDay=date.withDayOfMonth(1);
 			LocalDate fldLastDay=date.with(TemporalAdjusters.lastDayOfMonth());
-			List<Order> lOrders=order.exportOrders(java.sql.Date.valueOf(fldFirstDay),java.sql.Date.valueOf(fldLastDay));
+			List<Order> lOrders=order.exportOrders(java.sql.Date.valueOf(fldFirstDay),java.sql.Date.valueOf(fldLastDay)); //Lay cac don tu ngay 1 den ngay cuoi thang
 			int month=now.withMonth(i).getMonthValue();
 			if(lOrders.size()==0){
 				hmRevenue.put(month,Float.valueOf("0"));
@@ -116,9 +167,15 @@ public class AnalyticsController {
 		hmDataChart.put("REFUNDED",iStatusOrders[9]);
 		hmDataChart.put("CONFIRMED",iStatusOrders[10]);
 
-
+		
 		model.addAttribute("hmRevenue",hmRevenue);
 		model.addAttribute("hmDataChart",hmDataChart);
+		model.addAttribute("categories", categories);
+		model.addAttribute("dataSend", dataNhan);
+		model.addAttribute("thuNhapList", incomes);
+
+
+
 		return "analytics/analytic";
 	}
 
@@ -141,5 +198,21 @@ public class AnalyticsController {
          
         excelExporter.export(response);    
     }  
+
+	@GetMapping(value="getdata")
+	public String getIncomeData(@RequestParam(name = "categoryChoose",required = false) String categoryChoose){
+		try {
+			System.out.println("dataNhan"+categoryChoose);
+			dataNhan=categoryChoose;
+			return "redirect:/analytics";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "redirect:/analytics";
+
+		}
+		
+		
+	}
+	
  
 }
