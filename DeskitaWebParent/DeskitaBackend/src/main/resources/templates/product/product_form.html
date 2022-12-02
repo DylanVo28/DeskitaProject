@@ -161,9 +161,9 @@
 					<label >Giá</label>
 					<input name="valueDetail" type="number" th:value="${productDetail.value}" class="input_variation" />
 					</div>
-				<div class="variation_detail">
+				<div class="variation_detail" style="display: none">
 					<label>Số lượng</label>
-					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation" disabled/>
+					<input name="stockDetail" th:value="${productDetail.stock}" class="input_variation" />
 				</div>
 				<div class="variation_detail"><input type="button"  th:attr="onclick=|removeDetail(${iter.index})|" value="Remove"></div>
 			</li>
@@ -176,7 +176,7 @@
 					<label>Giá</label>
 					<input name="valueDetail"  class="input_variation" required/>
 					</div>
-				<div class="variation_detail">
+				<div class="variation_detail" style="display: none">
 				<label>Số lượng</label>
 				<input name="stockDetail" value="0" class="input_variation" disabled required/>
 				</div>
@@ -240,7 +240,7 @@
 					'<label>Giá</label>'+
 					'<input name="valueDetail"  class="input_variation"/>'+
 					'</div>'+
-				'<div class="variation_detail">'+
+				'<div class="variation_detail" style="display: none">'+
 					'<label>Số lượng</label>'+
 					'<input name="stockDetail"  class="input_variation" value="0" disabled/>'+
 				'</div>'+

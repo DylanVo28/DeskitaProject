@@ -142,7 +142,7 @@
                 </div>
                 <br>
                 <br>
-                <button class="btn_order_now"> Mua ngay</button>
+                <button class="btn_order_now" id="buy_now"> Mua ngay</button>
             </div>
             <div class="col-md-1">
             </div>
@@ -188,6 +188,12 @@
         $("#min_max_price").text(formatCurrency($(this).attr('data')));
         $("#product_detail_name_selected").val($(this).val());
         $("#product_detail_stock_selected").val($(this).attr("stock"));
+        if(Number($(this).attr("stock"))<=0){
+            $("#buy_now").css('display','none')
+        }
+        else{
+            $("#buy_now").css('display','block')
+        }
     })
     $('#form_product').submit(function () {
         // your code here
@@ -202,6 +208,7 @@
         }
 
     });
+
 </script>
 </body>
 </html>
