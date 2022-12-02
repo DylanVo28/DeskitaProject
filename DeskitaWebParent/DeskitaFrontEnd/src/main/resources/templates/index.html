@@ -294,7 +294,7 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
         <!-- Slide product -->
         <div class="container">
             <div class="row product_slide">
-                <div class="col-md-3" th:each="product: ${products}" >
+                <div class="col-md-3" th:each="product: ${products}"  >
 
                     <div class="frame_product" >
 
@@ -304,15 +304,18 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
                             <div class="product_info">
                                 <div class="product_title" th:text="${product.name}"></div>
                                 <div class="product_content">
-                                    <div class="product_price">$10.00</div>
-                                    <div class="product_tag">Tivi</div>
+                                    <div class="product_price"></div>
+                                    <div class="product_tag" th:text="${product.getCategory().getName()}"></div>
                                 </div>
                             </div>
 
 
                         </a>
-                        <button class="btn btn-primary buy-btn" >[[#{label.buy}]]
-                        </button>
+                        <a th:href="@{'/product/'+${product.id}}">
+                            <button class="btn btn-primary buy-btn" >[[#{label.buy}]]
+                            </button>
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -326,7 +329,24 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
             </ul>
         </nav>
 </div>
+
+
 <script>
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+
+        // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+    let listPrice=[[${prices}]];
+    let listPriceEL=document.querySelectorAll('.product_price');
+    console.log(listPriceEL);
+    for(let i=0;i<listPrice.length;i++)
+    {
+        listPriceEL[i].innerText=formatter.format(listPrice[i]);
+    }
     var filterBrandId = "",
         filterCategoryId = "";
     var urlFilter = "/Deskita/products/1/page?brand=" + filterBrandId + "&category=" + filterCategoryId

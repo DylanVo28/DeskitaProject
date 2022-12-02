@@ -303,6 +303,16 @@ var strDate =d.getDate()+"/"+ (d.getMonth()+1)+"/"+d.getFullYear() ;
 		$(".total_price").text($(this).val()*parseInt( $(".price_origin_product").text()))
 		$("#total_price_order").val($(this).val()*parseInt( $(".price_origin_product").text()))
 	})
+
+$('#phoneNum').on('keypress', function (event) {
+    var regex = new RegExp("^[a-zA-Z]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(key)) {
+        event.preventDefault();
+        return false;
+    }
+});
+
 </script>
 </body>
 </html>
