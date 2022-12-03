@@ -1,8 +1,6 @@
 package com.deskita.controller;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,12 +65,19 @@ public class MainController {
 			List<Brand> brands=brandService.listAll();
 			List<Category> categories= categoryService.listAll();
 			List<Product> products=ps.pagingProduct(currentPage,brandId,categoryId).getContent();
-			List<String> prices=new ArrayList<>();
+			List <BigDecimal> listPrice=new ArrayList<>();
+			List <Category> listCategory=new ArrayList<>();
+
+
 			for (Product product : products) {
 				List<ProductDetail> productDetails=ps.getAllProductDetails(product.getId());
 				if(productDetails.size()>0)
 				{
-					prices.add(productDetails.get(0).getValue().toString());
+//					prices.add(productDetails.get(0).getValue().toString());
+					System.out.println("category:"+product.getCategory().getName());
+					System.out.println("price:"+productDetails.get(0));
+					listPrice.add(productDetails.get(0).getValue());
+					listCategory.add(product.getCategory() );
 				}
 			}
 			Long totalPage=(ps.pagingProduct(currentPage,brandId,categoryId).getTotalElements()/SIZE_PRODUCT_PAGE) +1;
@@ -80,7 +85,8 @@ public class MainController {
 			model.addAttribute("brands",brands);
 			model.addAttribute("products",products);
 			model.addAttribute("totalPage",totalPage);
-			model.addAttribute("prices",prices);
+			model.addAttribute("prices",listPrice);
+
 
 			System.out.println(categoryId+"|"+brandId);
 			if(brandId != null) {

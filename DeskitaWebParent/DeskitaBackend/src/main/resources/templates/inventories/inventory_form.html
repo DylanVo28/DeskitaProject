@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head
         th:replace="components/head_title :: page_head('New Product - Deskita Admin')"/>
+
 <style>
+  .modal-content{
+    margin-top:35%;
+  }
   .product .product-info{
     background: white;
     padding: 20px;
@@ -19,6 +24,7 @@
   }
   .btn-secondary{
     background: #fff !important;
+    color: black;
   }
   .btn-secondary :hover{
     text-decoration: none !important;
@@ -46,9 +52,59 @@
   .product .btn_cancel a{
     color:black!important;
   }
-  .product .input_variation{
-    border: none;
-    border-bottom: 1px solid black;
+  .input_variation
+  {
+    appearance: auto;
+    background-color: transparent;
+    border: 0.1rem solid #e3e8ec;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #536471;
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    padding: 12px 16px;
+    width: 100%;
+    z-index: 2;
+    position: relative;
+  }
+  .variation_detail{
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .variation_detail:last-child {
+    margin-bottom: 0;
+  }
+
+  .input_variation:focus + span, .input_variation:not(:placeholder-shown) + span {
+    transform: translate(-1px, -70%) scale(0.8);
+    color: #007bff;
+    z-index: 3;
+  }
+  .error_message{
+    font-style: italic;
+    color: red;
+    font-size: 18px;
+  }
+  .variation_detail span {
+    background: #ffffff;
+    color: #536471;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: calc(5px * 0.75) calc(5px * 0.5);
+    margin: calc(5px * 0.75 + 5px) calc(5px * 0.5);
+    position: absolute;
+    left: 15px;
+    top: 0;
+    text-transform: capitalize;
+    transform: translate(0,0);
+    transform-origin: 0 0;
+    transition: transform 120ms ease-in;
+    white-space: nowrap;
+    z-index: 1;
   }
 </style>
 <body style="background: #dff9fb">
@@ -134,35 +190,41 @@
     </form>
     <div class="modal fade" id="modalInputStock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <form th:object="${receiptInventory}" th:action="@{/receipt-inventory/save}" th:method="POST">
+        <form id="addInventory" th:object="${receiptInventory}" th:action="@{/receipt-inventory/save}" th:method="POST">
 
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+            <h5 class="modal-title" id="exampleModalLabel">Nhập hàng</h5>
             </button>
           </div>
           <div class="modal-body">
             <input type="hidden" id="receipt_product_detail" th:name="productDetailId" />
             <div class="variation_detail">
-              <label>Số lượng nhập</label>
-              <input class="input_variation"  th:value="${receiptInventory.quantity}"  th:field="*{quantity}" required/>
+
+              <input class="input_variation"  th:value="${receiptInventory.quantity}" placeholder=" " type="number"  th:field="*{quantity}" required/>
+              <span>Số lượng nhập</span>
+              <div class="error_message"></div>
             </div>
             <div class="variation_detail">
-              <label>Giá nhập</label>
-              <input class="input_variation"  th:value="${receiptInventory.value}"  th:field="*{value}" required/>
+
+              <input class="input_variation"  type="number"  th:value="${receiptInventory.value}"  placeholder=" "  th:field="*{value}" required/>
+              <span>Giá nhập</span>
+              <div class="error_message"></div>
+
             </div>
             <div class="variation_detail">
-              <label>Nhà cung cấp</label>
-              <input  th:value="${receiptInventory.supplier}"  th:field="*{supplier}" class="input_variation" required/>
+
+              <input  th:value="${receiptInventory.supplier}"  th:field="*{supplier}" placeholder=" "  class="input_variation" required/>
+              <span>Nhà cung cấp</span>
+              <div class="error_message"></div>
+
             </div>
 
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn " style="    border: 1px solid;" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btn_saveChangeNH">Save changes</button>
           </div>
         </div>
         </form>
@@ -172,25 +234,25 @@
     </div>
     <div class="modal fade" id="modalExportStock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <form th:object="${billInventory}" th:action="@{/bill-inventory/save}" th:method="POST">
+        <form id="addSLXuat"  th:object="${billInventory}" th:action="@{/bill-inventory/save}" th:method="POST">
 
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" >Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+              <h5 class="modal-title" >Xuất hàng</h5>
               </button>
             </div>
             <div class="modal-body">
               <input type="hidden" id="bill_product_detail" th:name="productDetailId" />
               <div class="variation_detail">
-                <label>Số lượng xuất</label>
-                <input class="input_variation"  th:value="${billInventory.quantity}"  th:field="*{quantity}" required/>
+                <input class="input_variation" id="quantityXuat"  type="number" th:value="${billInventory.quantity}" placeholder=" " th:field="*{quantity}" required/>
+                <span>Số lượng xuất</span>
+                <div class="error_message"></div>
+
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary" id="btn_saveChange">Save changes</button>
             </div>
           </div>
         </form>
@@ -200,15 +262,13 @@
     </div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
   let i=999;
-  $('#content').summernote({
-    placeholder: 'Vui lòng nhập nội dung mô tả',
-    tabsize: 2,
-    height: 100
-  });
+
 
   let idDetail=0;
   $("#add-image").on("click",function(event){
@@ -289,7 +349,145 @@
       $(this).prop('checked', true);
     }
   })
+
+
 </script>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+  $('#btn_saveChangeNH').click(function (event) {
+      let quantity=$('#quantity').val();
+      let value=$('#value').val();
+      var listMess=$('.error_message')
+    console.log(listMess);
+    console.log(quantity);
+    $('#quantity').on('')
+    if(parseInt(quantity)<=0)
+      {
+        console.log({phantu1:listMess[0]});
+        listMess[0].innerHTML="Số lượng phải lớn hơn 0!";
+      }
+
+    if(parseInt(value)<=0)
+    {
+      console.log({phantu1:listMess[1]});
+      listMess[1].innerHTML="Giá tiền phải lớn hơn 0!";
+    }
+
+    if(parseInt(quantity)>0 && parseInt(value)>0)
+    {
+      $('#addInventory').submit();
+    }
+  })
+  $('#quantityXuat').on('input',function (event){
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[3].innerHTML="";
+
+    }
+    if(this.value!="" && parseInt(this.value)<0 )
+    {
+      listMess[3].innerHTML="Số lượng phải lớn hơn 0!";
+
+    }
+  })
+  $("#quantityXuat").blur(function (){
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[3].innerHTML="Không được bỏ trống !";
+
+    }
+  })
+
+  $('#quantity').on('input',function (event){
+    console.log(this.value);
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[0].innerHTML="";
+
+    }
+    if(this.value!="" && parseInt(this.value)<0 )
+    {
+      listMess[0].innerHTML="Số lượng phải lớn hơn 0!";
+
+    }
+  })
+
+  $("#quantity").blur(function (){
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[0].innerHTML="Không được bỏ trống !";
+
+    }
+    $("#quantity").focus(function (){
+      listMess[0].innerHTML="";
+
+    })
+  })
+
+  $("#value").blur(function (){
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[1].innerHTML="Không được bỏ trống !";
+
+    }
+    $("#value").focus(function (){
+      listMess[1].innerHTML="";
+
+    })
+  })
+  $('#value').on('input',function (event){
+    console.log(this.value);
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      var listMess=$('.error_message');
+      listMess[1].innerHTML="";
+
+    }
+    if(this.value!="" && parseInt(this.value)<0)
+    {
+      listMess[1].innerHTML="Giá tiền phải lớn hơn 0!";
+
+    }
+  })
+  $('#btn_saveChange').click(function (event) {
+    let quantity=$('#quantityXuat').val();
+    var listMess=$('.error_message');
+
+    console.log("so luong:"+quantity);
+    console.log(listMess[3]);
+
+
+
+
+    if(parseInt(quantity)<=0)
+  {
+    listMess[3].innerHTML="Số lượng phải lớn hơn 0!";
+  }
+
+    if(parseInt(quantity)>0 )
+    {
+      $('#addSLXuat').submit();
+    }
+  })
+
+
+
+
+
+
 </script>
 </body>
 </html>

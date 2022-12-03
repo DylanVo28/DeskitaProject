@@ -34,14 +34,27 @@
         color: black;
     }
 
+    .product_info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100px;
+    }
+
+    .product_content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
     .product_info button {
         background: none;
         color: black;
         border: none;
         border-bottom: 1px solid black;
         font-weight: bold;
-        padding: 0;
-        padding-right: 15px;
+        padding: 0 15px 0 0;
     }
 
     .frame_product {
@@ -50,23 +63,26 @@
         box-shadow: 1px 1px 20px 0px #a29bfe26;
         padding: 28px;
         border-radius: 4px;
+        height: 425px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .product_price {
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 12px;
-        text-transform: capitalize;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ff253a;
     }
 
     .product_title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
         font-weight: 600;
         letter-spacing: 1.2px;
         text-transform: capitalize;
-    }
-
-    .product_price::first-letter {
-        text-transform: uppercase;
     }
 
     .dropdown_category {
@@ -177,7 +193,7 @@
    }
 
    .product_image img:hover {
-       transform: scale(1.2) ;
+       transform: translateY(-10px) ;
    }
 </style>
 <div th:replace="components/navigation :: navigation"></div>
@@ -278,22 +294,27 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
         <!-- Slide product -->
         <div class="container">
             <div class="row product_slide">
-                <div class="col-md-3" th:each="product: ${products}" >
-                    <div  th:each="price: ${prices}" >
-                    <div class="frame_product">
-                        <div class="link_product_detail">
+                <div class="col-md-3" th:each="product: ${products}"  >
+
+                    <div class="frame_product" >
+
+                        <a class="link_product_detail" th:href="@{'/product/'+${product.id}}">
+
                             <div class="product_image" ><img th:src='@{${product.image}}' /></div>
                             <div class="product_info">
-
                                 <div class="product_title" th:text="${product.name}"></div>
-                                <div class="product_price" th:text="${price}"></div>
-                                <a th:href="@{'/product/'+${product.id}}">
-                                    <button class="btn btn-primary buy-btn" >[[#{label.buy}]]
-                                    </button>
-                                </a>
+                                <div class="product_content">
+                                    <div class="product_price"></div>
+                                    <div class="product_tag" th:text="${product.getCategory().getName()}"></div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+
+
+                        </a>
+                        <a th:href="@{'/product/'+${product.id}}">
+                            <button class="btn btn-primary buy-btn" >[[#{label.buy}]]
+                            </button>
+                        </a>
 
                     </div>
                 </div>
@@ -308,7 +329,24 @@ display: none;width: 350px;height: 408px;border: solid 1px #333333;z-index: 1"
             </ul>
         </nav>
 </div>
+
+
 <script>
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+
+        // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+    let listPrice=[[${prices}]];
+    let listPriceEL=document.querySelectorAll('.product_price');
+    console.log(listPriceEL);
+    for(let i=0;i<listPrice.length;i++)
+    {
+        listPriceEL[i].innerText=formatter.format(listPrice[i]);
+    }
     var filterBrandId = "",
         filterCategoryId = "";
     var urlFilter = "/Deskita/products/1/page?brand=" + filterBrandId + "&category=" + filterCategoryId
