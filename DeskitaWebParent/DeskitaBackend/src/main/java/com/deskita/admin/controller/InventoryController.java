@@ -77,8 +77,6 @@ public class InventoryController {
                 sumQuantityReceipt=sumQuantityReceipt.add(receiptInventories.stream().reduce(BigDecimal.ZERO,(bd,item)->bd.add(
                         BigDecimal.valueOf(item.getQuantity())
                 ),BigDecimal::add));
-
-
             }
             if(sumQuantityReceipt!=BigDecimal.ZERO){
                 BigDecimal sum= sumValueReceipt.divide(sumQuantityReceipt,2, RoundingMode.HALF_UP);
