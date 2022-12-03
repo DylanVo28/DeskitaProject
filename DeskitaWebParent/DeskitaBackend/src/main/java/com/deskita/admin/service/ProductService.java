@@ -3,12 +3,14 @@ package com.deskita.admin.service;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.deskita.admin.repository.ProductDetailRepository;
@@ -67,7 +69,7 @@ public class ProductService {
 
 		
 	public Page<Product> pagingProduct(int currentPage){
-		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE);
+		Pageable pageable=PageRequest.of(currentPage-1, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createAt"));
 		Page<Product> page=productRepository.findAll(pageable);
 		return page;
 	}	
@@ -77,7 +79,8 @@ public class ProductService {
 	}
 	
 	public void deleteProduct(int id) {
-		productRepository.deleteById(id);
+		Product product=productRepository.findById(id).get();
+		productRepository.delete(product);
 		productImageRepository.deleteImageProductByProductId(id);
 		productDetailRepository.deleteProductDetailByProductId(id);
 	}
@@ -97,7 +100,7 @@ public class ProductService {
 			String[] detailStock,List<String> fileNameImage,String[] imageIDs,String[] detailIds) {
 		
 		product.setImage(fileNameImage.get(0));
-		product.setCreateAt(new Date(0));
+		product.setCreateAt(new Date(Calendar.getInstance().getTime().getTime()));
 		//save product
 		Product savedProduct=productRepository.save(product);
 		List<ProductImage> listImage=new ArrayList<ProductImage>();

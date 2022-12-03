@@ -2,6 +2,7 @@ package com.deskita.admin.controller;
 
 import java.util.List;
 
+import com.deskita.common.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,27 @@ import com.deskita.common.entity.Order;
 @Controller
 public class OrderController {
 
+	public static int ORDER_PER_PAGE = 10;
+
 	@Autowired
 	OrderService service;
 	
 	@GetMapping("/orders")
 	public String getAllOrders(Model model) {
-		List<Order> orders=service.findAll();
-		model.addAttribute("orders",orders);
+
+		return "redirect:/orders/page/1";
+	}
+
+	@GetMapping("/orders/page/{currentPage}")
+	public String pagingProduct(@PathVariable(name = "currentPage") int currentPage, Model model) {
+		List<Order> orders = service.pagingOrder(currentPage).getContent();
+		Long total = (service.pagingOrder(currentPage).getTotalElements() / ORDER_PER_PAGE) + 1;
+
+		model.addAttribute("orders", orders);
+		model.addAttribute("totalPage", total);
 		return "order/orders";
 	}
-	
+
 	@GetMapping("/order/{orderId}")
 	public String orderDetail(Model model,
 			@PathVariable(name = "orderId") Integer id) {

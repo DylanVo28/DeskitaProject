@@ -29,7 +29,7 @@ public class Product {
 	@Column(name="fulldescription", length=512)
 	private String fullDescription;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name="products_brands",
 			joinColumns = @JoinColumn(name="product_id"),
@@ -37,7 +37,7 @@ public class Product {
 			)
 	private Brand brand=new Brand();
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name="products_categories",
 			joinColumns = @JoinColumn(name="product_id"),

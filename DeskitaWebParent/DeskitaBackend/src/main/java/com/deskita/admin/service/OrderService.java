@@ -7,7 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.deskita.admin.repository.OrderDetailRepository;
+import com.deskita.common.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.deskita.admin.repository.OrderRepository;
@@ -19,7 +24,9 @@ import com.deskita.common.entity.type.OrderStatus;
 
 @Service
 public class OrderService {
-	
+
+	public static int PAGE_SIZE=10;
+
 	@Autowired
 	OrderRepository repo;
 	
@@ -32,9 +39,15 @@ public class OrderService {
 	public List<Order> exportOrders(Date startDate,Date endDate){
 		return repo.exportOrder(startDate, endDate);
 	}
-	
+
+	public Page<Order> pagingOrder(int currentPage){
+		Pageable pageable= PageRequest.of(currentPage-1, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "orderTime"));
+		Page<Order> page=repo.findAll(pageable);
+		return page;
+	}
+
 	public List<Order> findAll(){
-		return repo.findAll();
+		return repo.findAll(Sort.by(Sort.Direction.DESC, "orderTime"));
 	}
 	
 	public Order findById(int id) {
