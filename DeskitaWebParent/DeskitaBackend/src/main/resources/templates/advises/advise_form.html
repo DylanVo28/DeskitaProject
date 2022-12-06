@@ -16,7 +16,7 @@
 
 <div class="container">
   <nav th:replace="components/Navigation :: navigation"></nav>
-  <h1>Brands</h1>
+  <h1>Tư vấn</h1>
   <div>
     <form th:action="@{/advises/save}" th:method="POST" th:object="${advise}" enctype="multipart/form-data">
       <input type="hidden" th:field="*{id}" />
