@@ -67,7 +67,10 @@
         color: white;
         transition: 0.4s;
     }
-
+    .btn_product_detail:disabled,.btn_product_detail[disabled]{
+        background: gray;
+        color: white;
+    }
     p {
         font-size: 24px
     }
@@ -129,7 +132,8 @@
                         <input type="button" class="btn_product_detail" th:value="${productDetail.name}"
                                th:data="${productDetail.value}"
                                th:attr="stock=${productDetail.stock}"
-                               th:field="*{productDetail}">
+                               th:field="*{productDetail}"
+                        th:disabled="${productDetail.stock==0}">
 
                         <input type="hidden" th:value="${productDetail.value}">
                         <input th:value="${productDetail.stock}" type="hidden" class="product_detail_stock">

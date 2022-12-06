@@ -39,6 +39,11 @@ public class ProductService {
 	     return 0; 
 	  }
 	}
+
+	public List<Product> findProductByName(String name){
+		List<Product> products=repo.findProductsByName(name);
+		return products;
+	}
 	
 	public Page<Product> pagingProduct(int currentPage,String brandId,String categoryId){
 		
@@ -49,18 +54,14 @@ public class ProductService {
 		
 		
 		if(brand!=0  && category!=0) {
-			System.out.println("hello ae1");
 			page=repo.filterBrandAndCategory(Integer.parseInt(categoryId), Integer.parseInt(brandId), pageable);
 		}else if(brand!=0) {
-			System.out.println("hello ae2");
 			page=repo.filterBrand(Integer.parseInt(brandId), pageable);
 		}
 		else if(category!=0) {
-			System.out.println("hello ae3");
 			page=repo.filterCategory(Integer.parseInt(categoryId), pageable);
 		}
 		else {
-			System.out.println("hello ae4");
 			page=repo.findAll(pageable);
 		}
 		

@@ -15,24 +15,73 @@
 
 <body>
     <div id="conversation">
-        <p>Hi! I am a chatbot</p>
-        <p>What would you like to do?</p>
+        <p>Xin chào mình là chatbot của cửa hàng Deskita</p>
+        <p>Bạn đang thắc mắc về điều gì ạ?</p>
         <div>
-            <a onclick="submitChoice(this)" data-choice="product" class="choice">Tư vấn sản phẩm</a>
-            <a onclick="submitChoice(this)" data-choice="insurance" class="choice">Tra cứu bảo hành</a>
-            <a onclick="submitChoice(this)" data-choice="staff" class="choice">Tôi cần giúp đỡ từ nhân viên</a>
-            <a onclick="submitChoice(this)" data-choice="advise" class="choice">Có thể tư vấn giúp tôi không?</a>
+            <a onclick="submitChoice($('#tu_van'))" data-choice="tu_van" class="choice" id="tu_van">Tư vấn sản phẩm</a>
         </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    function submitChoice(el){
-        let choice =el.dataset.choice;
-        console.log(choice)
-        $.post("/Deskita/chat/message",{choice:choice},function (result){
-            $(result).appendTo($("#conversation"));
+    let id_san_pham_choice=0
+    function submitChoice(el,e=event){
+        e.preventDefault()
+        console.log(el)
+        let choice=el.attr('data-choice')
+        let value=''
+        let name=''
+        let phone=''
+        let productId=id_san_pham_choice
+        if(choice==='choice_sp'){
+            value=$('#choice_sp').val()
+        }
+        if(choice==='send_customer'){
+            name=$('#name').val()
+            phone=$('#phone').val()
+        }
+        // else{
+        //     choice=el.dataset.choice;
+        // }
+        $.post("/Deskita/chat/message",{choice:choice,value:value,name:name,phone:phone,productId:productId},function (result){
+            if(result.key==='choice_sp'){
+                $(result.value).appendTo($("#conversation"));
+                $(`<input id="choice_sp" data-choice="choice_sp"/><button onclick="submitChoice($('#choice_sp'))">Gửi</button>`).appendTo($("#conversation"))
+            }
+            else if(result.key==='show_sp'){
+                if(result.value.length===0){
+                    $("#conversation").append("<div>Không tìm thấy sản phẩm bạn quan tâm</div>")
+                    return
+                }
+                let content = "<table>"
+                result.value.forEach((item,index)=>{
+                    content += `<tr id="tr-${item.id}" onclick="clickItem($('#tr-${item.id}'))" data-value="${item.id}"><td><img style="width: 50px" src="${item.image}"/></td><td>${item.name}</td></tr>`;
+                })
+                content += "</table>"
+                content +="<div>Vui lòng Click vào sản phẩm để chúng tôi hỗ trợ bạn</div>"
+                $("#conversation").append(content)
+            }
+            else if(result.key==='end'){
+                $("#conversation").append(result.value)
+            }
         });
+    }
+
+    function clickItem(e){
+        $(`#conversation`).append(e)
+        id_san_pham_choice=e.attr('data-value')
+        let content='<form id="send_customer" data-choice="send_customer" onsubmit="submitChoice($(`#send_customer`))">\n' +
+            ' <div class="form-group">\n' +
+            '      <label for="name">vui lòng nhập tên của bạn</label>\n' +
+            '      <input type="text" name="name" id="name" placeholder="Fullname">\n' +
+            ' </div>\n' +
+            ' <div class="form-group">\n' +
+            '      <label for="phone">vui lòng nhập số điện thoại</label>\n' +
+            '      <input type="number" id="phone" name="phone" placeholder="number">\n' +
+            ' </div>\n' +
+            ' <div id="buttonClick">\n' +
+            ' <button type="submit" >Submit</button></div></form>'
+        $("#conversation").append(content)
     }
 </script>
 </html>

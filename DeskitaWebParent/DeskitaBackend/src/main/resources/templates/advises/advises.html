@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head th:replace="components/head_title :: page_head('Advise - Deskita Admin')">
+  <style>
+
+  </style>
+
+<body>
+<div class="container">
+  <nav th:replace="components/Navigation :: navigation"></nav>
+  <div class="box_shadow-table">
+    <div class="table-content-modify">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8">
+            <h2>Tư vấn</h2>
+          </div>
+          <div class="col-sm-4">
+<!--            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i><a class="add-btn" th:href="@{/brands/new}"> [[#{label.add}]]</a>-->
+<!--            </button>-->
+          </div>
+        </div>
+      </div>
+
+
+      <table class="table table-bordered ">
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Họ tên</th>
+          <th>Số điện thoại</th>
+          <th>Đã giải quyết</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="advise:${advises}">
+          <th>[[${advise.id}]]</th>
+          <th>[[${advise.name}]]</th>
+          <th>[[${advise.phone}]]</th>
+          <th th:text="${advise.isResolved==true ? 'Đã giải quyết' : 'Chưa giải quyết'}"></th>
+          <th>
+            <a class="fas fa-edit" th:href="@{'/advises/edit/'+${advise.id}}"></a>
+          </th>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+
+</div>
+</body>
+
+</html>

@@ -23,5 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	@Query("select p from Product p where p.category.id=:categoryId and p.brand.id=:brandId")
 	public Page<Product> filterBrandAndCategory(int categoryId,int brandId,Pageable pageable);
+
+	@Query("select p from Product p where p.name like %:name%")
+	public List<Product> findProductsByName(String name);
 	
 }

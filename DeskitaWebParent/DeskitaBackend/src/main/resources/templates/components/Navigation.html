@@ -83,6 +83,12 @@
                             <a class="nav-link " th:href="@{/inventories}">Quản lý kho</a>
                         </li>
                     </th:block>
+
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/advises}">Tư vấn</a>
+                        </li>
+                    </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
                         <li class="nav-item">
                             <a class="nav-link " th:href="@{/orders}">[[#{label.order}]]</a>

@@ -21,11 +21,7 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService service;
-	
-	
-	
-	
-	
+
 	@GetMapping("/product/{id}")
 	public String viewProductDetail(@PathVariable(name="id") Integer id,Model model,Locale locale) {
 		try {

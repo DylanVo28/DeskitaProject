@@ -1,5 +1,7 @@
 package com.deskita.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,6 +37,7 @@ public class Product {
 			joinColumns = @JoinColumn(name="product_id"),
 			inverseJoinColumns = @JoinColumn(name="brand_id")
 			)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Brand brand=new Brand();
 	
 	@OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -43,7 +46,8 @@ public class Product {
 			joinColumns = @JoinColumn(name="product_id"),
 			inverseJoinColumns = @JoinColumn(name="category_id")
 			)
-	private Category category =new Category();	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Category category =new Category();
 
 	private Date createAt;
 
