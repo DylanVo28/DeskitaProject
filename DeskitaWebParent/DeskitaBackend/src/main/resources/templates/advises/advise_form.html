@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+  .btn-secondary{
+    background: #fff !important;
+  }
+  .btn-secondary :hover{
+    text-decoration: none !important;
+  }
+</style>
+<head
+        th:replace="components/head_title :: page_head('Advise - Deskita Admin')">
+
+
+<body>
+
+<div class="container">
+  <nav th:replace="components/Navigation :: navigation"></nav>
+  <h1>Brands</h1>
+  <div>
+    <form th:action="@{/advises/save}" th:method="POST" th:object="${advise}" enctype="multipart/form-data">
+      <input type="hidden" th:field="*{id}" />
+      <div class="form-group">
+
+        <label>Họ và tên</label>
+        <label th:text="${advise.name}" ></label>
+
+
+      </div>
+      <div class="form-group">
+
+        <label>Số điện thoại</label>
+        <label th:text="${advise.phone}"></label>
+
+
+      </div>
+      <div class="form-group">
+        <label>Đã giải quyết</label>
+        <input type="checkbox" th:field="*{isResolved}"  th:value="${advise.isResolved}" />
+      </div>
+      <input type="hidden" th:field="*{name}" />
+
+      <input type="hidden" th:field="*{phone}" />
+
+      <input type="hidden" th:field="*{productId}" />
+
+      <button type="submit" value="Save" class="btn btn-primary">Submit</button>
+
+    </form>
+    <div class="row" th:object="${product}">
+      <div class="product-info col-md-7">
+        <h3>Tư vấn sản phẩm</h3>
+
+        <div class="form-group">
+
+          <label>Tên sản phẩm</label>
+          <input type="text" th:name="name"
+                 th:value="${product.name}" th:field="*{name}"
+                 minlength="5" maxlength="50" class="form-control"
+                 placeholder="Enter product name:"
+                 disabled
+          />
+
+        </div>
+        <div class="form-group">
+
+          <label>Mô tả ngắn</label>
+          <input type="text" th:name="shortDescription"
+                 th:value="${product.shortDescription}" th:field="*{shortDescription}"
+                 minlength="5" maxlength="50" class="form-control"
+                 placeholder="Enter product name:"
+                 disabled
+          />
+
+        </div>
+        <div class="form-group">
+
+          <label>Nội dung</label>
+          <article
+                  id="article"
+          ></article>
+
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-4">
+        <a th:href="@{'/products/edit/'+${product.id}}">Xem chi tiết</a>
+        <img th:src="${product.image}" style="width: 100%">
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+  $("#article").html([[${product.fullDescription}]])
+</script>
+</body>
+
+</html>
