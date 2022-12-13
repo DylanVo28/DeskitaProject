@@ -13,6 +13,11 @@
     border-left: none;
     border-right: none;
 }
+.error_message{
+    font-style: italic;
+    color: red;
+    font-size: 18px;
+  }
 .product-category{
 	background: white;
 	padding: 20px;
@@ -49,6 +54,7 @@
 .product .input_variation{
 	    border: none;
     border-bottom: 1px solid black;
+	outline: none;
 }
 </style>
 <body style="background: #dff9fb">
@@ -159,7 +165,8 @@
 				</div>
 				<div class="variation_detail">
 					<label >Giá</label>
-					<input name="valueDetail" type="number" th:value="${productDetail.value}" class="input_variation" />
+					<input name="valueDetail"  type="number" th:value="${productDetail.value}" class="input_variation sell_price" />
+					<div class="error_message"></div>
 					</div>
 				<div class="variation_detail" style="display: none">
 					<label>Số lượng</label>
@@ -174,7 +181,9 @@
 				</div>
 				<div class="variation_detail">
 					<label>Giá</label>
-					<input name="valueDetail"  class="input_variation" required/>
+					<input name="valueDetail" type="number"   class="input_variation sell_price" required/>
+					<div class="error_message"></div>
+
 					</div>
 				<div class="variation_detail" style="display: none">
 				<label>Số lượng</label>
@@ -289,7 +298,39 @@
 				$(this).prop('checked', true);
 			}
 		})
+		
+	$('.sell_price').on('input',function (event){
+    console.log(this.value);
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[0].innerHTML="";
+
+    }
+    if(this.value!="" && parseInt(this.value)<0 )
+    {
+      listMess[0].innerHTML="Giá phải lớn hơn 0!";
+
+    }
+  })
+
+  $(".sell_price").blur(function (){
+    var listMess=$('.error_message');
+
+    if(this.value=="")
+    {
+      listMess[0].innerHTML="Không được bỏ trống !";
+
+    }
+    $("#quantity").focus(function (){
+      listMess[0].innerHTML="";
+
+    })
+  })
 	</script>
+
+	
 	</script>
 </body>
 </html>
