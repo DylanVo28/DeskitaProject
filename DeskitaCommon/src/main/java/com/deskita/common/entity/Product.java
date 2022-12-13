@@ -1,6 +1,8 @@
 package com.deskita.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class Product {
 			joinColumns = @JoinColumn(name="product_id"),
 			inverseJoinColumns = @JoinColumn(name="brand_id")
 			)
+	@OnDelete(action= OnDeleteAction.CASCADE)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Brand brand=new Brand();
 	
@@ -46,6 +49,7 @@ public class Product {
 			joinColumns = @JoinColumn(name="product_id"),
 			inverseJoinColumns = @JoinColumn(name="category_id")
 			)
+	@OnDelete(action= OnDeleteAction.CASCADE)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Category category =new Category();
 

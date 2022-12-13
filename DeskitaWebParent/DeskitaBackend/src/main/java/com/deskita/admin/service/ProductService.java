@@ -80,6 +80,8 @@ public class ProductService {
 	
 	public void deleteProduct(int id) {
 		Product product=productRepository.findById(id).get();
+		product.setBrand(new Brand());
+		product.setCategory(new Category());
 		productRepository.delete(product);
 		productImageRepository.deleteImageProductByProductId(id);
 		productDetailRepository.deleteProductDetailByProductId(id);
