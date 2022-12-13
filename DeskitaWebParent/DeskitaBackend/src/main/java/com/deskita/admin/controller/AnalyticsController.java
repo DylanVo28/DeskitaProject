@@ -1,6 +1,7 @@
 package com.deskita.admin.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.deskita.admin.model.DataChartOrder;
 import com.deskita.common.entity.type.OrderStatus;
+
+import org.hibernate.annotations.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.deskita.admin.service.CategoryService;
+import com.deskita.admin.service.InventoryService;
 import com.deskita.admin.service.OrderService;
 import com.deskita.admin.service.ProductDetailService;
 import com.deskita.admin.service.ProductService;
@@ -42,6 +46,7 @@ public class AnalyticsController {
 	@Autowired  CategoryService categoryService;
 	@Autowired ProductDetailService productDetailService;
 	@Autowired ProductService productService;
+	@Autowired InventoryService inventoryService;
 	@GetMapping("/analytics")
 	public String analyticsPage(Model model) {
 		List<Category> categories=categoryService.listAll();		
@@ -62,10 +67,10 @@ public class AnalyticsController {
 				OrderDetail orderDetail= order.getOrderDetails().iterator().next();
 				ProductDetail productDetail=productDetailService.findByID(orderDetail.getProductDetailId());
 				Product product=productService.findByID(productDetail.getProductId());
+				Product productTemp;
 				System.out.println("sanpham:"+product);
 				if(product.getCategory().getId()==Integer.parseInt(dataNhan))
-				{
-					System.out.println("toiNhat:"+product);
+				{	
 					for (Income incomex : incomes) {
 						if(incomex.getTenSP()==product.getName())
 						{
@@ -84,10 +89,24 @@ public class AnalyticsController {
 							incomes.add(income);
 					}
 				}
+				if(product.getCategory().getId()==Integer.parseInt(dataNhan))
+				{
+					for (Income income : incomes) {
+						BigDecimal giaTrungBinh=inventoryService.averagePriceByProduct(product);
+						Double giaTrungBinhDB=giaTrungBinh.doubleValue();
+						System.out.println("gia trung binh"+giaTrungBinhDB);
+						Integer soluongBan=income.getSoluongBan();
+						Double thuNhap=income.getThuNhap()-giaTrungBinhDB*soluongBan;
+						thuNhap=Math.ceil((thuNhap * 100) / 100);
+						income.setThuNhap(thuNhap);
+					}
+				}
+				}
+				
 
 			}
 		}
-		}
+			
 		List<Order> orders = order.exportOrders(java.sql.Date.valueOf(firstDay),java.sql.Date.valueOf(currentDateTime));
 		HashMap<String,Integer> hmDataChart= new HashMap<>();
 		HashMap<Integer, Float> hmRevenue=new HashMap<>(); //CHECK XEM THÁNG ĐÓ CÓ Ở TRONG MAP K

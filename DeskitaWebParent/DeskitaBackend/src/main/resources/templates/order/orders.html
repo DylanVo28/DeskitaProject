@@ -326,17 +326,18 @@
 
                         </tbody>
                     </table>
+                    
                 </div>
 
 
             </div>
-
+            <nav aria-label="Page navigation example" style="display:flex;justify-content:center ;">
+                <ul class="pagination">
+                    <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/orders/page/'+${i}}">[[${i}]]</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}"><a class="page-link" th:href="@{'/orders/page/'+${i}}">[[${i}]]</a></li>
-            </ul>
-        </nav>
+       
     </div>
         <script>
         </script>

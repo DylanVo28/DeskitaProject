@@ -80,13 +80,13 @@
 
                     <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/inventories}">Quản lý kho</a>
+                            <a class="nav-link " th:href="@{/inventories}">[[#{label.inventoryManagement}]]</a>
                         </li>
                     </th:block>
 
                     <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
                         <li class="nav-item">
-                            <a class="nav-link " th:href="@{/advises}">Tư vấn</a>
+                            <a class="nav-link " th:href="@{/advises}">[[#{label.advise}]]</a>
                         </li>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
