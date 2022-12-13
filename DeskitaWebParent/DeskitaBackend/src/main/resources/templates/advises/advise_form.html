@@ -7,6 +7,23 @@
   .btn-secondary :hover{
     text-decoration: none !important;
   }
+  .container-content{
+    margin-top: 10px;
+    box-shadow: 1px 1px 15px #eaeaea;
+    padding: 0 50px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .xemChiTiet_Product{
+    color: black;
+    font-weight: 600;
+    transition: all 0.2;
+  }
+  .xemChiTiet_Product:hover{
+    text-decoration: none;
+    transform: scale(1.5);
+  }
 </style>
 <head
         th:replace="components/head_title :: page_head('Advise - Deskita Admin')">
@@ -16,8 +33,9 @@
 
 <div class="container">
   <nav th:replace="components/Navigation :: navigation"></nav>
+  <div class="container-content">
   <h1>Tư vấn</h1>
-  <div>
+
     <form th:action="@{/advises/save}" th:method="POST" th:object="${advise}" enctype="multipart/form-data">
       <input type="hidden" th:field="*{id}" />
       <div class="form-group">
@@ -84,7 +102,7 @@
       </div>
       <div class="col-md-1"></div>
       <div class="col-md-4">
-        <a th:href="@{'/products/edit/'+${product.id}}">Xem chi tiết</a>
+        <a class="xemChiTiet_Product" th:href="@{'/products/edit/'+${product.id}}" >Xem chi tiết</a>
         <img th:src="${product.image}" style="width: 100%">
       </div>
     </div>
